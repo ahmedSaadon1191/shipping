@@ -21,7 +21,7 @@ class Supplier extends Model
     // ONE TO MANY WITH PRODUCTS 
     public function products()
     {
-        return $this->hasMany('App\Models\Products');
+        return $this->hasMany('App\Models\Product');
     }
     // ONE TO MANY WITH CITIES 
     public function cities()

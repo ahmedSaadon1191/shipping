@@ -18,12 +18,11 @@ Route::get('/', function () {
 });
 
 
-Route::get('/test', function () {
-    $category =  \App\Models\Category::find(1);
-    $category->makeVisible('translations');
-    return $category;
-});
 
 
+Auth::routes();
 
+Route::get('/home', 'HomeController@index')->name('home');
 
+Route::get('/search', 'User\UsersController@getSearch')->name('get.user.search');
+Route::post('/search', 'User\UsersController@search')->name('user.search');
