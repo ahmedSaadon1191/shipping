@@ -140,14 +140,17 @@
 											<td>{{ $item->product->resver_phone}}</td>
 											<td>{{ $item->product->cities->name}}</td>
 											<td>{{ $item->product->adress}}</td>
-											<td class="product_price" id="product_price{{ $item->id }}">{{ $item->product->product_price}}</td>
+											<td class="product_price" id="product_price{{ $item->id }}">
+												{{ $item->product->product_price}}
+											</td>
 											<td>						{{-- SHIPPING PRICE --}}
 												<form action="" class="shipping_price">
 													<input type="number" class="price{{ $item->id }}" name="price{{ $item->id }}" style="width: 100%" id="price{{ $item->id }}" value="{{ $item->shipping_price }}">
 													<button row_id="{{ $item->id }}" class="change_price btn btn-success">تعديل</button>
 												</form>
 											</td>
-											<td class="total_price" id="total_price{{ $item->id }}">						{{-- TOTAL PRICE --}}
+																	{{-- TOTAL PRICE --}}	
+											<td class="total_price" id="total_price{{ $item->id }}">						
 												{{ $item->product->product_price + $item->shipping_price }}
 											</td>
 											<td>						{{-- CHANGE STATUS --}}
@@ -184,7 +187,7 @@
 								</tbody>
 							</table>
 						@else  
-							<h1 class="text-center">No Products</h1>
+							<h1 class="text-center">لا يوجد شحنات</h1>
 						@endif
 
 						<p>
@@ -349,20 +352,12 @@
 			var numRow =  $(".total_price").length;
 			
 			var sum = 0;
-			$('.total_price').each(function () {
-			sum += Number($(this).html());
-        });
+			$('.total_price').each(function () 
+			{
+				sum += Number($(this).html());
+        	});
 
         $('#total').val(sum);
-
-			
-			
-			
-
-
-			
-		
-			
 			
 			$.ajax(
 			{

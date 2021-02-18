@@ -17,8 +17,9 @@ class ProductsController extends Controller
     {
         $governorates = Governorate::all();
         $suppliers = Supplier::all();
-        $products = Product::all();
+        $products = Product::with('supplier')->get();
         $status = Status::all();
+        // return $status->first();
         return \view('admin.products.index',\compact('products','governorates','suppliers','status'));
     }
 
@@ -42,7 +43,6 @@ class ProductsController extends Controller
                     'city_id'            => $request->city_id,
                     'adress'             => $request->adress,
                     'product_price'      => $request->product_price,
-                    // 'status_id'          => $request->status_id,
                     'status_id'          => 1,
                     'notes'              => $request->notes,
                 ]);
@@ -50,12 +50,21 @@ class ProductsController extends Controller
                 // RETURN FLASH MESSAGE 
                 if($create)
 				{
-	 
+                    $supplier   = Supplier::where('id',$request->supplier_id)->get();
+                    $city       = City::with('governorate')->where('id',$request->city_id)->get();
+                    $status = Status::all();
+                    $stats =  $status->first();
+                   
 				 return response()->json(
 					 [
 						 'status'   => true,
                          'msg'      => 'تم الحفظ بنجاح',
-                         'id'       => $create->id
+                         'id'       => $create->id,
+                         'dataa'    => $create,
+                         'sup'      =>$supplier,
+                         'cit'      => $city,
+                         'stat'     => $stats
+
 					 ]);
 				}else
 				{

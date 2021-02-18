@@ -119,7 +119,8 @@ public function update(Request $request,$id)
         return \response()->json(
             [
                 'status' => true,
-                'msg' => 'تم الحزف بنجاح'
+                'msg' => 'تم الحزف بنجاح',
+                'id' => $request->id,
             ]);
     }
 }

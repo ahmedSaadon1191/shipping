@@ -41,7 +41,7 @@
 
                             <div class="table-responsive">
                                 @if ($cities && $cities->count() > 0)
-                                    <table class="table text-md-nowrap" id="example1">
+                                    <table class="table text-md-nowrap" id="example1" rowID="{{ $cities->count()+1 }}">
                                         <thead>
                                             <tr>
                                                 <th class="wd-15p border-bottom-0"> رقم</th>
@@ -152,6 +152,35 @@
 				cache: false,
 				success: function(data)
 				{
+					if(data)
+					{
+						var x =   '{{ url("admin/cities/edit/") }}/'+data.dataa.id;
+						var city_d = $(this).attr('city_id');
+						var rowD = $("table").attr('rowID');
+
+						$("#example1 tbody").append('<tr class="cityRow'+data.dataa.id+'"><td>'+rowD+'</td>'+
+							'<td>'+data.dataa.name+'</td>'+
+							'<td>'+data.gove[0].name+'</td>'+
+							'<td>'+
+								'<div class="btn-icon-list">'+
+									'<a href="'+x+'">'+
+										'<button class="btn btn-indigo btn-icon">'+
+											'<i class="typcn typcn-folder"></i>'+
+										'</button>'+
+									'</a>'+
+									'<a city_id="'+data.dataa.id+'" class="makeDeleteCity">'+
+										'<button class="btn btn-primary btn-icon">'+
+											'<i class="typcn typcn-calendar-outline"></i>'+
+										'</button>'+
+									'</a>'+
+								'</div>'+
+							'</td>'+
+						'</tr>');
+										
+						
+					}
+
+
 					if(data.status == true)
 					{
 						
@@ -161,7 +190,7 @@
 							$('#succes_msg').show().fadeOut(3000);
 							setTimeout(function(){
 								$('#modaldemo8').modal('hide')
-							}, 5000);
+							}, 3000);
 						}
 					}
 				},
@@ -219,7 +248,7 @@
 					var response = $.parseJSON(reject.responseText);
 					$.each(response.errors,function(key,val)
 					{
-					$("#" + key + "_error").text(val[0]);
+						$("#" + key + "_error").text(val[0]);
 					});
 				}    
 

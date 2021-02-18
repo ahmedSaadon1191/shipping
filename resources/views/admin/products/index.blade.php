@@ -41,7 +41,7 @@
 
                             <div class="table-responsive">
                                 @if ($products && $products->count() > 0)
-                                    <table class="table text-md-nowrap" id="example1">
+                                    <table class="table text-md-nowrap" id="example1" rowID="{{ $products->count()+1 }}">
                                         <thead>
                                             <tr>
 												<th class="wd-15p border-bottom-0"> رقم</th>
@@ -83,9 +83,6 @@
                                                             <a href="" class="makeDeleteProduct" product_id="{{ $product->id }}">
                                                                 <button class="btn btn-primary btn-icon"><i class="typcn typcn-calendar-outline"></i></button>
                                                             </a>
-                                                            <a href="{{ route('products.show',$product->id) }}">
-                                                                <button class="btn btn-success btn-icon"><i class="typcn typcn-document-add"></i></button>
-                                                            </a>
                                                         </div>
                                                     </td>
                                                 </tr>
@@ -94,7 +91,7 @@
                                         </tbody>
                                     </table>
                                 @else
-                                    <h1 class="text-center">No Products</h1>
+                                    <h1 class="text-center">لا توجد شحنات</h1>
                                 @endif
                             </div>
                         </div>
@@ -140,7 +137,7 @@
 
 
 
-	{{--  CREATE NEW CITY   --}}
+	{{--  CREATE NEW Product   --}}
 
 	<script>
 		$(document).on('click','#makeCreateProduct',function(e)
@@ -171,6 +168,43 @@
 				cache: false,
 				success: function(data)
 				{
+                    console.log(data);
+                    
+                    if(data)
+					{
+						var x =   '{{ url("admin/products/edit/") }}/'+data.dataa.id;
+						var product_id = $(this).attr('product_id');
+						var rowD = $("table").attr('rowID');
+
+						$("#example1 tbody").append('<tr class="productRow'+data.dataa.id+'"><td>'+rowD+'</td>'+
+							'<td>'+data.sup[0].name+'</td>'+
+							'<td>'+data.dataa.resever_name+'</td>'+
+							'<td>'+data.dataa.resver_phone+'</td>'+
+							'<td>'+data.cit[0].governorate.name+'</td>'+
+							'<td>'+data.cit[0].name+'</td>'+
+							'<td>'+data.dataa.adress+'</td>'+
+							'<td>'+data.dataa.product_price+'</td>'+
+							'<td>'+data.stat.name+'</td>'+
+							'<td>'+data.dataa.notes+'</td>'+
+							
+							'<td>'+
+								'<div class="btn-icon-list">'+
+									'<a href="'+x+'">'+
+										'<button class="btn btn-indigo btn-icon">'+
+											'<i class="typcn typcn-folder"></i>'+
+										'</button>'+
+									'</a>'+
+									'<a product_id="'+data.dataa.id+'" class="makeDeleteProduct">'+
+										'<button class="btn btn-primary btn-icon">'+
+											'<i class="typcn typcn-calendar-outline"></i>'+
+										'</button>'+
+									'</a>'+
+								'</div>'+
+							'</td>'+
+						'</tr>');
+					}			
+
+
 					if(data.status == true)
 					{
 						
@@ -190,7 +224,7 @@
 					var response = $.parseJSON(reject.responseText);
 					$.each(response.errors,function(key,val)
 					{
-					$("#" + key + "_error").text(val[0]);
+						$("#" + key + "_error").text(val[0]);
 					});
 				}    
 

@@ -19,7 +19,7 @@ class CreateSuppliersTable extends Migration
 			$table->string('name', 255);
 			$table->integer('city_id');
 			$table->string('adress', 255);
-			$table->string('phone', 100)->unique();
+			$table->string('phone', 100);
             $table->softDeletes();
         });
     }

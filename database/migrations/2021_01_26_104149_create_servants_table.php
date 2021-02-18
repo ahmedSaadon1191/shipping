@@ -12,7 +12,7 @@ class CreateServantsTable extends Migration {
 			$table->timestamps();
 			$table->string('name', 255);
 			$table->string('adress', 255);
-			$table->string('phone', 100)->unique();
+			$table->string('phone', 100);
 			$table->integer('age')->unsigned()->nullable();
 		});
 	}

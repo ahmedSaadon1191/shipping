@@ -6,6 +6,7 @@ use App\Models\City;
 use App\Models\Governorate;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\citiesRequest;
 
 class CitiesController extends Controller
 {
@@ -17,7 +18,7 @@ class CitiesController extends Controller
         return \view('admin.cities.index',\compact('cities','governorates'));
     }
 
-    public function store(Request $request)
+    public function store(citiesRequest $request)
     {
         try
         {
@@ -31,12 +32,15 @@ class CitiesController extends Controller
                 // RETURN FLASH MESSAGE 
                 if($create)
 				{
+                    $gov       = Governorate::with('cities')->where('id',$request->governorate_id)->get();
 	 
 				 return response()->json(
 					 [
 						 'status'   => true,
                          'msg'      => 'تم الحفظ بنجاح',
-                         'id'       => $create->id
+                         'id'       => $create->id,
+                         'dataa'    => $create,
+                         'gove'     => $gov  
 					 ]);
 				}else
 				{

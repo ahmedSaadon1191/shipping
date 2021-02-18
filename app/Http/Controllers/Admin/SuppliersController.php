@@ -7,6 +7,7 @@ use App\Models\Supplier;
 use App\Models\Governorate;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\supplierRequest;
 
 class SuppliersController extends Controller
 {
@@ -23,7 +24,7 @@ class SuppliersController extends Controller
         return \response()->json($city);
     }
 
-    public function store(Request $request)
+    public function store(supplierRequest $request)
     {
         try
         {
@@ -39,12 +40,15 @@ class SuppliersController extends Controller
                 // RETURN FLASH MESSAGE 
                 if($create)
 				{
+                    $city       = City::with('governorate')->where('id',$request->city_id)->get();
 	 
 				 return response()->json(
 					 [
 						 'status'   => true,
                          'msg'      => 'تم الحفظ بنجاح',
-                         'id'       => $create->id
+                         'id'       => $create->id,
+                         'dataa'    => $create,
+                         'cit'      => $city 
 					 ]);
 				}else
 				{
@@ -70,7 +74,6 @@ class SuppliersController extends Controller
             {
                 $governorates = Governorate::whereHas('cities')->get();
                 $gover_id = City::where('id',$supplier->city_id)->with('governorate')->get();
-                // return $city;
                 return \view('admin.suppliers.edit',\compact('supplier','governorates','gover_id'));
             }else
             {
@@ -84,7 +87,7 @@ class SuppliersController extends Controller
         }
     }
 
-    public function update($id,Request $request)
+    public function update($id,supplierRequest $request)
     {
         try
         {

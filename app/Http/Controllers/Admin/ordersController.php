@@ -111,7 +111,7 @@ class ordersController extends Controller
                         ]);
 
             // DELETE ORDER IF WAS COMPLETED 
-                    if($order->status_id  == $last_status_id)
+                    if($order->status_id  == $last_status_id || $order->status_id  == 6)
                     {
                         $order->delete();
                     }
@@ -119,7 +119,7 @@ class ordersController extends Controller
 
                     
             // CHECK IF USER SELECT STATUS COMPLETED 
-                    if($request->status_id ==  $last_status_id)
+                    if($request->status_id ==  $last_status_id ||$request->status_id == 6)
                     {
                         $orderItems = $order->ordersDetailes;
 

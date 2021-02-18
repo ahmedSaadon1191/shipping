@@ -41,7 +41,7 @@
 
                             <div class="table-responsive">
                                 @if ($allStatus && $allStatus->count() > 0)
-                                    <table class="table text-md-nowrap" id="example1">
+                                    <table class="table text-md-nowrap" id="example1" rowID="{{ $allStatus->count()+1 }}">
                                         <thead>
                                             <tr>
                                                 <th class="wd-15p border-bottom-0"> رقم</th>
@@ -61,16 +61,11 @@
                                                     <td>{{ $status->name }}</td>
                                                   
                                                     <td>
-                                                    <div class="btn-icon-list" >
-                                                        <a href="{{ route('status.edit',$status->id) }}">
-                                                            <button class="btn btn-indigo btn-icon"><i class="typcn typcn-folder"></i></button>
-                                                        </a>
-                                                        {{-- <a href="" class="makeDeleteStatus" status_id="{{ $status->id }}">
-                                                            <button class="btn btn-primary btn-icon"><i class="typcn typcn-calendar-outline"></i></button>
-                                                        </a> --}}
-                                                        
-                                                       
-                                                    </div>
+														<div class="btn-icon-list" >
+															<a href="{{ route('status.edit',$status->id) }}">
+																<button class="btn btn-indigo btn-icon"><i class="typcn typcn-folder"></i></button>
+															</a> 
+														</div>
                                                     </td>
                                                 </tr>
                                             @endforeach
@@ -78,7 +73,7 @@
                                         </tbody>
                                     </table>
                                 @else
-                                    <h1 class="text-center">No Order Status</h1>
+                                    <h1 class="text-center">لا يوجد حالات للاوردرات</h1>
                                 @endif
                             </div>
                         </div>
@@ -148,16 +143,38 @@
 				cache: false,
 				success: function(data)
 				{
+					if(data)
+					{
+						var x =   '{{ url("admin/status/edit/") }}/'+data.dataa.id;
+						var status_id = $(this).attr('status_id');
+						var rowD = $("table").attr('rowID');
+
+						$("#example1 tbody").append('<tr class="statusRow'+data.dataa.id+'"><td>'+rowD+'</td>'+
+							'<td>'+data.dataa.name+'</td>'+
+							'<td>'+
+								'<div class="btn-icon-list">'+
+									'<a href="'+x+'">'+
+										'<button class="btn btn-indigo btn-icon">'+
+											'<i class="typcn typcn-folder"></i>'+
+										'</button>'+
+									'</a>'+
+								'</div>'+
+							'</td>'+
+						'</tr>');
+					}			
+					
+
+
 					if(data.status == true)
 					{
 						
 						if(data.status == true)
 						{
 							$('#success').html(data.msg);
-							$('#succes_msg').show().fadeOut(3000);
+							$('#succes_msg').show().fadeOut(2500);
 							setTimeout(function(){
 								$('#modaldemo8').modal('hide')
-							}, 5000);
+							}, 2500);
 						}
 					}
 				},
@@ -174,52 +191,5 @@
 		});
 	</script>   
 
-	{{--  DELETE STATUS   --}}
 
-	<script>
-		$(document).on('click','.makeDeleteStatus',function(e)
-		{
-			e.preventDefault();
-
-			
-
-			//Get Form Data           
-            var status_id = $(this).attr('status_id');
-            
-			$.ajax(
-			{
-				type: 'post',
-				url: "{{route('status.destroy')}}",
-				data: 
-				{
-					'_token' : "{{ csrf_token() }}",
-             		'id'     : status_id
-				},
-				
-				success: function(data)
-				{
-					if(data.status == true)
-					{
-						
-						if(data.status == true)
-						{
-							$('#successMsg').show();
-                        }
-                        
-                        // DELETE ROW FROM TABLE
-                        $('.statusRow'+data.id).remove();
-					}
-				},
-				error: function(reject)
-				{
-					var response = $.parseJSON(reject.responseText);
-					$.each(response.errors,function(key,val)
-					{
-					$("#" + key + "_error").text(val[0]);
-					});
-				}    
-
-			});
-		});
-	</script>   
 @endsection

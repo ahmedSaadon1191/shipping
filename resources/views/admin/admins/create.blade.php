@@ -3,7 +3,7 @@
     
 
 <div class="col-sm-6 col-md-4 col-xl-3 mg-t-20">
-    <a class="modal-effect btn btn-outline-primary btn-block" data-effect="effect-sign" data-toggle="modal" href="#modaldemo8">Sign</a>
+    <a class="modal-effect btn btn-outline-primary btn-block" data-effect="effect-sign" data-toggle="modal" href="#modaldemo8">اضافة مدير جديد</a>
 </div>
 
 <!-- Modal effects -->

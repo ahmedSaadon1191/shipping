@@ -38,7 +38,7 @@
 								@include('admin.admins.create')
 
 								<div class="table-responsive">
-									<table class="table text-md-nowrap" id="example1">
+									<table class="table text-md-nowrap" id="example1" rowID="{{ $admins->count()+1 }}">
 										<thead>
 											<tr>
 												<th class="wd-15p border-bottom-0"> رقم</th>
@@ -55,7 +55,7 @@
 												$x = 1;
 											@endphp
 											@foreach ($admins as $admin)
-												<tr>
+												<tr class="adminRow{{ $admin->id }}">
 													<td>{{ $x++ }}</td>
 													<td>{{ $admin->name }}</td>
 													<td>{{ $admin->email }}</td>
@@ -140,7 +140,8 @@
 			$('#password_error').text('');
 
 			//Get Form Data
-			var formData = new FormData($('#createAdmin')[0]);            
+			var formData = new FormData($('#createAdmin')[0]);  
+
 
 			$.ajax(
 			{
@@ -155,20 +156,23 @@
 
 					if(data)
 					{
-						//let NAME = $("#name").val(data.dataa.name);
-						$("#example1 tbody").append('<tr><td>'+data.dataa.id+'</td>'+
+						var x =   '{{ url("admin/admins/edit/") }}/'+data.dataa.id;
+						var admin_d = $(this).attr('admin_id');
+						var rowD = $("table").attr('rowID');
+
+						$("#example1 tbody").append('<tr class="adminRow'+data.dataa.id+'"><td>'+rowD+'</td>'+
 							'<td>'+data.dataa.name+'</td>'+
-							'<td>'+data.dataa.phone+'</td>'+
 							'<td>'+data.dataa.email+'</td>'+
+							'<td>'+data.dataa.phone+'</td>'+
 							'<td>'+
 								'<div class="btn-icon-list">'+
-									'<a href="{{ route('admins.index')}}>'+
+									'<a href="'+x+'">'+
 										'<button class="btn btn-success btn-icon">'+
 											'<i class="typcn typcn-document-add"></i>'+
 										'</button>'+
 									'</a>'+
-									'<a href="{{ route('admins.index') }}">'+
-										'<button class="btn btn-success btn-icon">'+
+									'<a admin_id="'+data.dataa.id+'" class="makeDeleteAdmin">'+
+										'<button class="btn btn-primary btn-icon">'+
 											'<i class="typcn typcn-calendar-outline"></i>'+
 										'</button>'+
 									'</a>'+
@@ -179,16 +183,16 @@
 						$("#createAdmin")[0].reset();
 					}
 
-					//"<td>"+
-						//"<button class='btn btn-success createProductToOrder' id='add' product_id="+value.id+">Add</button>"
-					//+"</td>"+
-
 					if(data.status == true)
 					{
 						
 						if(data.status == true)
 						{
 							$('#succes_msg').show();
+							$('#succes_msg').show().fadeOut(3000);
+							setTimeout(function(){
+								$('#modaldemo8').modal('hide')
+							}, 3000);
 
 							
 						}
@@ -239,7 +243,10 @@
 						if(data.status == true)
 						{
 							$('#successMsg').show();
+							alert(data.id);
 						}
+						  // DELETE ROW FROM TABLE
+						  $('.adminRow'+data.id).remove();
 					}
 				},
 				error: function(reject)
@@ -247,7 +254,7 @@
 					var response = $.parseJSON(reject.responseText);
 					$.each(response.errors,function(key,val)
 					{
-					$("#" + key + "_error").text(val[0]);
+						$("#" + key + "_error").text(val[0]);
 					});
 				}    
 

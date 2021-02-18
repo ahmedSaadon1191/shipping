@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class productsRequest extends FormRequest
 {
@@ -26,7 +27,7 @@ class productsRequest extends FormRequest
         return 
         [
             'resever_name'  => 'required',
-            'resver_phone'  => 'required|unique:products,resver_phone,'.$this->id,
+            'resver_phone'  => ['required', Rule::unique('products')->ignore($this->id)->whereNull('deleted_at')],
             'supplier_id'   => 'required|exists:suppliers,id',
             'city_id'       => 'required|exists:cities,id',
             // 'status_id'     => 'required|exists:status,id',

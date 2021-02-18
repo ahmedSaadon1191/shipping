@@ -30,8 +30,8 @@ Route::prefix('admin')->group(function()
     {
         Route::get('/','adminsController@index')->name('admins.index');
         Route::post('/store','adminsController@store')->name('admins.store');
-        Route::get('/edit{id}','adminsController@edit')->name('admins.edit');
-        Route::PUT('/update{id}','adminsController@update')->name('admins.update');
+        Route::get('/edit/{id}','adminsController@edit')->name('admins.edit');
+        Route::PUT('/update/{id}','adminsController@update')->name('admins.update');
         Route::post('/destroy','adminsController@destroy')->name('admins.destroy');
     });
     // ************************************** END ADMIN ROUTES ************************

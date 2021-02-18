@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Validation\Rule;
 use App\Http\Requests\ServantRequest;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -26,9 +27,9 @@ class ServantRequest extends FormRequest
     {
         return 
         [
-            'name'      => 'required|unique:servants,name,'.$this->id,
+            'name'      => ['required', Rule::unique('servants')->ignore($this->id)->whereNull('deleted_at')],
             'adress'    => 'required',
-            'phone'      => 'required|unique:servants,phone,'.$this->id,
+            'phone'      => ['required', Rule::unique('servants')->ignore($this->id)->whereNull('deleted_at')],
         ];
     }
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class citiesRequest extends FormRequest
@@ -13,7 +14,7 @@ class citiesRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -23,8 +24,24 @@ class citiesRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            //
+        return 
+        [
+            'name'              => ['required', Rule::unique('cities')->ignore($this->id)->whereNull('deleted_at')],
+            'governorate_id'    => 'required',
+        ];
+    }
+
+    public function messages()
+    {
+        return
+        [
+            
+            'name.required'     => 'يجب ادخال اسم المدينة',  
+            'name.unique'      => 'هذا الاسم مستخدم من قبل',
+            'governorate_id.required'    => ' اسم المحافظة مطلوب ',
+           
+           
+           
         ];
     }
 }

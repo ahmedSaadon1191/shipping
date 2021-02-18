@@ -36,7 +36,8 @@ class ServantsController extends Controller
 					 [
 						 'status'   => true,
                          'msg'      => 'تم الحفظ بنجاح',
-                         'id'       => $create->id
+                         'id'       => $create->id,
+                         'dataa'    => $create
                      ]);
                     //  return back();
 				}else

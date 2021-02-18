@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class governoratesRequest extends FormRequest
@@ -26,7 +27,7 @@ class governoratesRequest extends FormRequest
         return 
         [
             
-            'name'      => 'required|unique:governorates,name,'.$this->id,
+            'name'      => ['required', Rule::unique('governorates')->ignore($this->id)->whereNull('deleted_at')],
         ];
     }
 

@@ -29,4 +29,15 @@ class ordersRequest extends FormRequest
             'servant_id' => 'required|exists:servants,id'
         ];
     }
+
+    public function messages()
+    {
+        return
+        [
+            
+            'total_price.required'     => 'يجب ادخال اجمالي قيمة الاوردر ',
+            
+            'servant_id.required'    => 'يجب اختيار اسم المندوب    ',           
+        ];
+    }
 }

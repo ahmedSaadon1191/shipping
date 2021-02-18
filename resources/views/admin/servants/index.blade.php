@@ -41,7 +41,7 @@
 
                             <div class="table-responsive">
                                 @if ($servants && $servants->count() > 0)
-                                    <table class="table text-md-nowrap" id="example1">
+                                    <table class="table text-md-nowrap" id="example1" rowID="{{ $servants->count()+1 }}">
                                         <thead>
                                             <tr>
                                                 <th class="wd-15p border-bottom-0"> رقم</th>
@@ -71,12 +71,6 @@
                                                         <a href="" class="makeDeleteServant" servant_id="{{ $servant->id }}">
                                                             <button class="btn btn-primary btn-icon"><i class="typcn typcn-calendar-outline"></i></button>
                                                         </a>
-                                                        
-                                                       
-                                                    
-                                                        <a href="">
-                                                            <button class="btn btn-info btn-icon"><i class="typcn typcn-arrow-back-outline"></i></button>
-                                                        </a>  
                                                     </div>
                                                     </td>
                                                 </tr>
@@ -131,7 +125,7 @@
 
 
 
-	{{--  CREATE NEW ADMIN   --}}
+	{{--  CREATE NEW SRVANT   --}}
 
 	<script>
 		$(document).on('click','#makeCreateServant',function(e)
@@ -157,6 +151,38 @@
 				cache: false,
 				success: function(data)
 				{
+
+					
+					if(data)
+					{
+						var x =   '{{ url("admin/servants/edit/") }}/'+data.dataa.id;
+						var y = 1;
+						var servant_id = $(this).attr('servant_id');
+						var rowD = $("table").attr('rowID');
+
+						$("#example1 tbody").append('<tr class="servantRow'+data.dataa.id+'"><td>'+rowD+'</td>'+
+							'<td>'+data.dataa.name+'</td>'+
+							'<td>'+data.dataa.adress+'</td>'+
+							'<td>'+data.dataa.phone+'</td>'+
+							'<td>'+
+								'<div class="btn-icon-list">'+
+									'<a href="'+x+'">'+
+										'<button class="btn btn-indigo btn-icon">'+
+											'<i class="typcn typcn-folder"></i>'+
+										'</button>'+
+									'</a>'+
+									'<a servant_id="'+data.dataa.id+'" class="makeDeleteServant">'+
+										'<button class="btn btn-primary btn-icon">'+
+											'<i class="typcn typcn-calendar-outline"></i>'+
+										'</button>'+
+									'</a>'+
+								'</div>'+
+							'</td>'+
+						'</tr>');
+					}			
+					
+
+
 					if(data.status == true)
 					{
 						
@@ -165,9 +191,10 @@
 							
 								$('#success').html(data.msg);
 								$('#succes_msg').show().fadeOut(3000);
-							setTimeout(function(){
+
+								setTimeout(function(){
 								$('#modaldemo8').modal('hide')
-							}, 5000);
+							}, 2500);
 							
 							
                    

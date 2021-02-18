@@ -137,14 +137,17 @@
 											<td>{{ $item->returns->resver_phone}}</td>
 											<td>{{ $item->returns->cities->name}}</td>
 											<td>{{ $item->returns->adress}}</td>
-											<td>{{ $item->returns->product_price}}</td>
+											<td class="product_price" id="product_price{{ $item->id }}">
+												{{ $item->returns->product_price}}
+											</td>
 											<td>						{{-- SHIPPING PRICE --}}
 												<form action="" class="shipping_price">
 													<input type="number" class="price{{ $item->id }}" name="price{{ $item->id }}" style="width: 100%" id="price{{ $item->id }}" value="{{ $item->shipping_price }}">
 													<button row_id="{{ $item->id }}" class="change_price btn btn-success">تعديل</button>
 												</form>
 											</td>
-											<td>						{{-- TOTAL PRICE --}}
+																		{{-- TOTAL PRICE --}}
+											<td class="total_price" id="total_price{{ $item->id }}">						
 												{{ $item->returns->product_price + $item->shipping_price }}
 											</td>
 											<td>						{{-- CHANGE STATUS --}}
@@ -164,7 +167,7 @@
 												</form>
 											</td>
 											<td> {{ $item->created_at }}</td>
-											<td>
+											<td>						{{-- DELETE ROW --}}
 												<form action="{{ route('returns.forceDelete',$item->id) }}" method="post">
 													@csrf
 
@@ -327,14 +330,28 @@
 			//Get Form Data           
 			var itemId = $(this).attr('row_id');
 			
-			var sel_val = document.getElementById("price"+itemId).value;		
+			var sel_val = document.getElementById("price"+itemId).value;	
+			var productPrice_row = $("#product_price"+itemId).html();	
+
+			//GET CALCULATE OF TOTAL PRICE FOR EVRY ROW
+			var sumRow = parseFloat(sel_val) + parseFloat(productPrice_row);
+			var total_price_row = document.getElementById("total_price"+itemId).innerHTML=sumRow;
+
+			//CALCULATE TOTAL PRICE OF ORDER IN TOTAL INPUT
+			var numRow =  $(".total_price").length;
+			
+			var sum = 0;
+			$('.total_price').each(function () 
+			{
+				sum += Number($(this).html());
+			});
         
 
     	
 			$.ajax(
 			{
 				type: 'post',
-			url: "{{route('returns.changeShippingPrice')}}",
+				url: "{{route('returns.changeShippingPrice')}}",
 				data: 
 				{
 					'_token' : "{{ csrf_token() }}",
@@ -349,7 +366,7 @@
 						
 						if(data.status == true)
 						{
-							$('#successMsg').show();
+							$('#successMsg').show().fadeOut(2500);
                         }
                         
                         // DELETE ROW FROM TABLE
@@ -361,7 +378,7 @@
 					var response = $.parseJSON(reject.responseText);
 					$.each(response.errors,function(key,val)
 					{
-					$("#" + key + "_error").text(val[0]);
+						$("#" + key + "_error").text(val[0]);
 					});
 				}    
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class AdminRequest extends FormRequest
@@ -25,9 +26,10 @@ class AdminRequest extends FormRequest
     {
         return 
         [
-            'name'      => 'required|unique:admins,name,'.$this->id,
-             'email'    => 'required|email|unique:admins,email,'.$this->id,
-            'phone'     => 'required|unique:admins,phone,'.$this->id,
+            'name'      => ['required', Rule::unique('admins')->ignore($this->id)->whereNull('deleted_at')],
+            'email'     => ['required', Rule::unique('admins')->ignore($this->id)->whereNull('deleted_at')],
+            'email'     => ['required', Rule::unique('admins')->ignore($this->id)->whereNull('deleted_at')],
+            'phone'     => ['required', Rule::unique('admins')->ignore($this->id)->whereNull('deleted_at')],
             'password'  => 'required|min:8',
         ];
     }

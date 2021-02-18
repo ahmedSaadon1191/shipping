@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use App\Models\OrderDetailes;
 use App\Models\ReturnsDetailes;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ordersRequest;
 
 class ReturnsController extends Controller
 {
@@ -136,7 +137,7 @@ class ReturnsController extends Controller
                ]);
     }
 
-    public function store(Request $request)
+    public function store(ordersRequest $request)
     {
         // return $request;
         if($request->total_price > 0)
@@ -186,7 +187,7 @@ class ReturnsController extends Controller
         // CHECK STATUS OF ORDER  ROW IF COMPLETED CAN,T CHANGE STATUS OF RETURNS DETAILES AND PRODUCTS TABLES 
         if($prderDetailesRow->order->status_id == $last_status_id)
         {
-            return "yes 6";
+            //return "yes 6";
             return \response()->json(
                 [
                     'status' => false,
