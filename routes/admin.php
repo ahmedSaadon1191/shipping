@@ -134,6 +134,7 @@ Route::prefix('orders')->group(function()
     Route::post('changeStatus','ordersController@changeStatusItems')->name('orders.changeStatus');
     Route::get('softDelete','ordersController@softDelete')->name('orders.softDelete');
     Route::get('restore','ordersController@restore')->name('orders.restore');
+    Route::get('forceDelete/{id}','ordersController@forceDelete')->name('orders.forceDelete');
 });
 // ************************************** END ORDERS ROUTES ************************
 // ************************************** START RETURNS  ROUTES ************************

@@ -26,8 +26,7 @@
 							</div>
 							<div class="card-body">
 
-								@include('admin.alerts.success')
-								@include('admin.alerts.errors')
+								
 
 								<div class="row mr-2 ml-2" id="successMsg" style="display: none">
 									<button type="text" class="btn btn-lg btn-block btn-outline-success mb-2">
@@ -188,8 +187,8 @@
 						
 						if(data.status == true)
 						{
-							$('#succes_msg').show();
-							$('#succes_msg').show().fadeOut(3000);
+							$('#succes_msg').show().fadeOut(2500);
+							$('#succes_msg').show().fadeOut(2500);
 							setTimeout(function(){
 								$('#modaldemo8').modal('hide')
 							}, 3000);
@@ -242,7 +241,7 @@
 						
 						if(data.status == true)
 						{
-							$('#successMsg').show();
+							$('#successMsg').show().fadeOut(2500);
 							alert(data.id);
 						}
 						  // DELETE ROW FROM TABLE
@@ -260,5 +259,9 @@
 
 			});
 		});
-	</script>   
+	</script> 
+	
+	<script>
+		$("#flashMessages").fadeOut(3000);
+	</script>
 @endsection

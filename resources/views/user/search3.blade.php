@@ -2,22 +2,21 @@
 
 @section('content')
 
+   
     <div class="container" style="margin-top: 200px; margin-bottom:100px">
 
         <div class="text-center">
-          <h1>
-              البحث حسب العميل و رقم التليفون
-          </h1>
+            <h1>
+                البحث حسب العميل و رقم الشحنة
+            </h1>
         </div>
-
         <h1 style="float: right">
-          اسم العميل : @if ($products && $products->count() > 0)
-                          {{ $products->pluck('resever_name')->implode(' , ') }}  
-                        @else
-                          {{ $products2->pluck('resever_name')->implode(' , ') }}
-                        @endif
-           
-      </h1><br><br>
+            اسم العميل : @if ($castomerProductNumber && $castomerProductNumber->count() > 0)
+            {{ $castomerProductNumber->pluck('resever_name')->implode(' , ') }}  
+          @else
+            {{ $castomerProductNumber2->pluck('resever_name')->implode(' , ') }}
+          @endif             
+        </h1><br><br>
         <table class="table">
             <thead>
               <tr>
@@ -33,7 +32,7 @@
               @php
                   $x = 1;
               @endphp
-              @foreach ($products as $pro1)
+              @foreach ($castomerProductNumber as $pro1)
                 <tr>
                   <th scope="row">{{ $x++ }}</th>
                   <td>{{ $pro1->package_number }}</td>
@@ -46,7 +45,7 @@
                 </td>
                 </tr>
               @endforeach
-              @foreach ($products2 as $pro1)
+              @foreach ($castomerProductNumber2 as $pro1)
                 <tr>
                   <th scope="row">{{ $x++ }}</th>
                   <td>{{ $pro1->package_number }}</td>

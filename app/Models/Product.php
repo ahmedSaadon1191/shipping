@@ -11,7 +11,7 @@ class Product extends Model
 
     protected $table = 'products';
     public $timestamps = true;
-    protected $fillable = array('resever_name', 'resver_phone', 'supplier_id', 'city_id', 'adress', 'product_price', 'status_id', 'notes');
+    protected $fillable = array('resever_name', 'resver_phone', 'supplier_id', 'city_id', 'adress', 'product_price', 'status_id', 'notes','package_number');
 
     
 

@@ -45,6 +45,7 @@ class ProductsController extends Controller
                     'product_price'      => $request->product_price,
                     'status_id'          => 1,
                     'notes'              => $request->notes,
+                'package_number'         => mt_rand(1000000000, 9999999999)
                 ]);
 
                 // RETURN FLASH MESSAGE 

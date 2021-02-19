@@ -86,23 +86,7 @@ public function update(Request $request,$id)
                 'email'         => $request->email,
                 'phone'         => $request->phone,
             ]);
-        if($request->password != null)
-        {
-            // return "yes";
-            $updateaa->fill(
-                [
-                    'password' => $request->password
-                ]);
-            // $admin->name = $request->name;
-            // $admin->save();   
-        }
-        // $admin->password = Hash::make($request->get('password'));
-        // $admin->save();
-        // if ($request->password != null) {
- 
-           
-            
-        //   }
+       
            return \redirect()->route('admins.index')->with(['success' => 'تم تعديل بيانات المدير بنجاح']);
     }else
     {

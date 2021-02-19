@@ -44,6 +44,7 @@
                                         <thead>
                                             <tr>
 												<th class="wd-15p border-bottom-0"> رقم</th>
+												<th class="wd-15p border-bottom-0">   الشحنة رقم</th>
 												<th class="wd-15p border-bottom-0">اسم المورد</th>
                                                 <th class="wd-15p border-bottom-0">اسم المستلم</th>
 												<th class="wd-15p border-bottom-0">تليفون المستلم</th>
@@ -64,6 +65,7 @@
                                             @foreach ($allReturns as $item)
                                                 <tr class="productRow{{ $item->id }}">
                                                     <td>{{ $x++ }}</td>
+                                                    <td>{{ $item->package_number }}</td>
                                                     <td>{{ $item->supplier->name }}</td> 
                                                     <td>{{ $item->resever_name }}</td> 
                                                     <td>{{ $item->resver_phone }}</td>  
@@ -93,7 +95,7 @@
                                         </tbody>
                                     </table>
                                 @else
-                                    <h1 class="text-center">No Products</h1>
+                                    <h1 class="text-center">لا يوجد شحنات مرتجعة</h1>
                                 @endif <br>
 
                                 {{-- NEXT BUTTON  --}}

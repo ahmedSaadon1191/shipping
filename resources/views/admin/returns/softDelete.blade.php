@@ -67,10 +67,11 @@
                                                     <td>{{ $order->product_price}}</td>
                                                     <td>{{ $order->status->name}}</td>
                                                     <td>{{ $order->notes}}</td>
-                                                    <td>{{ $order->created_at}}</td>
+                                                    <td>{{ $order->created_at}}</td>    
                                                     <td>
                                                         <div class="btn-icon-list">
-                                                            @if ($order->status->name != 'تم التوصيل' )
+                                                            @if ($order->status->id != 7 && $order->status->id != 6)
+                                                            {{-- {{ $order->status->id }} --}}
                                                                 <a href="" class="makeRestoreOrder" order_id="{{ $order->id }}">
                                                                     <button class="btn btn-primary btn-icon"><i class="typcn typcn-calendar-outline"></i></button>
                                                                 </a>
@@ -84,7 +85,7 @@
                                         </tbody>
                                     </table>
                                 @else
-                                    <h1 class="text-center">No Orders</h1>
+                                    <h1 class="text-center">لا يوجد مرتجعات محزوفة</h1>
                                 @endif
                             </div>
                         </div>

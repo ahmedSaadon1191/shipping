@@ -45,6 +45,7 @@
                                         <thead>
                                             <tr>
 												<th class="wd-15p border-bottom-0"> رقم</th>
+												<th class="wd-15p border-bottom-0"> رقم الشحنة</th>
 												<th class="wd-15p border-bottom-0">اسم المورد</th>
                                                 <th class="wd-15p border-bottom-0">اسم المستلم</th>
 												<th class="wd-15p border-bottom-0">تليفون المستلم</th>
@@ -65,6 +66,7 @@
                                             @foreach ($products as $product)
                                                 <tr class="productRow{{ $product->id }}">
                                                     <td>{{ $x++ }}</td>
+                                                    <td>{{ $product->package_number }}</td>
                                                     <td>{{ $product->supplier->name }}</td> 
                                                     <td>{{ $product->resever_name }}</td> 
                                                     <td>{{ $product->resver_phone }}</td>  

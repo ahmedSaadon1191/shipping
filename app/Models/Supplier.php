@@ -21,11 +21,18 @@ class Supplier extends Model
     // ONE TO MANY WITH PRODUCTS 
     public function products()
     {
-        return $this->hasMany('App\Models\Product');
+        return $this->hasMany('App\Models\Product')->withTrashed();
     }
+    
     // ONE TO MANY WITH CITIES 
     public function cities()
     {
         return $this->belongsTo('App\Models\City', 'city_id')->withTrashed();
+    }
+
+    // ONE TO MANY WITH PRODUCTS 
+    public function returns()
+    {
+        return $this->hasMany('App\Models\Returns')->withTrashed();
     }
 }

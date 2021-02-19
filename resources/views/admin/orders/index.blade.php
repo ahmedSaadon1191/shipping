@@ -86,10 +86,11 @@
 													<a href="{{ route('orders.show',$order->id) }}">
 														<button class="btn btn-primary btn-icon"><i class="typcn typcn-calendar-outline"></i></button>
 													</a>
-													{{-- {{ $order->ordersDetailes }} --}}
-													@if ( $order->ordersDetailes && $order->ordersDetailes->count() < 1)
-														<a href="{{ route('orders.show',$order->id) }}">
-															<button class="btn btn-primary btn-icon"><i class="typcn typcn-calendar-outline"></i></button>
+													
+													@if ($order->ordersDetailes->count() < 1 && $order->returnsDetailes->count() < 1)
+														
+														<a href="{{ route('orders.forceDelete',$order->id) }}">
+															<button class="btn btn-danger btn-icon"><i class="typcn typcn-calendar-outline"></i></button>
 														</a>
 													@endif
 												</div>
@@ -103,7 +104,7 @@
 								</tbody>
 							</table>
 						@else  
-							<h1 class="text-center">No Products</h1>
+							<h1 class="text-center">لا يجد اوردرات</h1>
 						  @endif
 					</div>
 				</div>

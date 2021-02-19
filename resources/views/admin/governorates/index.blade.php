@@ -27,8 +27,10 @@
                         <div class="card-body">
 
                         {{--  START GET FLASH MESSAGES   --}}
-                            @include('admin.alerts.success')
-                            @include('admin.alerts.errors')
+							<div id="flashMessages">
+								@include('admin.alerts.success')
+								@include('admin.alerts.errors')
+							</div>
 
                             <div class="row mr-2 ml-2" id="successMsg" style="display: none">
                                 <button type="text" class="btn btn-lg btn-block btn-outline-success mb-2">
@@ -230,7 +232,7 @@
 						
 						if(data.status == true)
 						{
-							$('#successMsg').show();
+							$('#successMsg').show().fadeOut(3000);
                         }
                         
                         // DELETE ROW FROM TABLE
@@ -249,4 +251,8 @@
 			});
 		});
 	</script>   
+
+	<script>
+		$("#flashMessages").fadeOut(3000);
+	</script>
 @endsection

@@ -27,8 +27,10 @@
                         <div class="card-body">
 
                         {{--  START GET FLASH MESSAGES   --}}
-                            @include('admin.alerts.success')
-                            @include('admin.alerts.errors')
+							<div id="flashMessages">
+								@include('admin.alerts.success')
+								@include('admin.alerts.errors')
+							</div>
 
                             <div class="row mr-2 ml-2" id="successMsg" style="display: none">
                                 <button type="text" class="btn btn-lg btn-block btn-outline-success mb-2">
@@ -37,7 +39,7 @@
                             </div>
                         {{--  END GET FLASH MESSAGES   --}}
 
-                            @include('admin.servants.create')
+						@include('admin.servants.create')
 
                             <div class="table-responsive">
                                 @if ($servants && $servants->count() > 0)
@@ -79,7 +81,7 @@
                                         </tbody>
                                     </table>
                                 @else
-                                    <h1 class="text-center">No Servants</h1>
+                                    <h1 class="text-center">لا يوجد مناديب</h1>
                                 @endif
                             </div>
                         </div>
@@ -263,4 +265,8 @@
 			});
 		});
 	</script>   
+
+	<script>
+		$("#flashMessages").fadeOut(3000);
+	</script>
 @endsection

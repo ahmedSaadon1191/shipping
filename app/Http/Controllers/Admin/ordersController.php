@@ -249,6 +249,7 @@ class ordersController extends Controller
                             'adress' => $prderDetailesRow->product->adress,
                             'product_price' => $prderDetailesRow->product->product_price,
                             'status_id' => $prderDetailesRow->product->status_id,
+                            'package_number' => $prderDetailesRow->product->package_number,
                             'notes' => $prderDetailesRow->product->notes,
                         ]);
 
@@ -335,6 +336,13 @@ class ordersController extends Controller
                 'msg' => 'تم التفعيل بنجاح',
                 'id' => $request->id
             ]);
+    }
+
+    public function forceDelete($id)
+    {
+        $order = Order::find($id);
+        $order->forceDelete();
+        return \redirect()->back()->with(['success' => 'تم حزف الاوردر بنجاح']);
     }
     
 }
