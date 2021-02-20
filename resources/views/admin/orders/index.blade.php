@@ -24,16 +24,18 @@
 			<div class="card">
 				<div class="card-header pb-0">
 					<div class="d-flex justify-content-between">
-						<h4 class="card-title mg-b-0">SIMPLE TABLE</h4>
-						<i class="mdi mdi-dots-horizontal text-gray"></i>
+						<h4 class="card-title mg-b-0">كل الشحنات</h4>
+						
 					</div>
 					<p class="tx-12 tx-gray-500 mb-2">Example of Valex Simple Table. <a href="">Learn more</a></p>
 				</div>
 				<div class="card-body">
 
 				{{--  START GET FLASH MESSAGES   --}}
-					@include('admin.alerts.success')
-					@include('admin.alerts.errors')
+					<div id="message">
+						@include('admin.alerts.success')
+						@include('admin.alerts.errors')
+					</div>
 
 					<div class="row mr-2 ml-2" id="successMsg" style="display: none">
 						<button type="text" class="btn btn-lg btn-block btn-outline-success mb-2">
@@ -49,8 +51,7 @@
 					
 				{{--  END GET FLASH MESSAGES   --}}
 
-
-			
+		
 
 
 					<div class="table-responsive">
@@ -71,6 +72,7 @@
 										$x = 1;
 									@endphp
 								
+									
 									@foreach ($orders as $order)
 										<tr class="productRow">
 											<td>{{ $x++ }}</td>
@@ -86,12 +88,16 @@
 													<a href="{{ route('orders.show',$order->id) }}">
 														<button class="btn btn-primary btn-icon"><i class="typcn typcn-calendar-outline"></i></button>
 													</a>
-													
-													@if ($order->ordersDetailes->count() < 1 && $order->returnsDetailes->count() < 1)
+								
+													@if ($order->orders_detailes->count() < 1 && $order->returnsDetailes->count() < 1)
 														
-														<a href="{{ route('orders.forceDelete',$order->id) }}">
-															<button class="btn btn-danger btn-icon"><i class="typcn typcn-calendar-outline"></i></button>
-														</a>
+													<form action="{{ route('orders.makeSoftDelete',$order->id) }}" method="post">
+														@csrf
+														
+														<button class="btn btn-danger btn-icon"><i class="typcn typcn-calendar-outline"></i></button>
+													</form>
+															
+														
 													@endif
 												</div>
 											</td>
@@ -141,5 +147,9 @@
 	<script src="{{URL::asset('assets/plugins/select2/js/select2.min.js')}}"></script>
 	<!-- Internal Modal js-->
 	<script src="{{URL::asset('assets/js/modal.js')}}"></script>
+
+	<script>
+		$("#successStatus").fadeOut(3000);
+	</script>
 
 @endsection

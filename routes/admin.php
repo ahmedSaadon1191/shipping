@@ -133,8 +133,8 @@ Route::prefix('orders')->group(function()
     Route::get('show/{id}','ordersController@show')->name('orders.show');
     Route::post('changeStatus','ordersController@changeStatusItems')->name('orders.changeStatus');
     Route::get('softDelete','ordersController@softDelete')->name('orders.softDelete');
+    Route::post('softDelete/{id}','ordersController@makeSoftDelete')->name('orders.makeSoftDelete');
     Route::get('restore','ordersController@restore')->name('orders.restore');
-    Route::get('forceDelete/{id}','ordersController@forceDelete')->name('orders.forceDelete');
 });
 // ************************************** END ORDERS ROUTES ************************
 // ************************************** START RETURNS  ROUTES ************************
@@ -157,14 +157,23 @@ Route::prefix('returns')->group(function()
 
     Route::get('edit/{id}','ReturnsController@edit')->name('returns.edit');
     Route::post('update/{id}','ReturnsController@update')->name('returns.update');
+    Route::get('show/{id}','ReturnsController@show')->name('returns.show');
     
 });
 // ************************************** END RETURNS ROUTES ************************
     // ************************************** START REBORTS ROUTES ************************
 
+    
+
     Route::prefix('reborts')->group(function()
     {        
         Route::get('index','RebortesController@index')->name('reborts.index');
+        Route::post('/add/day','RebortesController@setday');
+        Route::post('/add/dayy1','RebortesController@oneday');
+        Route::get('servantindex','RebortesController@servantindex')->name('reborts.servantindex');
+        Route::post('/add/day1','RebortesController@servantname');
+        Route::get('/getCastomer_index','RebortesController@getCastomer_index')->name('reborts.castomerIndex');
+        Route::post('/getCastomer_reborts','RebortesController@getCastomer_reborts')->name('reborts.getCastomer_reborts');
     });
 
     // ************************************** END REBORTS ROUTES ************************

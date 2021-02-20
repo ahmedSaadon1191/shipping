@@ -49,21 +49,15 @@ class ordersController extends Controller
    public function index()
    {
         $orders = Order::with('status')->get();
-        // $emptyOrder = Order::with('ordersDetailes')->where('ordersDetailes',null)->get();
-        $emptyOrder = Order::whereDoesntHave('ordersDetailes')->get();
-        $emptyOrderReturns = Order::whereDoesntHave('returnsDetailes')->get();
-        // if($emptyOrder && $emptyOrderReturns)
-        // {
-        //     foreach($emptyOrder as $empty)
-        //     {
-        //         $empty->forceDelete();
-        //     }
-        //     foreach($emptyOrderReturns as $empty2)
-        //     {
-        //         $empty2->forceDelete();
-        //     }
-        // }
-       return view('admin.orders.index',\compact('orders'));
+
+        $emptyOrder = Order::whereHas('orders_detailes')->with([
+                "orders_detailes" => function ($query) {
+                    $query->where('product_status', 4); 
+                }
+            ])->get();
+        // return $emptyOrder;
+
+       return view('admin.orders.index',\compact('orders','emptyOrder'));
    }
 
    public function edit($id)
@@ -77,7 +71,7 @@ class ordersController extends Controller
 
             }else
             {
-                $allStatus = Status::where('name','<>','تم رفضه')->where('name','<>','تاجيل')->get(); 
+                $allStatus = Status::all(); 
                 return \view('admin.orders.edit',\compact('order','allStatus'));
             }
         }catch (\Throwable $th) 
@@ -92,7 +86,7 @@ class ordersController extends Controller
         try
         {
             // GET ORDER WITH HIS PRODUCTS
-                $order = Order::withTrashed()->with('ordersDetailes')->find($id);
+                $order = Order::withTrashed()->with('orders_detailes')->find($id);
                 $last_status_id = Status::where('deleted_at',null)->get()->last()->id;
 
             // CHECK IF ORDER IS FOUND IND DATA BASE 
@@ -103,27 +97,14 @@ class ordersController extends Controller
                 }else
                 {
 
-            // UPDATE ORDER STATUS IN ORDERS TABLE 
+            // UPDATE ORDER STATUS IN ORDERS TABLE AND UPDATE ITEMS STATUS IN PRODUCT TABLE AND ORDER DETAILES TABLE
                     $update = $order->update(
                         [
                             'status_id' => $request->status_id,
                             'notes' => $request->notes,
                         ]);
 
-            // DELETE ORDER IF WAS COMPLETED 
-                    if($order->status_id  == $last_status_id || $order->status_id  == 6)
-                    {
-                        $order->delete();
-                    }
-                    
-
-                    
-            // CHECK IF USER SELECT STATUS COMPLETED 
-                    if($request->status_id ==  $last_status_id ||$request->status_id == 6)
-                    {
-                        $orderItems = $order->ordersDetailes;
-
-            // CHANGE ORDER PRODUCTS STATUS TO COMPLETED LIKE ORDER STATUS
+                        $orderItems = $order->orders_detailes; 
                         foreach($orderItems as $item)
                         {
                             $item->update(
@@ -131,51 +112,37 @@ class ordersController extends Controller
                                     'product_status' => $request->status_id
                                 ]);
 
-            // UPDATE ORDER PRODUCTS STATUS IN PRODUCTS TABLE 
-                        $item->product->update(
-                            [
-                                'status_id' => $request->status_id
-                            ]);
-
-            // MAKE SOFT DELETE FOR ORDER PRODUCTS  WHEN ITS STATUS COMPLETED IN ORDER DETAILES TABLE
-                            $item->delete();
-                            $item->save();
+                                $item->product->update(
+                                [
+                                    'status_id' => $request->status_id
+                                ]);
                         }
-                        return \redirect()->route('orders.index')->with(['success' => 'تم تعديل حالة الاوردر و الشحنات الخاصة به بنجاح']);
-                    }else
+
+
+            //DELETE ORDER FROM ORDERS TABLE AND ORDER DETAILES TABLE IF WAS COMPLETED OR STATUS_ID = 3 OR 4
+                    if($order->status_id  == $last_status_id || $order->status_id  == 6)
                     {
-            // CHECK IF ORDER PRODUCTS IN SOFT DELETED PAGE 
-                        $orderItems = $order->ordersDetailes;
+                        $order->delete();
+
+                        $orderItems = $order->orders_detailes; 
                         foreach($orderItems as $item)
                         {
-                            if($item->deleted_at != null)
-                            {
-
-            // RETURN ORDER PRODUCT TO ORDER DETAILES TABLE IF ORDER PRODUCTS IN SOFT DELETED PAGE AND ORDER STATUS CHANGED TO ANY VALUE WITHOUT COMPLETED
-                                $item->restore();
-                                $item->update(
-                                    [
-                                        'product_status' => 1
-                                    ]);
-                                    
-                // CHANGE ORDER PRODUCTS STATUS IN PRODUCTS TABEL TO PENDING WHEN STATUS OF ORDER HAS CHANGED FORM COMPLETED IN ORDERS TABLE  
-                                $item->product->update(
-                                    [
-                                        'status_id' => 1
-                                    ]);
-                    
-
-            // CHANGE STATUS IN PRODUCTS TABLE 
-                                
-
-                            }else
-                            {
-            // IF ORDER PRODUCTS NOT FOUND IN SOFT DELETE TABLE AND ORDER STATUS HAS CHANGED TO ANY STATUS WITHOUT COMPLETED DON,T DO ANY THING AND RETUN FLASH MESSAGE /
-                            return \redirect()->route('orders.index')->with(['success' => 'تم تعديل الحالة بنجاح']);
+                            $item->delete();
                         }
                     }
-                    return \redirect()->route('orders.index')->with(['success' => 'تم تعديل حالة الاوردر بنجاح']);
-                }
+
+                    if($order->status_id  == 3 || $order->status_id  == 4)
+                    {
+                        $order->delete();
+
+                        $orderItems = $order->orders_detailes; 
+                        foreach($orderItems as $item)
+                        {
+                            $item->delete();
+                        }
+                    }
+
+                return \redirect()->route('orders.index')->with(['success' => 'تم تعديل حالة الاوردر بنجاح']);
             }
         }catch (\Throwable $th) 
         {
@@ -188,8 +155,8 @@ class ordersController extends Controller
     {
         try
         {
-            $order = Order::with('ordersDetailes')->find($id);
-            $order2 = Order::with('returnsDetailes')->find($id);
+            $order = Order::with('orders_detailes')->find($id);
+            $order2 = Order::with('returns_detailes')->find($id);
             // return $order2;
 
             // return $order;
@@ -213,12 +180,9 @@ class ordersController extends Controller
 
     public function changeStatusItems(Request $request)
     {
-
         $prderDetailesRow = OrderDetailes::withTrashed()->find($request->id);
         $last_status_id = Status::where('deleted_at',null)->get()->last()->id;
-
-        // return $prderDetailesRow;  
-        
+       
         // لو حالة الاوردر تم التحصيل لا يمكن مسح اي عنصر داخله
         if($prderDetailesRow->order->status_id == $last_status_id)
         {
@@ -231,12 +195,14 @@ class ordersController extends Controller
         }else
         {
             // UPDATE STATUS ROW IN ORDER DETAILES TABLE 
-            
             if($request->item_status == 3 || $request->item_status == 4)
             {
                   
-            //UPDATE STATUS ROW IN PRODUCTS  TABLE 
-                $product = $prderDetailesRow->product->update(['status_id' => $request->item_status]);
+            //UPDATE STATUS ROW IN ORDER DETAILES  TABLE 
+                 $orderDetailesStatus = $prderDetailesRow->update(['product_status' => $request->item_status]);
+
+            //UPDATE STATUS ROW IN PRODUCTS TABLE 
+                 $productsStatus = $prderDetailesRow->product->update(['status_id' => $request->item_status]);
                
             
                 // STORE ITEM ROW IN RETURNS TABLE 
@@ -251,30 +217,28 @@ class ordersController extends Controller
                             'status_id' => $prderDetailesRow->product->status_id,
                             'package_number' => $prderDetailesRow->product->package_number,
                             'notes' => $prderDetailesRow->product->notes,
+                            'order_id' => $prderDetailesRow->order->id
                         ]);
 
-                // MAKE HARD DELETE FOR THIS ROW FROM ORDER DETAILES TABLE 
-                    $delete = $prderDetailesRow->forceDelete();   
+                // MAKE SOFT DELETE FOR THIS ROW FROM ORDER DETAILES TABLE 
+                    $delete = $prderDetailesRow->delete();   
 
-                // MAKE HARD DELETE FOR THIS ROW FROM PRODUCTS TABLE 
-                    $delete = $prderDetailesRow->product->forceDelete();   
-                    
             }else
             {   
-                //    UPDATE ITEM ROW IN ORDER DETAILES TABLE 
-                    $prderDetailesRow->update(
-                        [
-                        
-                            'product_status' => $request->item_status
-                        ]);
+                //UPDATE ITEM ROW IN ORDER DETAILES TABLE 
+                $prderDetailesRow->update(
+                    [
+                        'product_status' => $request->item_status
+                    ]);
+                    
 
-                //  UPDATE STATUS ROW IN PRODUCTS  TABLE 
+                 //UPDATE STATUS ROW IN PRODUCTS  TABLE 
                 $product = $prderDetailesRow->product->update(['status_id' => $request->item_status]);
                 return \response()->json(
                     [
                         'status' => true,
                         'msg' => 'تم تعديل الشحنة في  المخزن و الاوردر بنجاح',
-                ]);
+                    ]);
             }
             return back();
         }
@@ -303,16 +267,42 @@ class ordersController extends Controller
             return \redirect()->route('orders.index')->with(['error' => 'هناك خطا ما برجاء المحاولة فيما بعد']);
         }
     }
+    
+    public function makeSoftDelete($id)
+    {
+        try
+        {
+            $orders = Order::find($id);
+            // return $orders;
+            if($orders)
+            {
+                $update_status = $orders->update(
+                    [
+                        'status_id' => 4
+                    ]);
+                    
+                $orders->delete();
+                return \redirect()->back()->with(['success' => 'تم حزف الاوردر بنجاح']);
+
+            }else
+            {
+                return \redirect()->route('orders.index')->with(['error' => 'لا يوجد اوردرات محزوفة ']);
+            }
+        }catch (\Throwable $th) 
+        {
+    
+            return $th;
+            return \redirect()->route('orders.index')->with(['error' => 'هناك خطا ما برجاء المحاولة فيما بعد']);
+        }
+    }
 
     public function restore(Request $request)
     {
-        $order_restore = Order::withTrashed()->with('ordersDetailes')->where('id',$request->id);
-        $order_restore2 = Order::withTrashed()->with('ordersDetailes')->where('id',$request->id)->get();
+        $order_restore = Order::withTrashed()->with('orders_detailes')->where('id',$request->id);
+        $order_restore2 = Order::withTrashed()->with('orders_detailes')->where('id',$request->id)->get();
         $last_status_id = Status::where('deleted_at',null)->get()->last()->id;
         
-        // $items_id =  $order_restore2->pluck('id')->implode(', ');
-        // $items = OrderDetailes::withTrashed()->where('order_id',$items_id)->get();
-
+       
         
         // RESTORE ORDER 
         $order_restore->restore();
@@ -323,12 +313,7 @@ class ordersController extends Controller
                 'status_id' => 1
             ]);
 
-        // // RESTORE ORDER ITEMS IN ORDER DETAILES
         
-        // foreach($items as $item)
-        // {
-        //     $item->restore();
-        // }
 
         return \response()->json(
             [

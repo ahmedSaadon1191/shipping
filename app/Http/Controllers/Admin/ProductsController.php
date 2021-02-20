@@ -178,10 +178,10 @@ class ProductsController extends Controller
 
     public function restore(Request $request)
     {
-        $product_restore2 = Product::withTrashed()->with('ordersDetailes')->where('id',$request->id)->get();
+        $product_restore2 = Product::withTrashed()->with('orders_detailes')->where('id',$request->id)->get();
       
         $product_restore = Product::withTrashed()->where('id',$request->id);
-        $orderDetailsCount =  $product_restore2->pluck('ordersDetailes')->count();
+        $orderDetailsCount =  $product_restore2->pluck('orders_detailes')->count();
         $last_status_id = Status::where('deleted_at',null)->get()->last()->id;
        
 

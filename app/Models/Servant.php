@@ -15,12 +15,12 @@ class Servant extends Model
 
     public function orders()
     {
-        return $this->hasMany('App\Models\Order');
+        return $this->hasMany('App\Models\Order')->withTrashed();
     }
 
     public function returns()
     {
-        return $this->hasMany('App\Models\Returns');
+        return $this->hasMany('App\Models\Returns')->withTrashed();
     }
 
 }

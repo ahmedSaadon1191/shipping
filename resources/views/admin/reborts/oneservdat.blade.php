@@ -16,110 +16,50 @@
 <br><br>
 
 
-
-
-
- 
-
-	<h1>
-		البحث عن اوردرات
-	</h1>
-
     
 
     {{--  TABLE TO SHOW ALL PRODUCTS RECIVED  --}}
 	<div class="row row-sm">
-
 		<div class="col-xl-12">
-			
 			<div class="card">
-
 				<div class="card-header pb-0">
 					<div class="d-flex justify-content-between">
-						<form action="add/day" method="post">
-							{!! csrf_field() !!}
-							<label>من :</label>
-							<input type="date" name="date">
-							<label>الي :</label>
-							<input type="date" name="date2">
-							<input type="submit" >
-							</form> 
-
-							{{-- <form action="add/dayy1" method="post">
-							{!! csrf_field() !!}
-								<label>اختار اليوم :</label>
-								<input type="date" name="date">
-
-								<input type="submit">
-						</form>  --}}
-
+						<h4 class="card-title mg-b-0">اجمالي سعر الشحن :  {{$sum}} </h4>
 						<i class="mdi mdi-dots-horizontal text-gray"></i>
 					</div>
-
+			</div>
 				<div class="card-body">
 
-				{{--  START GET FLASH MESSAGES   --}}
-					@include('admin.alerts.success')
-					@include('admin.alerts.errors')
-
-					<div class="row mr-2 ml-2" id="successMsg" style="display: none">
-						<button type="text" class="btn btn-lg btn-block btn-outline-success mb-2">
-							تم حزف الشحنة من المخزن بنجاح
-						</button>
-					</div>
-				{{--  END GET FLASH MESSAGES   --}}
-
-					
+			
 
 					<div class="table-responsive">
-					
+						
 							<table class="table text-md-nowrap" id="example1">
 								<thead>
 									<tr>
 										
 										<th class="wd-15p border-bottom-0"> رقم الشحنة</th>
-										<th class="wd-15p border-bottom-0"> اسم المستلم</th>
-										<th class="wd-15p border-bottom-0"> سعر الشحن</th>
-										<th class="wd-15p border-bottom-0">سعر الشحنة</th>
-										<th class="wd-15p border-bottom-0"> اجمالي الشحن</th>
-									<!-- 	<th class="wd-15p border-bottom-0"> حالة الشحنة</th> -->
-										<th class="wd-15p border-bottom-0">تاريخ التسليم</th>
-										<!-- <th class="wd-15p border-bottom-0"> الاجرائات</th> -->
+										<th class="wd-15p border-bottom-0"> اسم المندوب</th>
+										<th class="wd-15p border-bottom-0"> اجمالي سعر الشحنة</th>
+										<th class="wd-15p border-bottom-0"> الحالة</th>
+										<th class="wd-15p border-bottom-0"> التاريخ</th>
 									</tr>
 								</thead>
 								<tbody id="productRow">
 								
 									
-													@foreach ($ordersdetails as $item)
+													@foreach ($data->orders as $item)
 										<tr class="productRow">
 											
 											<td>{{ $item->id }}</td>
-											<td>{{ $item->Product->resever_name }}</td>
-											<td>{{ $item->shipping_price }}</td>
-											<td>{{ $item->Product->product_price }}</td>
-											<td>{{ $item->total_price }}</td>
-										<!-- 	<td>{{ $item->Product->Status->name }}</td> -->
-											<td>{{ $item->created_at }}</td>
-
-											{{--  <td>
-												<div class="btn-icon-list">
-													<a href="{{ route('products.edit',$product->id) }}">
-														<button class="btn btn-indigo btn-icon"><i class="typcn typcn-folder"></i></button>
-													</a>
-													<a href="" class="makeDeleteProduct" order_id="{{ $product->id }}">
-														<button class="btn btn-primary btn-icon"><i class="typcn typcn-calendar-outline"></i></button>
-													</a>
-													<a href="{{ route('products.show',$product->id) }}">
-														<button class="btn btn-success btn-icon"><i class="typcn typcn-document-add"></i></button>
-													</a>
-												</div>  --}}
-											{{--  </td>  --}}
+											<td>{{$item->total_prices}}</td>
+											
 										</tr>
 										@endforeach
 
 								</tbody>
-							</table><br>
-						
+							</table>
+					
 						
 					</div>
 				</div>

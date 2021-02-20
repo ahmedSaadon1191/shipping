@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Returns;
 use App\Models\OrderDetailes;
 use App\Models\ReturnsDetailes;
 use Illuminate\Database\Eloquent\Model;
@@ -35,12 +36,17 @@ class Order extends Model
         return $this->belongsTo('App\Models\City', 'city_id')->withTrashed();
     }
 
-    public function ordersDetailes()
+    public function orders_detailes()
     {
         return $this->hasMany(OrderDetailes::class)->withTrashed();
     }
-    public function returnsDetailes()
+    public function returns_detailes()
     {
         return $this->hasMany(ReturnsDetailes::class)->withTrashed();
+    }
+
+    public function returns()
+    {
+        return $this->hasMany(Returns::class)->withTrashed();
     }
 }

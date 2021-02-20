@@ -30,7 +30,7 @@ class Product extends Model
         return $this->belongsTo('App\Models\Supplier', 'supplier_id')->withTrashed();
     }
 
-    public function ordersDetailes()
+    public function orders_detailes()
     {
         return $this->hasMany('App\Models\OrderDetailes')->withTrashed();
     }

@@ -29,10 +29,13 @@ class Returns extends Model
         return $this->belongsTo('App\Models\Supplier', 'supplier_id')->withTrashed();
     }
 
-    // public function ordersDetailes()
-    // {
-    //     return $this->hasMany('App\Models\OrderDetailes')->withTrashed();
-    // }
+
+    public function orders()
+    {
+        return $this->belongsTo('App\Models\Order', 'order_id')->withTrashed();
+    }
+
+   
 
     public function returnsDetailes()
     {

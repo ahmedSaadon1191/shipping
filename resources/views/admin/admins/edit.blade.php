@@ -62,7 +62,7 @@
                                     </div>
                                 </div>
 
-                                {{--  ADMIN PASSWORD   --}}
+                                 {{-- ADMIN PASSWORD  
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="">الباسورد </label>
@@ -71,7 +71,7 @@
                                             <span class="text-danger">{{$message}}</span>
                                         @enderror
                                     </div>
-                                </div>
+                                </div> --}}
                         
                              
                             <div class="mg-t-30">

@@ -17,6 +17,7 @@ class CreateProductsTable extends Migration {
 			$table->string('adress', 255);
 			$table->integer('product_price')->unsigned();
 			$table->integer('status_id')->unsigned();
+			$table->string('package_number');
 			$table->text('notes')->nullable();
 		});
 	}

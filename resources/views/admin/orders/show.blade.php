@@ -47,7 +47,7 @@
 						</div>
 						<div class="row mr-2 ml-2" id="errorStatus" style="display: none">
 							<button type="text" class="btn btn-lg btn-block btn-outline-success mb-2">
-								لا يمكن تعديل حالة الشحنة لان الاوردر تم توصيله 
+								تم تعديل حالة الشحنة بنجاح
 							</button>
 						</div>
 
@@ -71,7 +71,7 @@
                         <div class="col-md-2">
                             <div class="form-group">
                                 <label for="">المدينة</label>
-                             <input type="text" value="{{ $order->ordersDetailes->pluck('product')->pluck('cities')->pluck('name')->first() }}" name="" class="form-control text-center" disabled>
+                             <input type="text" value="{{ $order->orders_detailes->pluck('product')->pluck('cities')->pluck('name')->first() }}" name="" class="form-control text-center" disabled>
                             </div>
                         </div>
                         <div class="col-md-2">
@@ -92,7 +92,7 @@
 
 
 					<div class="table-responsive">
-						@if ($order->ordersDetailes && $order->ordersDetailes->count() > 0)
+						@if ($order->orders_detailes && $order->orders_detailes->count() > 0)
 							<table class="table text-md-nowrap" id="example1">
 								<thead>
 									<tr>
@@ -112,7 +112,7 @@
 										$x = 1;
 									@endphp
 								
-									@foreach ($order->ordersDetailes as $item)
+									@foreach ($order->orders_detailes as $item)
 										<tr class="productRow">
 											<td>{{ $x++ }}</td>
 											<td>{{ $item->id }}</td>
