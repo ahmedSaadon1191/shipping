@@ -15,7 +15,16 @@
                             <div class="card-header border-0">
                                 <div class="card-title text-center">
                                     <div class="p-1">
-                                    <img src="{{ asset('assets/images/logo.png') }}" alt="LOGO"/>
+                                        <div class="main-sidebar-header active">
+
+                                            <a class="desktop-logo logo-light active" href="http://localhost:8000/admin/Dashboard"><h1 style="color:#03a5fc;">On Fast<i class="fas fa-shipping-fast" style="font-size:39px;color:#03a5fc"></i></h1></a>
+                                    
+                            
+                                            
+                                            <a class="desktop-logo logo-dark active" href="http://localhost:8000/index"><img src="http://localhost:8000/assets/img/brand/logo-white.png" class="main-logo dark-theme" alt="logo"></a>
+                                            <a class="logo-icon mobile-logo icon-light active" href="http://localhost:8000/index"><img src="http://localhost:8000/assets/img/brand/favicon.png" class="logo-icon" alt="logo"></a>
+                                            <a class="logo-icon mobile-logo icon-dark active" href="http://localhost:8000/index"><img src="http://localhost:8000/assets/img/brand/favicon-white.png" class="logo-icon dark-theme" alt="logo"></a>
+                                        </div>
 
                                     </div>
                                 </div>

@@ -27,12 +27,32 @@
 							<div class="card-body">
 
 								
-
+							{{--  START GET FLASH MESSAGES   --}}
 								<div class="row mr-2 ml-2" id="successMsg" style="display: none">
 									<button type="text" class="btn btn-lg btn-block btn-outline-success mb-2">
 											تم الحزف بنجاح
 									</button>
 								</div>
+
+								@include('admin.alerts.success')
+								@include('admin.alerts.errors')
+
+							{{--  END GET FLASH MESSAGES   --}}
+								
+
+					<div class="row mr-2 ml-2" id="successMsg" style="display: none">
+						<button type="text" class="btn btn-lg btn-block btn-outline-success mb-2">
+							تم حزف الشحنة من المخزن بنجاح
+						</button>
+					</div>
+					<div class="row mr-2 ml-2" id="successStatus" style="display: none">
+						<button type="text" class="btn btn-lg btn-block btn-outline-success mb-2">
+							تم تعديل الحالة بنجاح
+						</button>
+					</div>
+
+					
+				{{--  END GET FLASH MESSAGES   --}}
 
 								@include('admin.admins.create')
 
@@ -61,11 +81,11 @@
 													<td>{{ $admin->phone }}</td>
 													<td>
 													<div class="btn-icon-list">
-														<a href="{{ route('admins.edit',$admin->id) }}">
+														<a href="{{ route('admins.edit',$admin->id) }}" style="margin-left: 10px">
 															<button class="btn btn-success btn-icon"><i class="typcn typcn-document-add"></i></button>
 														</a>
 														<a href="" class="makeDeleteAdmin" admin_id="{{ $admin->id }}">
-															<button class="btn btn-primary btn-icon"><i class="typcn typcn-calendar-outline"></i></button>
+															<button class="btn btn-primary btn-icon"><i class="fa fa-trash"></i></button>
 														</a>
 													</div>
 													</td>

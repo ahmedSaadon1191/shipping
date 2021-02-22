@@ -104,19 +104,19 @@ class ordersController extends Controller
                             'notes' => $request->notes,
                         ]);
 
-                        $orderItems = $order->orders_detailes; 
-                        foreach($orderItems as $item)
-                        {
-                            $item->update(
-                                [
-                                    'product_status' => $request->status_id
-                                ]);
+                        // $orderItems = $order->orders_detailes; 
+                        // foreach($orderItems as $item)
+                        // {
+                        //     $item->update(
+                        //         [
+                        //             'product_status' => $request->status_id
+                        //         ]);
 
-                                $item->product->update(
-                                [
-                                    'status_id' => $request->status_id
-                                ]);
-                        }
+                        //         $item->product->update(
+                        //         [
+                        //             'status_id' => $request->status_id
+                        //         ]);
+                        // }
 
 
             //DELETE ORDER FROM ORDERS TABLE AND ORDER DETAILES TABLE IF WAS COMPLETED OR STATUS_ID = 3 OR 4
@@ -328,6 +328,14 @@ class ordersController extends Controller
         $order = Order::find($id);
         $order->forceDelete();
         return \redirect()->back()->with(['success' => 'تم حزف الاوردر بنجاح']);
+    }
+
+    public function show_order_detailes($id)
+    {
+       $order = Order::withTrashed()->with('orders_detailes')->whereHas('orders_detailes')->find($id);
+       $order2 = Order::withTrashed()->with('returns_detailes')->whereHas('returns_detailes')->find($id);
+    //    return $order;
+        return view('admin.orders.show_order_detailes',compact('order','order2'));
     }
     
 }

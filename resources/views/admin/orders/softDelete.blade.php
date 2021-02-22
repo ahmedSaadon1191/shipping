@@ -19,10 +19,9 @@
                     <div class="card">
                         <div class="card-header pb-0">
                             <div class="d-flex justify-content-between">
-                                <h4 class="card-title mg-b-0">SIMPLE TABLE</h4>
+                                <h4 class="card-title mg-b-0">كل الاوردرات المحزوفة</h4>هىيث
                                 <i class="mdi mdi-dots-horizontal text-gray"></i>
                             </div>
-                            <p class="tx-12 tx-gray-500 mb-2">Example of Valex Simple Table. <a href="">Learn more</a></p>
                         </div>
                         <div class="card-body">
 
@@ -64,13 +63,18 @@
                                                     <td>{{ $order->total_prices}}</td>
                                                     <td>{{ $order->status->name}}</td>
                                                     <td>{{ $order->created_at}}</td>
-                                                    {{-- <td>
+                                                    <td>
                                                         <div class="btn-icon-list">
-                                                            <a href="" class="makeRestoreOrder" order_id="{{ $order->id }}">
-                                                                <button class="btn btn-primary btn-icon"><i class="typcn typcn-calendar-outline"></i></button>
+                                                            <a href="{{ route('orders.show_order_detailes',$order->id) }}">
+                                                                <button class="btn btn-success btn-icon"><i class="typcn typcn-calendar-outline"></i></button>
                                                             </a>
                                                         </div>
-                                                    </td> --}}
+                                                        {{-- <div class="btn-icon-list">
+                                                            <a href="{{  }}" class="makeRestoreOrder" order_id="{{ $order->id }}">
+                                                                <button class="btn btn-success btn-icon"><i class="typcn typcn-calendar-outline"></i></button>
+                                                            </a>
+                                                        </div> --}}
+                                                    </td>
                                                 </tr>
                                             @endforeach
 

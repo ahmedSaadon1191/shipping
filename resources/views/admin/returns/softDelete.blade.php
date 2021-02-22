@@ -76,12 +76,10 @@
                                                                     <button class="btn btn-primary btn-icon"><i class="typcn typcn-calendar-outline"></i></button>
                                                                 </a>
                                                             @endif
-
-                                                            {{-- <a href="{{ route('returns.show',$order->id) }}">
-                                                                <button class="btn btn-success">
-                                                                    عرض المزيد
-                                                                </button>
-                                                            </a> --}}
+                                                            <div class="btn-icon-list">
+                                                                <a href="{{ route('returns.show_product_returns_trashed',$order->id) }}">
+                                                                    <button class="btn btn-success btn-icon"><i class="typcn typcn-calendar-outline"></i></button>
+                                                                </a>
                                                            
                                                         </div>
                                                     </td>

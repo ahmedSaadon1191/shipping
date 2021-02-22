@@ -14,22 +14,25 @@
 
 @section('content')
 <br><br>
-    {{ $datas_Orders->count() }} <br>
-	{{ $datas_Returns->count() }}
+    {{-- {{ $datas_Orders->count() }} <br>
+	{{ $datas_Returns->count() }} --}}
 
     {{--  TABLE TO SHOW ALL PRODUCTS RECIVED  --}}
 	<div class="row row-sm">
 		<div class="col-xl-12">
 			<div class="card">
 				<div class="card-header pb-0">
-					<div class="d-flex justify-content-between">
-						{{-- {{ $datas_Returns->pluck('returns')->pluck('returns_detailes')[0] }} --}}
+					{{-- <h2>
+						المورد : {{ $datas_Orders->supplier->name }}
+					</h2> --}}
+					{{-- <div class="d-flex justify-content-between">
+						{{ $datas_Returns->pluck('returns')->pluck('returns_detailes')[0] }}
 						<h4 class="card-title mg-b-0">اجمالي سعر الشحن :  {{$sum + $sum2}} </h4>
                         <h3 style="color: #a7a7a7">
                             عرض الشحنات الخاصة  ب {{ $datas_Orders->pluck('servant')->pluck('name')->implode(',') }} 
                         </h3>
 						<i class="mdi mdi-dots-horizontal text-gray"></i>
-						</div>
+					</div> --}}
 
 				<div class="card-body">
 					<div class="table-responsive">

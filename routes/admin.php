@@ -35,6 +35,16 @@ Route::prefix('admin')->group(function()
         Route::post('/destroy','adminsController@destroy')->name('admins.destroy');
     });
     // ************************************** END ADMIN ROUTES ************************
+    // ************************************** START PROFILE ROUTES ************************
+    Route::prefix('profile')->group(function()
+    {
+        Route::get('/edit','ProfileController@edit')->name('pro.edit');
+        Route::put('/update','ProfileController@update')->name('pro.update');
+        Route::get('/change_password','ProfileController@change_password')->name('pro.change_password');
+        Route::post('/make_change_password','ProfileController@make_change_password')->name('pro.make_change_password');
+        
+    });
+    // ************************************** END PROFILE ROUTES ************************
     // ************************************** START SERVANTS ROUTES ************************
     Route::prefix('servants')->group(function()
     {
@@ -135,6 +145,7 @@ Route::prefix('orders')->group(function()
     Route::get('softDelete','ordersController@softDelete')->name('orders.softDelete');
     Route::post('softDelete/{id}','ordersController@makeSoftDelete')->name('orders.makeSoftDelete');
     Route::get('restore','ordersController@restore')->name('orders.restore');
+    Route::get('show_order_detailes/{id}','ordersController@show_order_detailes')->name('orders.show_order_detailes');
 });
 // ************************************** END ORDERS ROUTES ************************
 // ************************************** START RETURNS  ROUTES ************************
@@ -150,6 +161,7 @@ Route::prefix('returns')->group(function()
     Route::post('store','ReturnsController@store')->name('returns.store');
     Route::post('changeStatusItems','ReturnsController@changeStatusItems')->name('returns.changeStatusItems');
     Route::get('softDelete','ReturnsController@softDelete')->name('returns.softDelete');
+    Route::get('show_product_returns_trashed/{id}','ReturnsController@show_product_returns_trashed')->name('returns.show_product_returns_trashed');
     Route::get('restore','ReturnsController@restore')->name('returns.restore');
     Route::post('forceDelete/{id}','ReturnsController@forceDelete')->name('returns.forceDelete');  // DELETE ITEMS FROM ORDER DETAILES TABLE IF I DON,T CREATED NEW ORDER 
 
@@ -171,7 +183,10 @@ Route::prefix('returns')->group(function()
         Route::post('/add/day','RebortesController@setday');
         Route::post('/add/dayy1','RebortesController@oneday');
         Route::get('servantindex','RebortesController@servantindex')->name('reborts.servantindex');
-        Route::post('/add/day1','RebortesController@servantname');
+        Route::post('/add/day1','RebortesController@servantname')->name('servant');
+
+
+
         Route::get('/getCastomer_index','RebortesController@getCastomer_index')->name('reborts.castomerIndex');
         Route::post('/getCastomer_reborts','RebortesController@getCastomer_reborts')->name('reborts.getCastomer_reborts');
     });

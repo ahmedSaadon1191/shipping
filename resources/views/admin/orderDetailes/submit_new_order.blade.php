@@ -9,11 +9,18 @@
 <link href="{{URL::asset('assets/plugins/datatable/css/responsive.dataTables.min.css')}}" rel="stylesheet">
 <link href="{{URL::asset('assets/plugins/select2/css/select2.min.css')}}" rel="stylesheet">
 
-
+<style>
+	@media print {
+	  .noPrint{
+		display:none;
+	  }
+	}
+	</style>
 @endsection
 
 @section('content')
-<br><br>
+<br>
+<h1>فاتــــــورة خــــــــط سيـــــر</h1>
 
 
     
@@ -24,10 +31,10 @@
 			<div class="card">
 				<div class="card-header pb-0">
 					<div class="d-flex justify-content-between">
-						<h4 class="card-title mg-b-0">SIMPLE TABLE</h4>
+						<h4 class="card-title mg-b-0">انشـــــاء خــــط سيــــر جديـــــد</h4>
 						<i class="mdi mdi-dots-horizontal text-gray"></i>
 					</div>
-					<p class="tx-12 tx-gray-500 mb-2">Example of Valex Simple Table. <a href="">Learn more</a></p>
+					{{-- <p class="tx-12 tx-gray-500 mb-2"></a></p> --}}
 				</div>
 				<div class="card-body">
 
@@ -67,7 +74,8 @@
 							</div>
 							<div class="col-md-3">
 								<div class="form-group">
-									<label for="">اختار مندوب</label>
+									
+									<label for="">اسم المندوب</label>
 									<select name="servant_id" class="form-control">
 										<option value="">اختار مندوب خط السير</option>
 										@foreach ($servants as $servant)
@@ -80,6 +88,9 @@
 										<span class="text-danger">{{$message}}</span>
 									@enderror
 								</div>
+								<button href="#" onclick="window.print();"  class="btn btn-info btn-lg " style=" margin-top:-90px; margin-right:360px;hieght:20px;">
+									<span  class="fa fa-print noPrint	" ></span>
+								  </button>
 							</div>
 							@if ($orders && $orders->count() > 0)
 							<div class="col-md-3">
@@ -92,13 +103,14 @@
 							</div>
 							@endif
 							
-							<div class="col-md-3">
+						<div class="noPrint">
 								<div class="form-group">
 									
-									<button class="btn btn-primary form-control">
+									<button class="btn btn-primary form-control "  style="width:50%; margin-right:20%; background-color:#00b9ff">
 										اضافة الاوردر
 									</button>
-								</div>
+						</div>	
+								
 							</div>
 						</div>
 					</form>
@@ -124,6 +136,7 @@
 										<th class="wd-15p border-bottom-0"> اجمالي الشحن</th>
 										<th class="wd-15p border-bottom-0"> حالة الشحنة</th>
 										<th class="wd-15p border-bottom-0">تاريخ التسليم</th>
+										<th> ---- </th>
 									</tr>
 								</thead>
 								<tbody >
@@ -146,7 +159,7 @@
 											<td>						{{-- SHIPPING PRICE --}}
 												<form action="" class="shipping_price">
 													<input type="number" class="price{{ $item->id }}" name="price{{ $item->id }}" style="width: 100%" id="price{{ $item->id }}" value="{{ $item->shipping_price }}">
-													<button row_id="{{ $item->id }}" class="change_price btn btn-success">تعديل</button>
+												<div class="noPrint">	<button row_id="{{ $item->id }}" class="change_price btn btn-success">تعديل</button> </div>
 												</form>
 											</td>
 																	{{-- TOTAL PRICE --}}	
@@ -166,7 +179,7 @@
 														@endforeach
 													</select>
 
-													<button class="btn btn-primary makeStatus" id="{{ $item->id }}">تعديل</button>
+												<div class="noPrint">	<button class="btn btn-primary makeStatus" id="{{ $item->id }}">تعديل</button> </div>
 												</form>
 											</td>
 											<td> {{ $item->created_at }}</td>
@@ -175,11 +188,13 @@
 												<form action="{{ route('orderDetailes.forceDelete',$item->id) }}" method="post">
 													@csrf
 
-													<button class="btn btn-danger">
+												<div class="noPrint">	<button class="btn btn-danger"> 
 														Delete
 													</button>
+												</div>
 												</form>
 											</td>
+											
 										</tr>
 									@endforeach
 									
@@ -189,16 +204,21 @@
 						@else  
 							<h1 class="text-center">لا يوجد شحنات</h1>
 						@endif
-
+						<div class="noPrint">
 						<p>
 							<strong style="color: #f00">Note</strong>:	يجب ادخال قيمة الشحن قبل انشاء خط السير 
 						</p>
+					</div>
 					{{-- NEXT BUTTON  --}}
+					<div class="noPrint">
 						<a href="{{ route('orders.index') }}" class="text-center " style="margin-right: 91%;">
+						
 							<button class="btn btn-primary">
-								Next Page
+								متابعـــة
 							</button>
+						
 						</a>
+					</div>
 					{{-- NEXT BUTTON  --}}
 					</div>
 				</div>

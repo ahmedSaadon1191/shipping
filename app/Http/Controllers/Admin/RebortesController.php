@@ -31,6 +31,7 @@ class RebortesController extends Controller
 
     public function setday(Request $request)
     {
+        // return $request;
 
         $from =$request['date'];
         $to =$request['date2'];
@@ -59,21 +60,16 @@ class RebortesController extends Controller
 
     public function servantname(Request $request)
     {
-
+        // return $request;
         $from =$request['date1'];
         $to =$request['date2'];
-
-        $datas_Orders = Order::withTrashed()->with('orders_detailes')->whereHas('orders_detailes')->where('servant_id',$request->date)->where('created_at', '>=', $from)->where('created_at', '<=', $to)->get();
-        $datas_Returns = Order::withTrashed()->with('returns')->whereHas('returns')->where('servant_id',$request->date)->where('created_at', '>=', $from)->where('created_at', '<=', $to)->get();
-        // return $datas_Returns;
-
-        $servant = Servant::withTrashed()->with('orders')->where('id', $request['date'])->get();
-
+       
+        $orders = Order::withTrashed()->where('servant_id',$request->date)->where('created_at', '>=', $from)->where('created_at', '<=', $to)->with('orders_detailes')->whereHas('orders_detailes')->get();
+        $orders2 = Order::withTrashed()->where('servant_id',$request->date)->with('returns_detailes')->where('created_at', '>=', $from)->where('created_at', '<=', $to)->whereHas('returns_detailes')->get();
+        // return $orders2;
+        // return $servan_orders;
         
-        $sum = $datas_Orders->sum('total_prices');
-        $sum2 = $datas_Returns->pluck('returns')->pluck('returns_detailes')->sum('total_price');
-        // return $sum2;
-        return view('admin.reborts.servantordername',compact('sum','servant','datas_Orders','datas_Returns','sum2'));
+        return view('admin.reborts.servantordername',compact('orders','orders2'));
     }
 
             // CASTOMER METHODS
@@ -92,6 +88,7 @@ class RebortesController extends Controller
 
     public function getCastomer_reborts(Request $request)
     {
+        // return $request;
         $from =$request['date1'];
         $to =$request['date2'];
 

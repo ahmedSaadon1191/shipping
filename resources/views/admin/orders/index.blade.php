@@ -24,7 +24,7 @@
 			<div class="card">
 				<div class="card-header pb-0">
 					<div class="d-flex justify-content-between">
-						<h4 class="card-title mg-b-0">كل الشحنات</h4>
+						<h4 class="card-title mg-b-0">كل الاوردرات</h4>
 						
 					</div>
 					<p class="tx-12 tx-gray-500 mb-2">Example of Valex Simple Table. <a href="">Learn more</a></p>
@@ -83,22 +83,23 @@
 											<td>
 												<div class="btn-icon-list">
 													<a href="{{ route('orders.edit',$order->id) }}">
-														<button class="btn btn-indigo btn-icon"><i class="typcn typcn-folder"></i></button>
+														<button class="btn btn-indigo btn-icon"><i class="fa fa-edit"></i></button>
 													</a>
 													<a href="{{ route('orders.show',$order->id) }}">
 														<button class="btn btn-primary btn-icon"><i class="typcn typcn-calendar-outline"></i></button>
 													</a>
-								
-													@if ($order->orders_detailes->count() < 1 && $order->returnsDetailes->count() < 1)
+													@if (!$order->orders_detailes && !$order->returnsDetailes)
+														@if ($order->orders_detailes->count() < 1 && $order->returnsDetailes->count() < 1)
 														
-													<form action="{{ route('orders.makeSoftDelete',$order->id) }}" method="post">
-														@csrf
-														
-														<button class="btn btn-danger btn-icon"><i class="typcn typcn-calendar-outline"></i></button>
-													</form>
-															
-														
+															<form action="{{ route('orders.makeSoftDelete',$order->id) }}" method="post">
+																@csrf
+																
+																<button class="btn btn-primary btn-icon"><i class="fa fa-trash"></i></button>
+															</form>
+														@endif
 													@endif
+								
+													
 												</div>
 											</td>
 										
@@ -110,7 +111,7 @@
 								</tbody>
 							</table>
 						@else  
-							<h1 class="text-center">لا يجد اوردرات</h1>
+							<h1 class="text-center">لا يوجد اوردرات</h1>
 						  @endif
 					</div>
 				</div>

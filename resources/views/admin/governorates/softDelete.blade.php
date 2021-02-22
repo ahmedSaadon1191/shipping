@@ -19,10 +19,9 @@
                     <div class="card">
                         <div class="card-header pb-0">
                             <div class="d-flex justify-content-between">
-                                <h4 class="card-title mg-b-0">SIMPLE TABLE</h4>
+                                <h4 class="card-title mg-b-0">كل المحافظات المحزوفة</h4>
                                 <i class="mdi mdi-dots-horizontal text-gray"></i>
                             </div>
-                            <p class="tx-12 tx-gray-500 mb-2">Example of Valex Simple Table. <a href="">Learn more</a></p>
                         </div>
                         <div class="card-body">
 
@@ -76,7 +75,7 @@
                                         </tbody>
                                     </table>
                                 @else
-                                    <h1 class="text-center">No Governorates</h1>
+                                    <h1 class="text-center">لا يوجد محافظات محزوفة</h1>
                                 @endif
                             </div>
                         </div>

@@ -38,11 +38,11 @@ class Order extends Model
 
     public function orders_detailes()
     {
-        return $this->hasMany(OrderDetailes::class)->withTrashed();
+        return $this->hasMany(OrderDetailes::class)->withTrashed()->with('product');
     }
     public function returns_detailes()
     {
-        return $this->hasMany(ReturnsDetailes::class)->withTrashed();
+        return $this->hasMany(ReturnsDetailes::class)->withTrashed()->with('returns');
     }
 
     public function returns()

@@ -42,7 +42,7 @@
 						</div>
 						<div class="row mr-2 ml-2" id="successStatus" style="display: none">
 							<button type="text" class="btn btn-lg btn-block btn-outline-success mb-2" id="SuccessMessage">
-								
+								تم تعديل حالة الشحنة بنجاح
 							</button>
 						</div>
 						<div class="row mr-2 ml-2" id="errorStatus" style="display: none">
@@ -115,7 +115,7 @@
 									@foreach ($order->orders_detailes as $item)
 										<tr class="productRow">
 											<td>{{ $x++ }}</td>
-											<td>{{ $item->id }}</td>
+											<td>{{ $item->product->package_number }}</td>
 											<td>{{ $item->product->resever_name }}</td>
 											<td>{{ $item->shipping_price}}</td>
 											<td>{{ $item->product->product_price}}</td>
@@ -133,12 +133,14 @@
 															</option>
 														@endforeach
 													</select>
-
-													<button class="btn btn-primary makeStatus" id="{{ $item->id }}">تعديل</button>
+													@if ($item->product_status == 7 || $item->product_status == 6 || $item->product_status == 3 || $item->product_status == 4)
+													@else
+														<button class="btn btn-primary makeStatus" id="{{ $item->id }}">تعديل</button>
+													@endif
 												</form>
 											</td>
 
-
+											
 											<td>{{ $item->created_at}}</td>
 											<td>
 												<div class="btn-icon-list">
@@ -271,13 +273,10 @@
 
 			//Get Form Data           
             var itemId = $(this).attr('id');
-            //alert(itemId);
 			
-			//var item_id = document.getElementById("item_id"+itemId).value;
 			var sel_val = document.getElementById("package_status"+itemId).value;
-			//alert(sel_val);
-			//console.log(sel_val);
-			//console.log(item_id);
+			
+			
 			
 			$.ajax(
 			{
@@ -295,11 +294,11 @@
 					
                     if(data.status == true)
                     {
+						
                         $('#successStatus').show();
                        
 
                         // DELETE ROW FROM TABLE
-                    //$('.supplierRow'+data.id).remove();
                         
                     }else
                     {

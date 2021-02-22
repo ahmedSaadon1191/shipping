@@ -19,7 +19,7 @@
                         <p class="mb-2">It is Very Easy to Customize and it uses in your website apllication.</p>
                     </div>
                     <div class="card-body pt-0">
-                        <form  class="parsley-style-1"  name="selectForm2"  action="{{ route('admins.update',$admin->id) }}" method="POST">
+                        <form  class="parsley-style-1"  name="selectForm2"  action="{{ route('pro.update',$admin->id) }}" method="POST">
                             @csrf
                             @method('PUT')
                             
@@ -62,18 +62,6 @@
                                     </div>
                                 </div>
 
-                                 ADMIN PASSWORD  
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="">الباسورد </label>
-                                        <input type="password" name="password" class="form-control" placeholder="ادخل الباسورد" value="">
-                                        @error("password")
-                                            <span class="text-danger">{{$message}}</span>
-                                        @enderror
-                                    </div>
-                                </div>
-                        
-                             
                             <div class="mg-t-30">
                                 <button class="btn btn-main-primary pd-x-20 makeUpdateGov"  type="submit">تعديل بيانات المدير </button>
                             </div>

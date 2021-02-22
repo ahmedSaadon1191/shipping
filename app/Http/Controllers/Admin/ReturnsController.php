@@ -302,5 +302,12 @@ class ReturnsController extends Controller
         return view('admin.returns.show');
     }
 
+    public function show_product_returns_trashed($id)
+    {
+        $order2 = Returns::withTrashed()->with('returnsDetailes')->whereHas('returnsDetailes')->find($id);
+        // return $order2;
+        return \view('admin.returns.show_product_returns_trashed',compact('order2'));
+    }
+
    
 }

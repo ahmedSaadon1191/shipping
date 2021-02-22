@@ -19,8 +19,8 @@
                     <div class="card">
                         <div class="card-header pb-0">
                             <div class="d-flex justify-content-between">
-                                <h4 class="card-title mg-b-0">SIMPLE TABLE</h4>
-                                <i class="mdi mdi-dots-horizontal text-gray"></i>
+                                <h4 class="card-title mg-b-0">كل المناديب</h4>
+                                
                             </div>
                             <p class="tx-12 tx-gray-500 mb-2">Example of Valex Simple Table. <a href="">Learn more</a></p>
                         </div>
@@ -67,11 +67,11 @@
                                                     <td>{{ $servant->phone }}</td>
                                                     <td>
                                                     <div class="btn-icon-list">
-                                                        <a href="{{ route('servants.edit',$servant->id) }}">
-                                                            <button class="btn btn-indigo btn-icon"><i class="typcn typcn-folder"></i></button>
+                                                        <a href="{{ route('servants.edit',$servant->id) }}" style="margin-left: 10px">
+															<button class="btn btn-indigo btn-icon"><i class="fa fa-edit"></i></button>
                                                         </a>
                                                         <a href="" class="makeDeleteServant" servant_id="{{ $servant->id }}">
-                                                            <button class="btn btn-primary btn-icon"><i class="typcn typcn-calendar-outline"></i></button>
+                                                            <button class="btn btn-primary btn-icon"><i class="fa fa-trash"></i></button>
                                                         </a>
                                                     </div>
                                                     </td>

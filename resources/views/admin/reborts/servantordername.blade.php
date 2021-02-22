@@ -14,8 +14,7 @@
 
 @section('content')
 <br><br>
-    {{ $datas_Orders->count() }} <br>
-	{{ $datas_Returns->count() }}
+    
 
     {{--  TABLE TO SHOW ALL PRODUCTS RECIVED  --}}
 	<div class="row row-sm">
@@ -24,10 +23,16 @@
 				<div class="card-header pb-0">
 					<div class="d-flex justify-content-between">
 						{{-- {{ $datas_Returns->pluck('returns')->pluck('returns_detailes')[0] }} --}}
-						<h4 class="card-title mg-b-0">اجمالي سعر الشحن :  {{$sum + $sum2}} </h4>
-                        <h3 style="color: #a7a7a7">
-                            عرض الشحنات الخاصة  ب {{ $datas_Orders->pluck('servant')->pluck('name')->implode(',') }} 
-                        </h3>
+						{{-- <h4 class="card-title mg-b-0">اجمالي سعر الشحن :  {{$sum + $sum2}} </h4>
+                       @if ($datas_Orders && $datas_Orders->count() > 0)
+						    <h3 style="color: #a7a7a7">
+                           		 عرض الشحنات الخاصة  ب {{ $datas_Orders->pluck('servant')->pluck('name')->implode(',') }} 
+                        	</h3>
+						@else
+							<h3 style="color: #a7a7a7">
+								عرض الشحنات الخاصة  ب {{ $datas_Orders->pluck('servant')->pluck('name')->implode(',') }} 
+							</h3>
+					   @endif --}}
 						<i class="mdi mdi-dots-horizontal text-gray"></i>
 						</div>
 
@@ -47,76 +52,157 @@
 									</tr>
 								</thead>
 								<tbody id="productRow">
-									@if ($datas_Orders->count() > 0)
-																		
-										@foreach ($datas_Orders->pluck('orders_detailes') as $item1)
+
+									{{ $orders2->count() }}
+									{{ $orders->count() }}
+
+
+									@foreach ($orders as $item)
+											@foreach ($item->orders_detailes as $item1)
+												
 											<tr class="productRow">
 												<td> 
-													 {{ $item1->pluck('product')[0]->package_number }}
+													{{ $item1->product->package_number }}					
 												</td>
-												<td>
-													{{ $item1->pluck('product')[0]->resever_name }}
+												<td> 
+													{{ $item1->product->resever_name }}					
 												</td>
-												<td>
-													{{ $item1->pluck('product')->pluck('cities')->name }}
+												<td> 
+													{{ $item1->product->cities->name }}					
 												</td>
-												<td>
-													{{ $item1->pluck('product')->pluck('product_price')->implode(',') }}
+												<td> 
+													{{ $item1->product->product_price }}					
 												</td>
-												<td>
-													{{ $item1->pluck('shipping_price')->implode(',') }}
+												<td> 
+													{{ $item1->shipping_price }}					
 												</td>
-												<td>
-													{{ $item1->pluck('order')->pluck('total_prices')->implode(',') }}
+												<td> 
+													{{ $item1->total_price }}					
 												</td>
-												<td>
-													{{ $item1->pluck('product')->pluck('status')->pluck('name')->implode(',') }}
+												<td> 
+													{{ $item1->product->status->name }}					
 												</td>
-												<td>
-													{{ $item1->pluck('created_at') }}
+												<td> 
+													{{ $item1->product->created_at }}					
 												</td>
+												
+												
+												
 											</tr>
+											@endforeach
 										@endforeach
 
+										@foreach ($orders2 as $item)
+											@foreach ($item->returns_detailes as $item1)
+												
+											<tr class="productRow">
+												<td> 
+													{{ $item1->returns->package_number }}					
+												</td>
+												<td> 
+													{{ $item1->returns->resever_name }}					
+												</td>
+												<td> 
+													{{ $item1->returns->cities->name }}					
+												</td>
+												<td> 
+													{{ $item1->returns->product_price }}					
+												</td>
+												<td> 
+													{{ $item1->shipping_price }}					
+												</td>
+												<td> 
+													{{ $item1->total_price }}					
+												</td>
+												<td> 
+													{{ $item1->returns->status->name }}					
+												</td>
+												<td> 
+													{{ $item1->returns->created_at }}					
+												</td>
+											</tr>
+											@endforeach
+										@endforeach
+
+									{{-- @if ($orders && $orders->count() > 0)
 										
-									@else
-										<h3>لا يوجد شحنات </h3>
-									@endif
+									@elseif($orders2 && $orders2->count() > 0)
+										
+									@elseif(isset($orders) && isset($orders2))
+										@foreach ($orders as $item)
+											@foreach ($item->orders_detailes as $item1)	
+												<tr class="productRow">
+													<td> 
+														{{ $item1->product->package_number }}					
+													</td>
+													<td> 
+														{{ $item1->product->resever_name }}					
+													</td>
+													<td> 
+														{{ $item1->product->cities->name }}					
+													</td>
+													<td> 
+														{{ $item1->product->product_price }}					
+													</td>
+													<td> 
+														{{ $item1->shipping_price }}					
+													</td>
+													<td> 
+														{{ $item1->total_price }}					
+													</td>
+													<td> 
+														{{ $item1->product->status->name }}					
+													</td>
+													<td> 
+														{{ $item1->product->created_at }}					
+													</td>
+												</tr>
+											@endforeach
+										@endforeach
 
-
-                                    @if ($datas_Returns->count() > 0)
-																		
-										@foreach ($datas_Returns->pluck('returns') as $item1)
+										@foreach ($orders2 as $item)
+											@foreach ($item->returns_detailes as $item1)
+												
 											<tr class="productRow">
 												<td> 
-													 {{ $item1[0]->package_number }}
+													{{ $item1->returns->package_number }}					
 												</td>
-												<td>
-													{{ $item1->pluck('resever_name')->implode(',') }}
+												<td> 
+													{{ $item1->returns->resever_name }}					
 												</td>
-												<td>
-													{{ $item1->pluck('cities')->pluck('name')->implode(',') }}
+												<td> 
+													{{ $item1->returns->cities->name }}					
 												</td>
-												<td>
-													{{ $item1->pluck('product_price')->implode(',') }}
+												<td> 
+													{{ $item1->returns->product_price }}					
 												</td>
-												<td>
-													{{ $item1->pluck('returns_detailes')->pluck('shipping_price')->implode(',') }}
+												<td> 
+													{{ $item1->shipping_price }}					
 												</td>
-												<td>
-													{{ $item1->pluck('returns_detailes') }}
+												<td> 
+													{{ $item1->total_price }}					
 												</td>
-												<td>
-													{{ $item1->pluck('status')->pluck('name')->implode(',') }}
+												<td> 
+													{{ $item1->returns->status->name }}					
 												</td>
-												<td>
-													{{ $item1->pluck('created_at') }}
+												<td> 
+													{{ $item1->returns->created_at }}					
 												</td>
 											</tr>
+											@endforeach
 										@endforeach
+
 									@else
-										<h3> لا يوجد شحنات مرتجعة</h3>
-									@endif
+											<h1>
+												لا يوجد شحنات لخذا المندوب
+											</h1>
+									@endif --}}
+
+									
+										
+																			
+										
+                                   
 
 								</tbody>
 							</table>

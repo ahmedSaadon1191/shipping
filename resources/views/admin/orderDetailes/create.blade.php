@@ -1,3 +1,38 @@
+Skip to content
+Search or jump to…
+
+Pull requests
+Issues
+Marketplace
+Explore
+ 
+@ahmedSaadon1191 
+Learn Git and GitHub without any code!
+Using the Hello World guide, you’ll start a branch, write comments, and open a pull request.
+
+
+ahmedSaadon1191
+/
+shipping
+1
+00
+Code
+Issues
+Pull requests
+Actions
+Projects
+Wiki
+Security
+Insights
+Settings
+shipping/resources/views/admin/orderDetailes/create.blade.php
+@asaadon1191
+asaadon1191 initial
+Latest commit f4fd0ab 11 days ago
+ History
+ 1 contributor
+302 lines (254 sloc)  10.3 KB
+  
 @extends('admin.layouts.master')
 @section('css')
 <!-- Internal Data table css -->
@@ -42,7 +77,7 @@
 				<div class="form-group">
 					<label for="">اختار المدينة</label>
 					<select class="search_form_select form-control" name="city_id" id="city">
-						<option disabled selected>Select City</option>
+						<option disabled selected>اختار المدينة</option>
 				
 					</select>
 					<span class="text-danger" id="city_id_error"></span>
@@ -51,7 +86,7 @@
             
 			<div class="col-md-2">
 				<div class="form-group"><br>
-					<button class="form-control btn btn-primary" id="makeCreateOrder" style="background-color:#7a7a7a">
+					<button class="btn btn-secondary btn-lg" id="makeCreateOrder" style=" margin-top:8px;">
                         بحث
                     </button>
 				</div>
@@ -66,10 +101,10 @@
 			<div class="card">
 				<div class="card-header pb-0">
 					<div class="d-flex justify-content-between">
-						<h4 class="card-title mg-b-0">SIMPLE TABLE</h4>
+						<h4 class="card-title mg-b-0">الشحنات المتاحة بخط السير</h4>
 						<i class="mdi mdi-dots-horizontal text-gray"></i>
 					</div>
-					<p class="tx-12 tx-gray-500 mb-2">Example of Valex Simple Table. <a href="">Learn more</a></p>
+					
 				</div>
 				<div class="card-body">
 
@@ -114,7 +149,7 @@
 							{{-- <a href="{{ route('orderDetailes.submit_new_order') }}" class="text-center " style="margin-right: 91%;"> --}}
 							<a href="{{ route('orderDetailes.submit_new_order') }}" class="text-center " style="margin-right: 91%;">
 								<button class="btn btn-primary">
-									Next Page
+									<i class="fa">  متابعة &#xf04a; </i>
 								</button>
 							</a>
 						{{-- NEXT BUTTON  --}}
@@ -165,7 +200,6 @@
 		$(document).on('click','#makeCreateOrder',function(e)
 		{
 			e.preventDefault();
-
 			// DELETE ERROR MESSAGE IF INPUT HAVE VALUE WITHOUT REFRESH PAGE
 			
 		
@@ -173,10 +207,8 @@
 			$('#city_id_error').text('');
 			//$('#servant_id_error').text('');
 			//$('#shipping_price_error').text('');
-
 			//Get Form Data
             var formData = new FormData($('#createٍOrder')[0]);   
-
 			$.ajax(
 			{
 				type: 'post',
@@ -215,7 +247,6 @@
 					$("#" + key + "_error").text(val[0]);
 					});
 				}    
-
 			});
 		});
 	</script>   
@@ -225,11 +256,9 @@
 		$(document).on('click','.createProductToOrder',function(e)
 		{
 			e.preventDefault();
-
 			
 			//Get Form Data           
            var product_id = $(this).attr('product_id');
-
 			$.ajax(
 			{
 				type: 'post',
@@ -262,7 +291,6 @@
 					$("#" + key + "_error").text(val[0]);
 					});
 				}    
-
 			});
 		});
     </script>  
@@ -300,3 +328,15 @@
          });
     </script>
 @endsection
+© 2021 GitHub, Inc.
+Terms
+Privacy
+Security
+Status
+Docs
+Contact GitHub
+Pricing
+API
+Training
+Blog
+About

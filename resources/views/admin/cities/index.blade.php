@@ -19,10 +19,9 @@
                     <div class="card">
                         <div class="card-header pb-0">
                             <div class="d-flex justify-content-between">
-                                <h4 class="card-title mg-b-0">SIMPLE TABLE</h4>
+                                <h4 class="card-title mg-b-0">كل المدن</h4>
                                 <i class="mdi mdi-dots-horizontal text-gray"></i>
                             </div>
-                            <p class="tx-12 tx-gray-500 mb-2">Example of Valex Simple Table. <a href="">Learn more</a></p>
                         </div>
                         <div class="card-body">
 
@@ -68,11 +67,11 @@
                                                   
                                                     <td>
                                                         <div class="btn-icon-list">
-                                                            <a href="{{ route('cities.edit',$city->id) }}">
-                                                                <button class="btn btn-indigo btn-icon"><i class="typcn typcn-folder"></i></button>
-                                                            </a>
+                                                            <a href="{{ route('cities.edit',$city->id) }}" style="">
+																<button class="btn btn-indigo btn-icon"><i class="fa fa-edit"></i></button>
+                                                            </a>&nbsp;
                                                             <a href="" class="makeDeleteCity" city_id="{{ $city->id }}">
-                                                                <button class="btn btn-primary btn-icon"><i class="typcn typcn-calendar-outline"></i></button>
+																<button class="btn btn-primary btn-icon"><i class="fa fa-trash"></i></button>
                                                             </a>
                                                         </div>
                                                     </td>
@@ -82,7 +81,7 @@
                                         </tbody>
                                     </table>
                                 @else
-                                    <h1 class="text-center">No Cities</h1>
+                                    <h1 class="text-center">لا يوجد مدن</h1>
                                 @endif
                             </div>
                         </div>

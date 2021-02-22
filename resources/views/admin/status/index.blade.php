@@ -19,10 +19,9 @@
                     <div class="card">
                         <div class="card-header pb-0">
                             <div class="d-flex justify-content-between">
-                                <h4 class="card-title mg-b-0">SIMPLE TABLE</h4>
+                                <h4 class="card-title mg-b-0">كل حالات الاوردرات</h4>
                                 <i class="mdi mdi-dots-horizontal text-gray"></i>
                             </div>
-                            <p class="tx-12 tx-gray-500 mb-2">Example of Valex Simple Table. <a href="">Learn more</a></p>
                         </div>
                         <div class="card-body">
 
@@ -46,7 +45,7 @@
                                             <tr>
                                                 <th class="wd-15p border-bottom-0"> رقم</th>
                                                 <th class="wd-15p border-bottom-0">اسم حالة الاوردر</th>
-                                                <th class="wd-10p border-bottom-0">الاجرائات</th>
+                                                {{-- <th class="wd-10p border-bottom-0">الاجرائات</th> --}}
                                                 
                                             </tr>
                                         </thead>
@@ -60,13 +59,13 @@
                                                     <td>{{ $x++ }}</td>
                                                     <td>{{ $status->name }}</td>
                                                   
-                                                    <td>
+                                                    {{-- <td>
 														<div class="btn-icon-list" >
 															<a href="{{ route('status.edit',$status->id) }}">
 																<button class="btn btn-indigo btn-icon"><i class="typcn typcn-folder"></i></button>
 															</a> 
 														</div>
-                                                    </td>
+                                                    </td> --}}
                                                 </tr>
                                             @endforeach
 
