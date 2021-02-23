@@ -9,7 +9,9 @@ class CreateProductsTable extends Migration {
 	{
 		Schema::create('products', function(Blueprint $table) {
 			$table->increments('id');
-			$table->timestamps();
+			// $table->timestamps();
+			$table->date('created_at');
+			$table->date('updated_at');
 			$table->string('resever_name', 100);
 			$table->string('resver_phone', 100)->unique();
 			$table->integer('supplier_id')->unsigned();

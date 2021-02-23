@@ -150,15 +150,7 @@
 
 						$("#example1 tbody").append('<tr class="statusRow'+data.dataa.id+'"><td>'+rowD+'</td>'+
 							'<td>'+data.dataa.name+'</td>'+
-							'<td>'+
-								'<div class="btn-icon-list">'+
-									'<a href="'+x+'">'+
-										'<button class="btn btn-indigo btn-icon">'+
-											'<i class="typcn typcn-folder"></i>'+
-										'</button>'+
-									'</a>'+
-								'</div>'+
-							'</td>'+
+							
 						'</tr>');
 					}			
 					
@@ -170,7 +162,7 @@
 						if(data.status == true)
 						{
 							$('#success').html(data.msg);
-							$('#succes_msg').show().fadeOut(2500);
+							$('#succes_msg').show().fadeOut(1500);
 							setTimeout(function(){
 								$('#modaldemo8').modal('hide')
 							}, 2500);

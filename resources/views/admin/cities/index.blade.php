@@ -165,12 +165,12 @@
 								'<div class="btn-icon-list">'+
 									'<a href="'+x+'">'+
 										'<button class="btn btn-indigo btn-icon">'+
-											'<i class="typcn typcn-folder"></i>'+
+											'<i class="fa fa-edit"></i>'+
 										'</button>'+
 									'</a>'+
-									'<a city_id="'+data.dataa.id+'" class="makeDeleteCity">'+
+									'<a city_id="'+data.dataa.id+'" class="makeDeleteCity" style="margin-right:5px">'+
 										'<button class="btn btn-primary btn-icon">'+
-											'<i class="typcn typcn-calendar-outline"></i>'+
+											'<i class="fa fa-trash"></i>'+
 										'</button>'+
 									'</a>'+
 								'</div>'+
@@ -187,10 +187,10 @@
 						if(data.status == true)
 						{
 							$('#success').html(data.msg);
-							$('#succes_msg').show().fadeOut(3000);
+							$('#succes_msg').show().fadeOut(500);
 							setTimeout(function(){
 								$('#modaldemo8').modal('hide')
-							}, 3000);
+							}, 1000);
 						}
 					}
 				},
@@ -236,7 +236,7 @@
 						
 						if(data.status == true)
 						{
-							$('#successMsg').show().fadeOut(3000);
+							$('#successMsg').show().fadeOut(500);
                         }
                         
                         // DELETE ROW FROM TABLE
@@ -257,6 +257,6 @@
 	</script>   
 
 	<script>
-		$("#flashMessages").fadeOut(3000);
+		$("#flashMessages").fadeOut(500);
 	</script>
 @endsection

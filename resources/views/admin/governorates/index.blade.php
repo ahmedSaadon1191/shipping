@@ -182,7 +182,7 @@
 						if(data.status == true)
 						{
 							$('#success').html(data.msg);
-							$('#succes_msg').show().fadeOut(3000);
+							$('#succes_msg').show().fadeOut(1500);
 							setTimeout(function(){
 								$('#modaldemo8').modal('hide')
 							}, 5000);

@@ -178,6 +178,7 @@
 						var rowD = $("table").attr('rowID');
 
 						$("#example1 tbody").append('<tr class="productRow'+data.dataa.id+'"><td>'+rowD+'</td>'+
+							'<td>'+data.dataa.package_number+'</td>'+
 							'<td>'+data.sup[0].name+'</td>'+
 							'<td>'+data.dataa.resever_name+'</td>'+
 							'<td>'+data.dataa.resver_phone+'</td>'+
@@ -185,19 +186,19 @@
 							'<td>'+data.cit[0].name+'</td>'+
 							'<td>'+data.dataa.adress+'</td>'+
 							'<td>'+data.dataa.product_price+'</td>'+
-							'<td>'+data.stat.name+'</td>'+
+							'<td>'+data.stat.name+'</td>'+	
 							'<td>'+data.dataa.notes+'</td>'+
 							
 							'<td>'+
 								'<div class="btn-icon-list">'+
 									'<a href="'+x+'">'+
 										'<button class="btn btn-indigo btn-icon">'+
-											'<i class="typcn typcn-folder"></i>'+
+											'<i class="fa fa-edit"></i>'+
 										'</button>'+
 									'</a>'+
-									'<a product_id="'+data.dataa.id+'" class="makeDeleteProduct">'+
+									'<a product_id="'+data.dataa.id+'" class="makeDeleteProduct" style="margin-right:5px">'+
 										'<button class="btn btn-primary btn-icon">'+
-											'<i class="typcn typcn-calendar-outline"></i>'+
+											'<i class="fa fa-trash"></i>'+
 										'</button>'+
 									'</a>'+
 								'</div>'+
@@ -212,10 +213,10 @@
 						if(data.status == true)
 						{
                             $('#success').html(data.msg);
-							$('#succes_msg').show().fadeOut(3000);
+							$('#succes_msg').show().fadeOut(500);
 							setTimeout(function(){
 								$('#modaldemo8').modal('hide')
-                            }, 5000);
+                            }, 1000);
                             callback();
 						}
 					}
@@ -261,7 +262,7 @@
 						
 						if(data.status == true)
 						{
-							$('#successMsg').show();
+							$('#successMsg').show().fadeOut(500);
                         }
                         
                         // DELETE ROW FROM TABLE
