@@ -33,8 +33,9 @@ class ProductsController extends Controller
     {
         try
         {
-           
-            // CREATE DATA ON DATABASE 
+            // return $request->rescive_date;
+
+            // CREATE DATA ON DATABASE
             $create = Product::create(
                 [
                     'supplier_id'        => $request->supplier_id,
@@ -42,20 +43,23 @@ class ProductsController extends Controller
                     'resver_phone'       => $request->resver_phone,
                     'city_id'            => $request->city_id,
                     'adress'             => $request->adress,
+                    'total_price'        => $request->total_price,
+                    'shipping_price'     => $request->shipping_price,
                     'product_price'      => $request->product_price,
                     'status_id'          => 1,
                     'notes'              => $request->notes,
+                    'rescive_date'       => $request->rescive_date,
                 'package_number'         => mt_rand(1000000000, 9999999999)
                 ]);
 
-                // RETURN FLASH MESSAGE 
+                // RETURN FLASH MESSAGE
                 if($create)
 				{
                     $supplier   = Supplier::where('id',$request->supplier_id)->get();
                     $city       = City::with('governorate')->where('id',$request->city_id)->get();
                     $status = Status::all();
                     $stats =  $status->first();
-                   
+
 				 return response()->json(
 					 [
 						 'status'   => true,
@@ -74,9 +78,9 @@ class ProductsController extends Controller
 						 'error' => 'هناك خطا ما برجاءالمحاولة فيما بعد'
 					 ]);
 				}
-        }catch (\Throwable $th) 
+        }catch (\Throwable $th)
         {
-    
+
             return $th;
             return \redirect()->route('products.index')->with(['error' => 'هناك خطا ما برجاء المحاولة فيما بعد']);
         }
@@ -99,24 +103,29 @@ class ProductsController extends Controller
             {
                 return \redirect()->route('products.index')->with(['error' => 'هذا المورد غير موجود']);
             }
-        }catch (\Throwable $th) 
+        }catch (\Throwable $th)
         {
-    
+
             // return $th;
             return \redirect()->route('products.index')->with(['error' => 'هناك خطا ما برجاء المحاولة فيما بعد']);
         }
     }
 
-    public function update($id,productsRequest $request)
+    public function update(Request $request,$id)
     {
+
         try
         {
             $product = Product::find($id);
+
+            // return $request;
             if(!$product)
             {
+
                 return \redirect()->route('products.index')->with(['error' => 'هذه الشحنة غير موجودة']);
             }else
             {
+
                 $update = $product->update(
                     [
                         'supplier_id'        => $request->supplier_id,
@@ -125,15 +134,18 @@ class ProductsController extends Controller
                         'city_id'            => $request->city_id,
                         'adress'             => $request->adress,
                         'product_price'      => $request->product_price,
+                        'total_price'        => $request->total_price,
+                        'shipping_price'     => $request->shipping_price,
                         'status_id'          => $request->status_id,
-                        'notes'              => $request->notes,                  
+                        'notes'              => $request->notes,
+                        'rescive_date'       => $request->rescive_date,
                     ]);
 
                     return \redirect()->route('products.index')->with(['success' => 'تم التعديل بنجاح']);
             }
-        }catch (\Throwable $th) 
+        }catch (\Throwable $th)
         {
-    
+
             return $th;
             return \redirect()->route('products.index')->with(['error' => 'هناك خطا ما برجاء المحاولة فيما بعد']);
         }
@@ -157,7 +169,7 @@ class ProductsController extends Controller
         try
         {
             $last_status_id = Status::where('deleted_at',null)->get()->last()->id;
-            
+
             // return $last_status_id;
             $products = Product::onlyTrashed()->get();
             // return $servants;
@@ -168,9 +180,9 @@ class ProductsController extends Controller
             {
                 return \redirect()->route('products.index')->with(['error' => 'لا يوجد شحنات محزوفة ']);
             }
-        }catch (\Throwable $th) 
+        }catch (\Throwable $th)
         {
-    
+
             return $th;
             return \redirect()->route('products.index')->with(['error' => 'هناك خطا ما برجاء المحاولة فيما بعد']);
         }
@@ -179,11 +191,11 @@ class ProductsController extends Controller
     public function restore(Request $request)
     {
         $product_restore2 = Product::withTrashed()->with('orders_detailes')->where('id',$request->id)->get();
-      
+
         $product_restore = Product::withTrashed()->where('id',$request->id);
         $orderDetailsCount =  $product_restore2->pluck('orders_detailes')->count();
         $last_status_id = Status::where('deleted_at',null)->get()->last()->id;
-       
+
 
 
         if($orderDetailsCount > 0)
@@ -204,7 +216,7 @@ class ProductsController extends Controller
                     [
                             'status_id' => 1
                     ]);
-    
+
                 return \response()->json(
                     [
                         'status' => true,
@@ -228,9 +240,9 @@ class ProductsController extends Controller
             {
                 return \view('admin.products.show',\compact('product'));
             }
-        }catch (\Throwable $th) 
+        }catch (\Throwable $th)
         {
-    
+
             return $th;
             return \redirect()->route('products.index')->with(['error' => 'هناك خطا ما برجاء المحاولة فيما بعد']);
         }

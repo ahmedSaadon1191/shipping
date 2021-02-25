@@ -22,7 +22,7 @@ Route::prefix('admin')->group(function()
     Route::get('Dashboard','DashboardController@index')->name('Dashboard');
     Route::get('logout','LoginController@logout')->name('admin.logout');
 
-    
+
     Route::get('/test','DashboardController@test')->name('test');
 
     // ************************************** START ADMIN ROUTES ************************
@@ -42,7 +42,7 @@ Route::prefix('admin')->group(function()
         Route::put('/update','ProfileController@update')->name('pro.update');
         Route::get('/change_password','ProfileController@change_password')->name('pro.change_password');
         Route::post('/make_change_password','ProfileController@make_change_password')->name('pro.make_change_password');
-        
+
     });
     // ************************************** END PROFILE ROUTES ************************
     // ************************************** START SERVANTS ROUTES ************************
@@ -122,11 +122,11 @@ Route::prefix('admin')->group(function()
     // ************************************** END PRODUCTS ROUTES ************************
     // ************************************** START ORDER DETAILES ROUTES ************************
     Route::prefix('orderDetailes')->group(function()
-    {        
+    {
         Route::get('/create','orderDetailesController@create')->name('orderDetailes.create');
         Route::get('cities/{id}','orderDetailesController@cities')->name('Cities');
         Route::post('search/','orderDetailesController@search')->name('orderDetailes.search');
-        Route::post('forceDelete/{id}','orderDetailesController@forceDelete')->name('orderDetailes.forceDelete');  // DELETE ITEMS FROM ORDER DETAILES TABLE IF I DON,T CREATED NEW ORDER 
+        Route::post('forceDelete/{id}','orderDetailesController@forceDelete')->name('orderDetailes.forceDelete');  // DELETE ITEMS FROM ORDER DETAILES TABLE IF I DON,T CREATED NEW ORDER
         Route::post('addToCart/','orderDetailesController@addToCart')->name('orderDetailes.addToCart');
         Route::get('submit_new_order/','orderDetailesController@submit_new_order')->name('orderDetailes.submit_new_order');
         Route::post('changeStatus/','orderDetailesController@changeStatus')->name('orderDetailes.changeStatus');
@@ -135,7 +135,7 @@ Route::prefix('admin')->group(function()
     // ************************************** END ORDER DETAILES ROUTES ************************
 // ************************************** START ORDERS  ROUTES ************************
 Route::prefix('orders')->group(function()
-{        
+{
     Route::get('index','ordersController@index')->name('orders.index');
     Route::post('store','ordersController@store')->name('orders.store');
     Route::get('edit/{id}','ordersController@edit')->name('orders.edit');
@@ -146,11 +146,12 @@ Route::prefix('orders')->group(function()
     Route::post('softDelete/{id}','ordersController@makeSoftDelete')->name('orders.makeSoftDelete');
     Route::get('restore','ordersController@restore')->name('orders.restore');
     Route::get('show_order_detailes/{id}','ordersController@show_order_detailes')->name('orders.show_order_detailes');
+    Route::post('productNote/{id}','ordersController@productNote')->name('orders.productNote');
 });
 // ************************************** END ORDERS ROUTES ************************
 // ************************************** START RETURNS  ROUTES ************************
 Route::prefix('returns')->group(function()
-{        
+{
     Route::get('index','ReturnsController@index')->name('returns.index');
     Route::get('create','ReturnsController@create')->name('returns.create');
     Route::post('search/','ReturnsController@search')->name('returns.search');
@@ -163,22 +164,23 @@ Route::prefix('returns')->group(function()
     Route::get('softDelete','ReturnsController@softDelete')->name('returns.softDelete');
     Route::get('show_product_returns_trashed/{id}','ReturnsController@show_product_returns_trashed')->name('returns.show_product_returns_trashed');
     Route::get('restore','ReturnsController@restore')->name('returns.restore');
-    Route::post('forceDelete/{id}','ReturnsController@forceDelete')->name('returns.forceDelete');  // DELETE ITEMS FROM ORDER DETAILES TABLE IF I DON,T CREATED NEW ORDER 
+    Route::post('forceDelete/{id}','ReturnsController@forceDelete')->name('returns.forceDelete');  // DELETE ITEMS FROM ORDER DETAILES TABLE IF I DON,T CREATED NEW ORDER
+    Route::post('productNote/{id}','ReturnsController@productNote')->name('returns.productNote');
 
 
 
     Route::get('edit/{id}','ReturnsController@edit')->name('returns.edit');
     Route::post('update/{id}','ReturnsController@update')->name('returns.update');
     Route::get('show/{id}','ReturnsController@show')->name('returns.show');
-    
+
 });
 // ************************************** END RETURNS ROUTES ************************
     // ************************************** START REBORTS ROUTES ************************
 
-    
+
 
     Route::prefix('reborts')->group(function()
-    {        
+    {
         Route::get('index','RebortesController@index')->name('reborts.index');
         Route::post('/add/day','RebortesController@setday');
         Route::post('/add/dayy1','RebortesController@oneday');
@@ -199,8 +201,8 @@ Route::prefix('returns')->group(function()
 
 Route::namespace('Admin')->middleware('guest:admin')->group(function()
     {
-        Route::get('/login','LoginController@loginForm')->name('admin.login'); 
-        Route::post('/makelogin','LoginController@login')->name('admin.MakeLogin'); 
+        Route::get('/login','LoginController@loginForm')->name('admin.login');
+        Route::post('/makelogin','LoginController@login')->name('admin.MakeLogin');
     });
 });
 

@@ -5,15 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Product extends Model 
+class Product extends Model
 {
     use SoftDeletes;
 
     protected $table = 'products';
     public $timestamps = true;
-    protected $fillable = array('resever_name', 'resver_phone', 'supplier_id', 'city_id', 'adress', 'product_price', 'status_id', 'notes','package_number');
 
-    
+    protected $fillable = array('resever_name', 'resver_phone', 'supplier_id', 'city_id', 'adress', 'product_price', 'status_id', 'notes','package_number','total_price','shipping_price','rescive_date');
+
+
 
     public function cities()
     {

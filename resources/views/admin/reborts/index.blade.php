@@ -19,39 +19,48 @@
 
 
 
- 
+
 
 	<h1>
 		البحث عن اوردرات
 	</h1>
 
-    
+
 
     {{--  TABLE TO SHOW ALL PRODUCTS RECIVED  --}}
 	<div class="row row-sm">
 
 		<div class="col-xl-12">
-			
+
 			<div class="card">
 
 				<div class="card-header pb-0">
-					<div class="d-flex justify-content-between">
+					<div class="">
 						<form action="add/day" method="post">
 							{!! csrf_field() !!}
-							<label>من :</label>
-							<input type="date" name="date">
-							<label>الي :</label>
-							<input type="date" name="date2">
-							<input type="submit" >
-							</form> 
 
-							{{-- <form action="add/dayy1" method="post">
-							{!! csrf_field() !!}
-								<label>اختار اليوم :</label>
-								<input type="date" name="date">
+							<div class="row">
+                                <div class="form-group col-md-4">
+                                    <label>من :</label>
+                                    <input type="date" name="date" class="form-control">
+                                    @error("date")
+                                        <span class="text-danger">{{$message}}</span>
+                                    @enderror
+                                </div>
 
-								<input type="submit">
-						</form>  --}}
+                                <div class="form-group col-md-4">
+                                    <label>الي :</label>
+                                    <input type="date" name="date2" class="form-control">
+                                    @error("date2")
+                                        <span class="text-danger">{{$message}}</span>
+                                    @enderror
+                                </div>
+                                <div class="form-group col-md-4 mt-3">
+                                    <input type="submit" value="بحث" class="mt-3 btn btn-primary">
+                                </div>
+                            </div>
+                        </form>
+
 
 						<i class="mdi mdi-dots-horizontal text-gray"></i>
 					</div>
@@ -69,14 +78,14 @@
 					</div>
 				{{--  END GET FLASH MESSAGES   --}}
 
-					
+
 
 					<div class="table-responsive">
-					
+
 							<table class="table text-md-nowrap" id="example1">
 								<thead>
 									<tr>
-										
+
 										<th class="wd-15p border-bottom-0"> رقم الشحنة</th>
 										<th class="wd-15p border-bottom-0"> اسم المستلم</th>
 										<th class="wd-15p border-bottom-0"> سعر الشحن</th>
@@ -88,11 +97,11 @@
 									</tr>
 								</thead>
 								<tbody id="productRow">
-								
-									
+
+
 													@foreach ($ordersdetails as $item)
 										<tr class="productRow">
-											
+
 											<td>{{ $item->id }}</td>
 											<td>{{ $item->Product->resever_name }}</td>
 											<td>{{ $item->shipping_price }}</td>
@@ -119,8 +128,8 @@
 
 								</tbody>
 							</table><br>
-						
-						
+
+
 					</div>
 				</div>
 			</div>
@@ -169,15 +178,15 @@
 			e.preventDefault();
 
 			// DELETE ERROR MESSAGE IF INPUT HAVE VALUE WITHOUT REFRESH PAGE
-			
-		
+
+
 			$('#governorate_id_error').text('');
 			$('#city_id_error').text('');
 			//$('#servant_id_error').text('');
 			//$('#shipping_price_error').text('');
 
 			//Get Form Data
-            var formData = new FormData($('#createٍOrder')[0]);   
+            var formData = new FormData($('#createٍOrder')[0]);
 
 			$.ajax(
 			{
@@ -204,8 +213,8 @@
                             "<td>"+
                                 "<button class='btn btn-success createProductToOrder' id='add' product_id="+value.id+">Add</button>"
                             +"</td>"+
-                            
-                           
+
+
                         +"</tr>")
                     });
 				},
@@ -216,11 +225,11 @@
 					{
 					$("#" + key + "_error").text(val[0]);
 					});
-				}    
+				}
 
 			});
 		});
-	</script>   
+	</script>
 
 	{{--  CREATE PRODUCT TO ORDER   --}}
 	<script>
@@ -228,30 +237,30 @@
 		{
 			e.preventDefault();
 
-			
-			//Get Form Data           
+
+			//Get Form Data
            var product_id = $(this).attr('product_id');
 
 			$.ajax(
 			{
 				type: 'post',
 				url: "{{route('orderDetailes.addToCart')}}",
-				data: 
+				data:
 				{
 					'_token' : "{{ csrf_token() }}",
              		'id'     : product_id
 				},
-				
+
 				success: function(data)
 				{
 					if(data.status == true)
 					{
-						
+
 						if(data.status == true)
 						{
 							$('#successMsg').show();
                         }
-                        
+
                         // DELETE ROW FROM TABLE
                         $('.productRow'+data.id).remove();
 					}
@@ -263,21 +272,21 @@
 					{
 					$("#" + key + "_error").text(val[0]);
 					});
-				}    
+				}
 
 			});
 		});
-    </script>  
+    </script>
 
      {{--  GET CITIES  --}}
     <script>
-        
+
          $(document).ready(function()
          {
              $('#gov').on('change',function()
              {
                  var gov = $(this).val();
- 
+
                  if(gov)
                  {
                      $.ajax(

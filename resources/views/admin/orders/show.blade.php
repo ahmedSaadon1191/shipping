@@ -16,7 +16,7 @@
 <br><br>
 
 
-    
+
 
     {{--  TABLE TO SHOW ALL PRODUCTS RECIVED  --}}
 	<div class="row row-sm">
@@ -24,10 +24,9 @@
 			<div class="card">
 				<div class="card-header pb-0">
 					<div class="d-flex justify-content-between">
-						<h4 class="card-title mg-b-0">SIMPLE TABLE</h4>
+						<h4 class="card-title mg-b-0"> تفاصيل الاوردر رقم {{ $order->id }}</h4>
 						<i class="mdi mdi-dots-horizontal text-gray"></i>
 					</div>
-					<p class="tx-12 tx-gray-500 mb-2">Example of Valex Simple Table. <a href="">Learn more</a></p>
 				</div>
 				<div class="card-body">
 
@@ -51,7 +50,7 @@
 							</button>
 						</div>
 
-						
+
 					{{--  END GET FLASH MESSAGES   --}}
 
 
@@ -65,7 +64,7 @@
                         <div class="col-md-2">
                             <div class="form-group">
                                 <label for="">الاجمالي</label>
-                             <input type="text" name="" class="form-control text-center" value="{{ $order->total_prices }} جنيه" disabled>
+                             <input type="text" id="total" class="form-control text-center" value="{{ $order->total_prices }}" disabled>
                             </div>
                         </div>
                         <div class="col-md-2">
@@ -86,8 +85,17 @@
                              <input type="text" name="" value="{{ $order->created_at }}" class="form-control text-center" disabled>
                             </div>
                         </div>
+
+                        <div class="btn-icon-list col-md-2">
+                            <a href="{{ route('orders.edit',$order->id) }}">
+                                <button class="btn btn-indigo btn-icon"><i class="typcn typcn-folder"></i></button>
+                            </a>
+
+                        </div>
                     </div>
-                        
+
+
+
 				</div>
 
 
@@ -96,33 +104,33 @@
 							<table class="table text-md-nowrap" id="example1">
 								<thead>
 									<tr>
-										<th class="wd-15p border-bottom-0"> رقم </th>
-										<th class="wd-15p border-bottom-0"> رقم الشحنة</th>
+										<th class="wd-7p border-bottom-0"> رقم </th>
+										<th class="wd-7p border-bottom-0"> رقم الشحنة</th>
 										<th class="wd-15p border-bottom-0"> اسم المستلم</th>
-										<th class="wd-15p border-bottom-0"> سعر الشحن</th>
-										<th class="wd-15p border-bottom-0">سعر الشحنة</th>
-										<th class="wd-15p border-bottom-0"> اجمالي الشحن</th>
-										<th class="wd-15p border-bottom-0"> حالة الشحنة</th>
-										<th class="wd-15p border-bottom-0">تاريخ التسليم</th>
-										<th class="wd-15p border-bottom-0"> الاجرائات</th>
+										<th class="wd-7p border-bottom-0"> سعر الشحن</th>
+										<th class="wd-7p border-bottom-0">سعر الشحنة</th>
+										<th class="wd-7p border-bottom-0"> اجمالي الشحن</th>
+										<th class="wd-10p border-bottom-0"> حالة الشحنة</th>
+										<th class="wd-7p border-bottom-0">تاريخ التسليم</th>
+										<th class="wd-20p border-bottom-0"> الملاحظات</th>
 									</tr>
 								</thead>
 								<tbody >
 									@php
 										$x = 1;
 									@endphp
-								
+
 									@foreach ($order->orders_detailes as $item)
 										<tr class="productRow">
 											<td>{{ $x++ }}</td>
 											<td>{{ $item->product->package_number }}</td>
 											<td>{{ $item->product->resever_name }}</td>
 											<td>{{ $item->shipping_price}}</td>
-											<td>{{ $item->product->product_price}}</td>
+											<td id="check{{$item->id}}">{{ $item->product->product_price}}</td>
 											<td>{{  $item->shipping_price + $item->product->product_price}}</td>
-										
+
 											<td>
-												<form action="" class="status">										
+												<form action="" class="status">
 													<select name="status_id{{ $item->id }}" id="package_status{{ $item->id }}" class="st_id{{ $item->id }} form-control">
 														<option value="">اختار الحالة</option>
 														@foreach ($allStatus as $status)
@@ -135,32 +143,34 @@
 													</select>
 													@if ($item->product_status == 7 || $item->product_status == 6 || $item->product_status == 3 || $item->product_status == 4)
 													@else
-														<button class="btn btn-primary makeStatus" id="{{ $item->id }}">تعديل</button>
+														<button class="btn btn-primary btn-sm makeStatus" id="{{ $item->id }}" style="width:100%">تعديل</button>
 													@endif
 												</form>
 											</td>
 
-											
-											<td>{{ $item->created_at}}</td>
-											<td>
-												<div class="btn-icon-list">
-													<a href="{{ route('orders.edit',$order->id) }}">
-														<button class="btn btn-indigo btn-icon"><i class="typcn typcn-folder"></i></button>
-													</a>
-													
-												</div>
-											</td>
-										
-										
+
+											<td class="text-center">{{ $item->product->rescive_date}}</td>
+                                            <td>
+                                                <form action="{{ route('orders.productNote',$item->id) }}" method="post">
+                                                    @csrf
+
+                                                    <input type="text" name="notes" class="form-control" value="{{ $item->notes }}">
+                                                    <input type="submit" class="btn btn-success btn-sm" value="حفظ" style="width: 100%">
+                                                </form>
+
+                                            </td>
+
+
+
 										</tr>
 									@endforeach
-									
+
 
 								</tbody>
 							</table>
-						
-						@elseif ($order2->returnsDetailes && $order2->returnsDetailes->count() > 0)
-						
+
+						@elseif ($order2->returns_detailes && $order2->returns_detailes->count() > 0)
+
 							<table class="table text-md-nowrap" id="example1">
 								<thead>
 									<tr>
@@ -172,26 +182,26 @@
 										<th class="wd-15p border-bottom-0"> اجمالي الشحن</th>
 										<th class="wd-15p border-bottom-0"> حالة الشحنة</th>
 										<th class="wd-15p border-bottom-0">تاريخ التسليم</th>
-										<th class="wd-15p border-bottom-0"> الاجرائات</th>
+										<th class="wd-15p border-bottom-0"> الملاحظات</th>
 									</tr>
 								</thead>
 								<tbody >
 									@php
 										$x = 1;
 									@endphp
-								
-									@foreach ($order2->returnsDetailes as $item)
+
+									@foreach ($order2->returns_detailes as $item)
 										<tr class="productRow">
 											<td>{{ $x++ }}</td>
-											<td>{{ $item->id }}</td>
+											<td>{{ $item->returns->package_number }}</td>
 											<td>{{ $item->returns->resever_name }}</td>
-											<td>{{ $item->shipping_price}}</td> 
+											<td>{{ $item->shipping_price}}</td>
 											<td>{{ $item->returns->product_price}}</td>
-											
+
 											<td>{{  $item->shipping_price + $item->returns->product_price}}</td>
-										 
+
 											<td>
-												<form action="" class="status">										
+												<form action="" class="status">
 													<select name="status_id{{ $item->id }}" id="packageStatusReturns{{ $item->id }}" class="st_id{{ $item->id }} form-control">
 														<option value="">اختار الحالة</option>
 														@foreach ($statusReturns as $status)
@@ -208,27 +218,27 @@
 											</td>
 
 
-											<td>{{ $item->created_at}}</td>
-											<td>
-												<div class="btn-icon-list">
-													<a href="{{ route('orders.edit',$order->id) }}">
-														<button class="btn btn-indigo btn-icon"><i class="typcn typcn-folder"></i></button>
-													</a>
-													
-												</div>
-											</td>
-										
-										
+											<td>{{ $item->returns->rescive_date}}</td>
+                                            <td>
+                                                <form action="{{ route('returns.productNote',$item->id) }}" method="post">
+                                                    @csrf
+                                                    <input type="text" name="notes" class="form-control" value="{{ $item->returns->notes }}">
+                                                    <input type="submit" class="btn btn-success btn-sm" value="حفظ" style="width:100%">
+                                                </form>
+
+                                            </td>
+
+
 										</tr>
 									@endforeach
-									
+
 
 								</tbody>
 							</table>
-						@else  
+						@else
 							<h1 class="text-center">لا يوجد اوردرات</h1>
                         @endif
-					</div> 
+					</div>
 				</div>
 			</div>
 		</div>
@@ -271,41 +281,58 @@
 		{
 			e.preventDefault();
 
-			//Get Form Data           
+			//Get Form Data
             var itemId = $(this).attr('id');
-			
+
 			var sel_val = document.getElementById("package_status"+itemId).value;
-			
-			
-			
+
+			// ************************************************ UPDATE TOTAL PRICE IN ORDERS TABLE IF THIS ORDER HAVE RETURNS PRODUCTS ****************************************************
+
+
+
+				if(sel_val == 3 || sel_val == 4)
+				{
+					var total_all = $('#total').val();
+					var productPrice_row = $("#check"+itemId).html();
+
+					var new_total = total_all - productPrice_row;
+					$("#total").val(new_total);
+					alert(new_total);
+					$(this).hide();
+				}
+
+
+			// ****************************************************************************************************
+
 			$.ajax(
 			{
 				type: 'post',
 			    url: "{{route('orders.changeStatus')}}",
-				data: 
+				data:
 				{
-					'_token' : "{{ csrf_token() }}",
-					'item_status' : sel_val,
-					'id'     : itemId, 
+					'_token' 		: "{{ csrf_token() }}",
+					'item_status' 	: sel_val,
+					'id'     		: itemId,
+					'total'  		: new_total
 				},
-				
+
 				success: function(data)
 				{
-					
+
                     if(data.status == true)
                     {
-						
-                        $('#successStatus').show();
-                       
+
+                        $('#successStatus').show().fadeOut(1000);
+
 
                         // DELETE ROW FROM TABLE
-                        
+
                     }else
                     {
-                        $('#errorStatus').show();
+                        $('#errorStatus').show().fadeOut(1000);
                     }
-                    
-                    
+
+
 				},
 				error: function(reject)
 				{
@@ -314,11 +341,14 @@
 					{
 					    $("#" + key + "_error").text(val[0]);
 					});
-				}    
+				}
 
 			});
 		});
-	</script> 
+	</script>
+
+
+
 
      {{--  CHANGE STATUS  RETURNS--}}
 	 <script>
@@ -328,28 +358,28 @@
 
 			var itemIdReturns = $(this).attr('id');
 			var sel_val_returns = document.getElementById("packageStatusReturns"+itemIdReturns).value;
-			
+
 
 			$.ajax(
 			{
 				type: 'post',
 			    url: "{{route('returns.changeStatusItems')}}",
-				data: 
+				data:
 				{
 					'_token' : "{{ csrf_token() }}",
 					'item_status' : sel_val_returns,
-					'id'     : itemIdReturns, 
+					'id'     : itemIdReturns,
 				},
-				
+
 				success: function(data)
 				{
 					if(data.status == true)
                     {
 						$('#SuccessMessage').html(data.msg);
 						$('#successStatus').show().fadeOut(3000);
-					
-						
-                        
+
+
+
                     }
 				},
 				error: function(reject)
@@ -359,12 +389,12 @@
 					{
 					    $("#" + key + "_error").text(val[0]);
 					});
-				}    
+				}
 
 			});
-			
-			
+
+
 		});
-	</script>  
+	</script>
 @endsection
 

@@ -37,15 +37,15 @@ class ReturnsController extends Controller
 
     public function addToCart(Request $request)     // TO ADD PRODUCT TO ORDER DETAILES PAGE AND DELETE IT FROM PRODUCTS PAGE
     {
-        
-        // DELETE ROW FROM RETURNS TABLE 
+
+        // DELETE ROW FROM RETURNS TABLE
         $product_delete = Returns::find($request->id);
         $product = Returns::withTrashed()->where('id',$request->id)->get();
         $pro =  $product->pluck('status_id')->implode(', ');
         $product_delete->delete();
-      
-        
-        // ADD PRODUCT TO ORDER DETAILES TABLE 
+
+
+        // ADD PRODUCT TO ORDER DETAILES TABLE
         $createOrderDetailes = ReturnsDetailes::create(
         [
             'returns_id' => $request->id,
@@ -57,7 +57,7 @@ class ReturnsController extends Controller
                 'status' => true,
                 'msg' => 'تم حزف الشحنة من المخزن بنجاح',
                 'id' => $request->id
-            ]); 
+            ]);
     }
 
     public function submit_new_order()
@@ -65,11 +65,11 @@ class ReturnsController extends Controller
         $orderDetailes = ReturnsDetailes::with('returns')->where('order_id',null)->get();
         // return $orderDetailes;
         // return $orderDetailes;
-        // GET LAST ROW IN STATUS TABLE 
+        // GET LAST ROW IN STATUS TABLE
         $lastStatus = Status::latest()->first();
 
-        // GET ALL ROWS WITH OUT LAST ROW AND ROW OF NAME تاجيل AND تم رفضه IN STATUS TABLE 
-        $allStatus = Status::where('id','<>',$lastStatus->id)->where('name','<>','تم رفضه')->where('name','<>','تاجيل')->get(); 
+        // GET ALL ROWS WITH OUT LAST ROW AND ROW OF NAME تاجيل AND تم رفضه IN STATUS TABLE
+        $allStatus = Status::where('id','<>',$lastStatus->id)->where('name','<>','تم رفضه')->where('name','<>','تاجيل')->get();
 
         $servants = Servant::where('deleted_at',null)->get();
         $orders = Order::get()->last();
@@ -82,13 +82,13 @@ class ReturnsController extends Controller
         // {
         //     return sum($a->product_price);
         // }
-        
+
         return view('admin.returns.submit_new_order',\compact('orderDetailes','allStatus','totalPrice','servants','orders'));
     }
 
      public function changeShippingPrice(Request $request)
     {
-        
+
         // UPDATE CHIPPING PRICE FOR ORDERS
         $price = ReturnsDetailes::with('returns')->find($request->id);
         // return $price;
@@ -97,10 +97,10 @@ class ReturnsController extends Controller
                 'shipping_price' => $request->price
             ]);
 
-                // GET TOTAL PRICE FOR PRODUCT 
+                // GET TOTAL PRICE FOR PRODUCT
             $totalPrice = $price->returns->product_price + $price->shipping_price;
 
-           
+
             $price->update(
                 [
                     'total_price' => $totalPrice
@@ -112,23 +112,23 @@ class ReturnsController extends Controller
                     'msg' => 'تم حزف الشحنة من المخزن بنجاح',
                ]);
 
-            
+
     }
 
     public function changeStatus(Request $request)
     {
-     
+
         $prderDetailesRow = ReturnsDetailes::with('returns')->find($request->id);
         // return $prderDetailesRow;
 
-        // UPDATE STATUS ROW IN ORDER DETAILES TABLE 
+        // UPDATE STATUS ROW IN ORDER DETAILES TABLE
         $updateStatusOrder = $prderDetailesRow->update(
             [
                 'product_status' => $request->product_status
             ]);
 
-                               
-        // UPDATE STATUS ROW IN PRODUCTS  TABLE 
+
+        // UPDATE STATUS ROW IN PRODUCTS  TABLE
             $product = $prderDetailesRow->returns->update(['status_id' => $request->product_status]);
             return \response()->json(
                 [
@@ -150,7 +150,7 @@ class ReturnsController extends Controller
                     'coming_from' => 1
                 ]);
 
-                // CREATE ORDER ID IN ORDER DETAILES TABLE 
+                // CREATE ORDER ID IN ORDER DETAILES TABLE
             $orderDetailes = ReturnsDetailes::where('order_id',null)->get();
             $order_id = $create->id;
                 foreach($orderDetailes as $item)
@@ -162,14 +162,14 @@ class ReturnsController extends Controller
 
                     $item->delete();
                 }
-            return \redirect()->route('returns.index')->with(['success' => 'تم حفظ الاوردر بنجاح']);
+            return \redirect()->route('orders.index')->with(['success' => 'تم حفظ الاوردر بنجاح']);
         }else
         {
             return \redirect()->route('returns.submit_new_order')->with(['error' => 'لا يمكن اضافة اوردر جديد بدون اضافة شحنات داخله']);
         }
-       
-            
-        
+
+
+
     }
 
     public function changeStatusItems(Request $request)   //TO CHANGE STATUS OF ITEM ROW IN ORDER TABLE WHERE THIS ITEM COMEING FROM RETURNS TABLE
@@ -177,14 +177,14 @@ class ReturnsController extends Controller
         // return $request;
 
         $prderDetailesRow = ReturnsDetailes::withTrashed()->find($request->id);
-   
+
         // جلب  الحالة الاخيرة  في جدول الحالات
         $last_status_id = Status::where('deleted_at',null)->get()->last()->id;
         $getStatus = Status::where('name','تم تسليم المرتجع للعميل')->get();
         // return $getStatus;
-    
 
-        // CHECK STATUS OF ORDER  ROW IF COMPLETED CAN,T CHANGE STATUS OF RETURNS DETAILES AND PRODUCTS TABLES 
+
+        // CHECK STATUS OF ORDER  ROW IF COMPLETED CAN,T CHANGE STATUS OF RETURNS DETAILES AND PRODUCTS TABLES
         if($prderDetailesRow->order->status_id == $last_status_id)
         {
             //return "yes 6";
@@ -196,14 +196,14 @@ class ReturnsController extends Controller
 
         }else
         {
-             // UPDATE ITEM ROW IN RETURNS DETAILES TABLE 
+             // UPDATE ITEM ROW IN RETURNS DETAILES TABLE
              $prderDetailesRow->update(
                 [
-                
+
                     'product_status' => $request->item_status
                 ]);
 
-        //  UPDATE STATUS ROW IN RETURNS  TABLE 
+        //  UPDATE STATUS ROW IN RETURNS  TABLE
             $product = $prderDetailesRow->returns->update(['status_id' => $request->item_status]);
 
             return \response()->json(
@@ -211,7 +211,7 @@ class ReturnsController extends Controller
                     'status' => true,
                     'msg' => 'تم تعديل الشحنة في  المخزن و الاوردر بنجاح',
             ]);
-        }                        
+        }
     }
 
     public function softDelete()
@@ -227,9 +227,9 @@ class ReturnsController extends Controller
             {
                 return \redirect()->route('returns.index')->with(['error' => 'لا يوجد اوردرات محزوفة ']);
             }
-        }catch (\Throwable $th) 
+        }catch (\Throwable $th)
         {
-    
+
             return $th;
             return \redirect()->route('returns.index')->with(['error' => 'هناك خطا ما برجاء المحاولة فيما بعد']);
         }
@@ -237,18 +237,18 @@ class ReturnsController extends Controller
 
       public function restore(Request $request)
     {
-        
+
         $order_restore = Returns::withTrashed()->where('id',$request->id);
-       
+
         $order_restore2 = Returns::where('id',$request->id)->get();
         // return $order_restore2;
         $last_status_id = Status::where('deleted_at',null)->get()->last()->id;
-        
+
         // $items_id =  $order_restore2->pluck('id')->implode(', ');
         // $items = OrderDetailes::withTrashed()->where('order_id',$items_id)->get();
 
-        
-        // RESTORE ORDER 
+
+        // RESTORE ORDER
         $order_restore->restore();
 
         // CHANGE ORDER STATUS TO PENDING
@@ -258,7 +258,7 @@ class ReturnsController extends Controller
             ]);
 
         // // RESTORE ORDER ITEMS IN ORDER DETAILES
-        
+
         // foreach($items as $item)
         // {
         //     $item->restore();
@@ -272,7 +272,7 @@ class ReturnsController extends Controller
             ]);
     }
 
-    public function forceDelete($id)      // DELETE ITEMS FROM ORDER DETAILES TABLE IF I DON,T CREATED NEW ORDER 
+    public function forceDelete($id)      // DELETE ITEMS FROM ORDER DETAILES TABLE IF I DON,T CREATED NEW ORDER
     {
         // GET ITEM FROM ORDER DETAILES TABLE  TO DELETE IT
             $item = ReturnsDetailes::withTrashed()->find($id);
@@ -284,13 +284,13 @@ class ReturnsController extends Controller
             }else
             {
 
-        // RESTORE ITEM TO PRODUCTS TABLE 
+        // RESTORE ITEM TO PRODUCTS TABLE
             $item->returns->restore();
 
-        // CHANGE STATUS OF ITEM RESTORING TO PENDING 
-            $update = $item->returns->update(['status_id' => 1]);                
+        // CHANGE STATUS OF ITEM RESTORING TO PENDING
+            $update = $item->returns->update(['status_id' => 1]);
 
-        // FORCE DELETE FOR THIS ITEM FROM ORDER DETAILES TABLE 
+        // FORCE DELETE FOR THIS ITEM FROM ORDER DETAILES TABLE
                 $item->forceDelete();
                 return \redirect()->back()->with(['success' => 'تم مسح الشحنة بنجاح من الاوردر و اعادتها الي جدول الشحنات']);
             }
@@ -309,5 +309,24 @@ class ReturnsController extends Controller
         return \view('admin.returns.show_product_returns_trashed',compact('order2'));
     }
 
-   
+    public function productNote(Request $request,$id)
+    {
+
+        try
+        {
+            $product = Returns::withTrashed()->find($id);
+            $update = $product->update(
+                [
+                    'notes' => $request->notes
+                ]);
+                return redirect()->back()->with(['success' => 'تم التعديل بنجاح']);
+
+
+        } catch (\Throwable $th)
+        {
+            return redirect()->route('orders.index')->with(['error' => 'هناك خطا ما برجاء المحاولة فيما بعد']);
+        }
+    }
+
+
 }

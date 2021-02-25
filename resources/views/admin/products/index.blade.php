@@ -46,6 +46,7 @@
 												<th class="wd-15p border-bottom-0"> رقم</th>
 												<th class="wd-15p border-bottom-0"> رقم الشحنة</th>
 												<th class="wd-15p border-bottom-0">اسم المورد</th>
+												<th class="wd-15p border-bottom-0">تليفون المورد</th>
                                                 <th class="wd-15p border-bottom-0">اسم المستلم</th>
 												<th class="wd-15p border-bottom-0">تليفون المستلم</th>
 												<th class="wd-15p border-bottom-0">اسم المحافظة</th>
@@ -54,11 +55,12 @@
                                                 <th class="wd-15p border-bottom-0"> سعر الشحنة</th>
                                                 <th class="wd-15p border-bottom-0"> حالة الشحنة</th>
                                                 <th class="wd-15p border-bottom-0">  الملاحظات</th>
+                                                <th class="wd-15p border-bottom-0">  تاريخ التسليم</th>
                                                 <th class="wd-10p border-bottom-0">الاجرائات</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            
+
                                             @php
                                                 $x = 1;
                                             @endphp
@@ -66,16 +68,18 @@
                                                 <tr class="productRow{{ $product->id }}">
                                                     <td>{{ $x++ }}</td>
                                                     <td>{{ $product->package_number }}</td>
-                                                    <td>{{ $product->supplier->name }}</td> 
-                                                    <td>{{ $product->resever_name }}</td> 
-                                                    <td>{{ $product->resver_phone }}</td>  
-                                                    <td>{{ $product->cities->governorate->name }}</td> 
-                                                    <td>{{ $product->cities->name }}</td> 
-                                                    <td>{{ $product->adress }}</td> 
-                                                    <td>{{ $product->product_price }}</td> 
-                                                    <td>{{ $product->status->name }}</td> 
-                                                    <td>{{ $product->notes }}</td> 
-                
+                                                    <td>{{ $product->supplier->name }}</td>
+                                                    <td>{{ $product->supplier->phone }}</td>
+                                                    <td>{{ $product->resever_name }}</td>
+                                                    <td>{{ $product->resver_phone }}</td>
+                                                    <td>{{ $product->cities->governorate->name }}</td>
+                                                    <td>{{ $product->cities->name }}</td>
+                                                    <td>{{ $product->adress }}</td>
+                                                    <td>{{ $product->product_price }}</td>
+                                                    <td>{{ $product->status->name }}</td>
+                                                    <td>{{ $product->notes }}</td>
+                                                    <td>{{ $product->rescive_date }}</td>
+
                                                     <td>
                                                         <div class="btn-icon-list">
                                                             <a href="{{ route('products.edit',$product->id) }}">
@@ -151,13 +155,16 @@
 			$('#product_id_error').text('');
 			$('#city_id_error').text('');
 			$('#adress_error').text('');
+			$('#shipping_price_error').text('');
+			$('#total_price_error').text('');
 			$('#product_price_error').text('');
 			$('#status_id_error').text('');
 			$('#notes_error').text('');
-			
+			$('#rescive_date').text('');
+
 
 			//Get Form Data
-			var formData = new FormData($('#createٍProduct')[0]);            
+			var formData = new FormData($('#createٍProduct')[0]);
 
 			$.ajax(
 			{
@@ -170,25 +177,29 @@
 				success: function(data)
 				{
                     console.log(data);
-                    
+
                     if(data)
 					{
 						var x =   '{{ url("admin/products/edit/") }}/'+data.dataa.id;
 						var product_id = $(this).attr('product_id');
 						var rowD = $("table").attr('rowID');
 
+
+
 						$("#example1 tbody").append('<tr class="productRow'+data.dataa.id+'"><td>'+rowD+'</td>'+
 							'<td>'+data.dataa.package_number+'</td>'+
 							'<td>'+data.sup[0].name+'</td>'+
+							'<td>'+data.sup[0].phone+'</td>'+
 							'<td>'+data.dataa.resever_name+'</td>'+
 							'<td>'+data.dataa.resver_phone+'</td>'+
 							'<td>'+data.cit[0].governorate.name+'</td>'+
 							'<td>'+data.cit[0].name+'</td>'+
 							'<td>'+data.dataa.adress+'</td>'+
 							'<td>'+data.dataa.product_price+'</td>'+
-							'<td>'+data.stat.name+'</td>'+	
+							'<td>'+data.stat.name+'</td>'+
 							'<td>'+data.dataa.notes+'</td>'+
-							
+							'<td>'+data.dataa.rescive_date+'</td>'+
+
 							'<td>'+
 								'<div class="btn-icon-list">'+
 									'<a href="'+x+'">'+
@@ -204,12 +215,12 @@
 								'</div>'+
 							'</td>'+
 						'</tr>');
-					}			
+					}
 
 
 					if(data.status == true)
 					{
-						
+
 						if(data.status == true)
 						{
                             $('#success').html(data.msg);
@@ -228,11 +239,11 @@
 					{
 						$("#" + key + "_error").text(val[0]);
 					});
-				}    
+				}
 
 			});
 		});
-	</script>   
+	</script>
 
 	{{--  DELETE CITY   --}}
 	<script>
@@ -240,31 +251,31 @@
 		{
 			e.preventDefault();
 
-			
 
-			//Get Form Data           
+
+			//Get Form Data
             var product_id = $(this).attr('product_id');
-            
+
 			$.ajax(
 			{
 				type: 'post',
 				url: "{{route('products.destroy')}}",
-				data: 
+				data:
 				{
 					'_token' : "{{ csrf_token() }}",
              		'id'     : product_id
 				},
-				
+
 				success: function(data)
 				{
 					if(data.status == true)
 					{
-						
+
 						if(data.status == true)
 						{
 							$('#successMsg').show().fadeOut(500);
                         }
-                        
+
                         // DELETE ROW FROM TABLE
                         $('.productRow'+data.id).remove();
 					}
@@ -276,21 +287,21 @@
 					{
 					$("#" + key + "_error").text(val[0]);
 					});
-				}    
+				}
 
 			});
 		});
-    </script>  
+    </script>
 
      {{--  GET CITIES  --}}
     <script>
-        
+
          $(document).ready(function()
          {
              $('#gov').on('change',function()
              {
                  var gov = $(this).val();
- 
+
                  if(gov)
                  {
                      $.ajax(
@@ -314,4 +325,32 @@
              });
          });
     </script>
+
+    {{-- GET PRODUCT PRICE --}}
+
+<script>
+
+    $(document).ready(function()
+    {
+        // $('#totalPrice').on('change',function()
+        // {
+            var total_price = $('#totalPrice').val();
+            var shipping_price = $("#shippingPrice").val();
+            var product_price = $("#productPrice").val(total_price-shipping_price);
+            // alert(product_price);
+//
+            // if (shipping_price.length > 0 && shipping_price !=null)
+            // {
+            //
+            // }
+
+            if (total_price.value !== '')
+            {
+                alert("hello");
+            }
+
+
+        // });
+    });
+</script>
 @endsection

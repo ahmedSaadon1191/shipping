@@ -5,8 +5,8 @@ Pull requests
 Issues
 Marketplace
 Explore
- 
-@ahmedSaadon1191 
+
+@ahmedSaadon1191
 Learn Git and GitHub without any code!
 Using the Hello World guide, you’ll start a branch, write comments, and open a pull request.
 
@@ -32,7 +32,7 @@ Latest commit f4fd0ab 11 days ago
  History
  1 contributor
 302 lines (254 sloc)  10.3 KB
-  
+
 @extends('admin.layouts.master')
 @section('css')
 <!-- Internal Data table css -->
@@ -67,10 +67,10 @@ Latest commit f4fd0ab 11 days ago
 							</option>
 						@endforeach
                     </select>
-                    <span class="text-danger" id="governorate_id_error"></span>				
+                    <span class="text-danger" id="governorate_id_error"></span>
 				</div>
 			</div>
-		
+
 
 			{{-- CITY ID  --}}
 			<div class="col-md-2">
@@ -78,12 +78,12 @@ Latest commit f4fd0ab 11 days ago
 					<label for="">اختار المدينة</label>
 					<select class="search_form_select form-control" name="city_id" id="city">
 						<option disabled selected>اختار المدينة</option>
-				
+
 					</select>
 					<span class="text-danger" id="city_id_error"></span>
-				</div> 
+				</div>
             </div>
-            
+
 			<div class="col-md-2">
 				<div class="form-group"><br>
 					<button class="btn btn-secondary btn-lg" id="makeCreateOrder" style=" margin-top:8px;">
@@ -93,7 +93,7 @@ Latest commit f4fd0ab 11 days ago
 			</div>
 		</div>
     </form>
-    
+
 
     {{--  TABLE TO SHOW ALL PRODUCTS RECIVED  --}}
 	<div class="row row-sm">
@@ -104,7 +104,7 @@ Latest commit f4fd0ab 11 days ago
 						<h4 class="card-title mg-b-0">الشحنات المتاحة بخط السير</h4>
 						<i class="mdi mdi-dots-horizontal text-gray"></i>
 					</div>
-					
+
 				</div>
 				<div class="card-body">
 
@@ -119,7 +119,7 @@ Latest commit f4fd0ab 11 days ago
 					</div>
 				{{--  END GET FLASH MESSAGES   --}}
 
-					
+
 
 					<div class="table-responsive">
 							<table class="table text-md-nowrap" id="example1">
@@ -137,10 +137,10 @@ Latest commit f4fd0ab 11 days ago
 									</tr>
 								</thead>
 								<tbody id="productRow">
-								
+
 										<tr class="productRow" >
-											
-											
+
+
 										</tr>
 
 								</tbody>
@@ -153,7 +153,7 @@ Latest commit f4fd0ab 11 days ago
 								</button>
 							</a>
 						{{-- NEXT BUTTON  --}}
-						
+
 					</div>
 				</div>
 			</div>
@@ -200,15 +200,14 @@ Latest commit f4fd0ab 11 days ago
 		$(document).on('click','#makeCreateOrder',function(e)
 		{
 			e.preventDefault();
+
+
 			// DELETE ERROR MESSAGE IF INPUT HAVE VALUE WITHOUT REFRESH PAGE
-			
-		
 			$('#governorate_id_error').text('');
 			$('#city_id_error').text('');
-			//$('#servant_id_error').text('');
-			//$('#shipping_price_error').text('');
+
 			//Get Form Data
-            var formData = new FormData($('#createٍOrder')[0]);   
+            var formData = new FormData($('#createٍOrder')[0]);
 			$.ajax(
 			{
 				type: 'post',
@@ -234,8 +233,8 @@ Latest commit f4fd0ab 11 days ago
                             "<td>"+
                                 "<button class='btn btn-success createProductToOrder' id='add' product_id="+value.id+">Add</button>"
                             +"</td>"+
-                            
-                           
+
+
                         +"</tr>")
                     });
 				},
@@ -246,39 +245,39 @@ Latest commit f4fd0ab 11 days ago
 					{
 					$("#" + key + "_error").text(val[0]);
 					});
-				}    
+				}
 			});
 		});
-	</script>   
+	</script>
 
 	{{--  CREATE PRODUCT TO ORDER   --}}
 	<script>
 		$(document).on('click','.createProductToOrder',function(e)
 		{
 			e.preventDefault();
-			
-			//Get Form Data           
+
+			//Get Form Data
            var product_id = $(this).attr('product_id');
 			$.ajax(
 			{
 				type: 'post',
 				url: "{{route('orderDetailes.addToCart')}}",
-				data: 
+				data:
 				{
 					'_token' : "{{ csrf_token() }}",
              		'id'     : product_id
 				},
-				
+
 				success: function(data)
 				{
 					if(data.status == true)
 					{
-						
+
 						if(data.status == true)
 						{
 							$('#successMsg').show();
                         }
-                        
+
                         // DELETE ROW FROM TABLE
                         $('.productRow'+data.id).remove();
 					}
@@ -290,20 +289,20 @@ Latest commit f4fd0ab 11 days ago
 					{
 					$("#" + key + "_error").text(val[0]);
 					});
-				}    
+				}
 			});
 		});
-    </script>  
+    </script>
 
      {{--  GET CITIES  --}}
     <script>
-        
+
          $(document).ready(function()
          {
              $('#gov').on('change',function()
              {
                  var gov = $(this).val();
- 
+
                  if(gov)
                  {
                      $.ajax(
@@ -328,15 +327,3 @@ Latest commit f4fd0ab 11 days ago
          });
     </script>
 @endsection
-© 2021 GitHub, Inc.
-Terms
-Privacy
-Security
-Status
-Docs
-Contact GitHub
-Pricing
-API
-Training
-Blog
-About

@@ -23,7 +23,7 @@
 <h1>فاتــــــورة خــــــــط سيـــــر</h1>
 
 
-    
+
 
     {{--  TABLE TO SHOW ALL PRODUCTS RECIVED  --}}
 	<div class="row row-sm">
@@ -53,67 +53,67 @@
 						</button>
 					</div>
 
-					
+
 				{{--  END GET FLASH MESSAGES   --}}
 
 
 				{{-- START SUBMIT FORM FOR ORDER TABLE  --}}
-					<form action="{{ route('orders.store') }}" id="createOrder" method="post" @if ($orderDetailes->count() < 1)
-						hidden
-					@endif>
-						@csrf
-						<div class="row">
-							<div class="col-md-3">
-								<div class="form-group">
-									<label for="">الاجمالي</label>
-									<input type="number" name="total_price" class="form-control" value="{{ $totalPrice }}" id="total">
-									@error("total_price")
-										<span class="text-danger">{{$message}}</span>
-									@enderror
-								</div>
-							</div>
-							<div class="col-md-3">
-								<div class="form-group">
-									
-									<label for="">اسم المندوب</label>
-									<select name="servant_id" class="form-control">
-										<option value="">اختار مندوب خط السير</option>
-										@foreach ($servants as $servant)
-											<option value="{{ $servant->id }}">
-												{{ $servant->name }}
-											</option>
-										@endforeach
-									</select>
-									@error("servant_id")
-										<span class="text-danger">{{$message}}</span>
-									@enderror
-								</div>
-								<button href="#" onclick="window.print();"  class="btn btn-info btn-lg " style=" margin-top:-90px; margin-right:360px;hieght:20px;">
-									<span  class="fa fa-print noPrint	" ></span>
-								  </button>
-							</div>
-							@if ($orders && $orders->count() > 0)
-							<div class="col-md-3">
-								<div class="form-group">
-									<label for="">رقم الفاتورة</label>
-									
-										<input type="number" value="{{ $orders->id+1 }}">
-								
-								</div>
-							</div>
-							@endif
-							
-						<div class="noPrint">
-								<div class="form-group">
-									
-									<button class="btn btn-primary form-control "  style="width:50%; margin-right:20%; background-color:#00b9ff">
-										اضافة الاوردر
-									</button>
-						</div>	
-								
-							</div>
-						</div>
-					</form>
+                <form action="{{ route('orders.store') }}" id="createOrder" method="post" @if ($orderDetailes->count() < 1)
+                    hidden
+                @endif>
+                    @csrf
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="">الاجمالي</label>
+                                <input type="number" name="total_price" class="form-control" value="{{ $totalPrice }}" id="total">
+                                @error("total_price")
+                                    <span class="text-danger">{{$message}}</span>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+
+                                <label for="">اسم المندوب</label>
+                                <select name="servant_id" class="form-control">
+                                    <option value="">اختار مندوب خط السير</option>
+                                    @foreach ($servants as $servant)
+                                        <option value="{{ $servant->id }}">
+                                            {{ $servant->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                @error("servant_id")
+                                    <span class="text-danger">{{$message}}</span>
+                                @enderror
+                            </div>
+                            <button href="#" onclick="window.print();"  class="btn btn-info btn-lg " style=" margin-top:-90px; margin-right:360px;hieght:20px;">
+                                <span  class="fa fa-print noPrint	" ></span>
+                              </button>
+                        </div>
+                        @if ($orders && $orders->count() > 0)
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="">رقم الفاتورة</label>
+
+                                    <input type="number" value="{{ $orders->id+1 }}">
+
+                            </div>
+                        </div>
+                        @endif
+
+                    <div class="noPrint">
+                            <div class="form-group">
+
+                                <button class="btn btn-primary form-control "  style="width:50%; margin-right:20%; background-color:#00b9ff">
+                                    اضافة الاوردر
+                                </button>
+                    </div>
+
+                        </div>
+                    </div>
+                </form>
 
 
 				{{-- END SUBMIT FORM FOR ORDER TABLE  --}}
@@ -143,7 +143,7 @@
 									@php
 										$x = 1;
 									@endphp
-								
+
 									@foreach ($orderDetailes as $index=>$item)
 										<tr class="productRow">
 											<td>{{ $x++ }}</td>
@@ -157,18 +157,18 @@
 												{{ $item->product->product_price}}
 											</td>
 											<td>						{{-- SHIPPING PRICE --}}
-												<form action="" class="shipping_price">
+												<form class="shipping_price">
 													<input type="number" class="price{{ $item->id }}" name="price{{ $item->id }}" style="width: 100%" id="price{{ $item->id }}" value="{{ $item->shipping_price }}">
 												<div class="noPrint">	<button row_id="{{ $item->id }}" class="change_price btn btn-success">تعديل</button> </div>
 												</form>
 											</td>
-																	{{-- TOTAL PRICE --}}	
-											<td class="total_price" id="total_price{{ $item->id }}">						
+																	{{-- TOTAL PRICE --}}
+											<td class="total_price" id="total_price{{ $item->id }}">
 												{{ $item->product->product_price + $item->shipping_price }}
 											</td>
 											<td>						{{-- CHANGE STATUS --}}
-												<form action="" class="status">										
-													<select name="status_id{{ $item->id }}" id="package_status{{ $item->id }}" class="st_id{{ $item->id }} form-control">
+												<form action="" class="status">
+													<select name="status_id{{ $item->id }}" id="package_status{{ $item->id }}" class="st_id{{ $item->id }} form-control ">
 														<option value="">اختار الحالة</option>
 														@foreach ($allStatus as $status)
 															<option value="{{ $status->id }}"@if ($status->id == $item->product_status)
@@ -188,35 +188,35 @@
 												<form action="{{ route('orderDetailes.forceDelete',$item->id) }}" method="post">
 													@csrf
 
-												<div class="noPrint">	<button class="btn btn-danger"> 
+												<div class="noPrint">	<button class="btn btn-danger">
 														Delete
 													</button>
 												</div>
 												</form>
 											</td>
-											
+
 										</tr>
 									@endforeach
-									
+
 
 								</tbody>
 							</table>
-						@else  
+						@else
 							<h1 class="text-center">لا يوجد شحنات</h1>
 						@endif
 						<div class="noPrint">
 						<p>
-							<strong style="color: #f00">Note</strong>:	يجب ادخال قيمة الشحن قبل انشاء خط السير 
+							<strong style="color: #f00">Note</strong>:	يجب ادخال قيمة الشحن قبل انشاء خط السير
 						</p>
 					</div>
 					{{-- NEXT BUTTON  --}}
 					<div class="noPrint">
 						<a href="{{ route('orders.index') }}" class="text-center " style="margin-right: 91%;">
-						
+
 							<button class="btn btn-primary">
 								متابعـــة
 							</button>
-						
+
 						</a>
 					</div>
 					{{-- NEXT BUTTON  --}}
@@ -258,80 +258,43 @@
 
 
 
-	
-	
-     {{--  GET CITIES  --}}
-    <script>
-        
-         $(document).ready(function()
-         {
-             $('#gov').on('change',function()
-             {
-                 var gov = $(this).val();
- 
-                 if(gov)
-                 {
-                     $.ajax(
-                         {
-                             url:"{{ url('/admin/orderDetailes/cities/') }}/" + gov,
-                             type:"GET",
-                             dataType:"json",
-                             success:function(data)
-                             {
-                                 $("#city").empty();
-                                 $.each(data,function(key,value)
-                                 {
-                                     $("#city").append('<option value="'+value.id+'">'+value.name+'</option>')
-                                 });
-                             }
-                         });
-                 }else
-                 {
-                     alert('Error');
-                 }
-             });
-         });
-	</script>
 
-	
+
+
+
      {{--  CHANGE STATUS  --}}
 	 <script>
 		$(document).on('click','.makeStatus',function(e)
 		{
 			e.preventDefault();
 
-			//Get Form Data           
+			//Get Form Data
 			var itemId = $(this).attr('id');
-			
-			//var item_id = document.getElementById("item_id"+itemId).value;
 			var sel_val = document.getElementById("package_status"+itemId).value;
-			
-			console.log(sel_val);
-			//console.log(item_id);
-			
+
+
 			$.ajax(
 			{
 				type: 'post',
 			url: "{{route('orderDetailes.changeStatus')}}",
-				data: 
+				data:
 				{
 					'_token' : "{{ csrf_token() }}",
 					'product_status' : sel_val,
-					'id'     : itemId, 
+					'id'     : itemId,
 				},
-				
+
 				success: function(data)
 				{
 					if(data.status == true)
 					{
-						
+
 						if(data.status == true)
 						{
-							//$('#successMsg').show();
-								$('#Smessage').html(data.msg);
-								$('#successStatus').show().fadeOut(3000);
+							$('#Smessage').html(data.msg);
+							$('#successStatus').show().fadeOut(500);
                         }
-                        
+
                         // DELETE ROW FROM TABLE
                         $('.supplierRow'+data.id).remove();
 					}
@@ -343,66 +306,70 @@
 					{
 					$("#" + key + "_error").text(val[0]);
 					});
-				}    
+				}
 
 			});
 		});
-	</script>  
-	
+	</script>
+
 
      {{--  CHANGE SHIPPING PRICE  --}}
 	 <script>
 		$(document).on('click','.change_price',function(e)
 		{
 			e.preventDefault();
-			
-			//Get Form Data           
+
+			//Get Form Data
 			var itemId = $(this).attr('row_id');
-			
+
 			var sel_val = document.getElementById("price"+itemId).value;
 			var productPrice_row = $("#product_price"+itemId).html();
-			
+
 			//GET CALCULATE OF TOTAL PRICE FOR EVRY ROW
 			var sumRow = parseFloat(sel_val) + parseFloat(productPrice_row);
 			var total_price_row = document.getElementById("total_price"+itemId).innerHTML=sumRow;
-			
+
+			//var item_id = document.getElementById("item_id"+itemId).value;
+			var ahmed = document.getElementById("package_status"+itemId).value;
+
+
 
 
 			//CALCULATE TOTAL PRICE OF ORDER IN TOTAL INPUT
 			var numRow =  $(".total_price").length;
-			
+
 			var sum = 0;
-			$('.total_price').each(function () 
+			$('.total_price').each(function ()
 			{
 				sum += Number($(this).html());
         	});
 
         $('#total').val(sum);
-			
+
 			$.ajax(
 			{
 				type: 'post',
 				url: "{{route('orderDetailes.changeShippingPrice')}}",
-				data: 
+				data:
 				{
 					'_token' : "{{ csrf_token() }}",
 					'price' : sel_val,
-					'id'     : itemId, 
+					'id'     : itemId,
 				},
-				
+
 				success: function(data)
 				{
 					//$("#createOrder")[0].reset();
 					if(data.status == true)
 					{
-						
+
 						if(data.status == true)
 						{
-							
+
 							$('#successMsg').show().fadeOut(3000);
-							
+
                         }
-                        
+
                         // DELETE ROW FROM TABLE
                         $('.supplierRow'+data.id).remove();
 					}
@@ -414,9 +381,9 @@
 					{
 					$("#" + key + "_error").text(val[0]);
 					});
-				}    
+				}
 
 			});
 		});
-    </script>  
+    </script>
 @endsection

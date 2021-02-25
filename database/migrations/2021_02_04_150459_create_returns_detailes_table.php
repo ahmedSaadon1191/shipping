@@ -15,7 +15,8 @@ class CreateReturnsDetailesTable extends Migration
     {
         Schema::create('returns_detailes', function (Blueprint $table) {
             $table->increments('id');
-			$table->timestamps();
+			$table->date('created_at');
+			$table->date('updated_at');
 			$table->integer('returns_id')->unsigned();
 			$table->integer('shipping_price')->unsigned()->default(0);
 			$table->integer('total_price')->unsigned()->default(0);

@@ -15,7 +15,9 @@ class CreateReturnsTable extends Migration
     {
         Schema::create('returns', function (Blueprint $table) {
             $table->increments('id');
-			$table->timestamps();
+			$table->date('created_at');
+			$table->date('updated_at');
+			$table->date('rescive_date');
 			$table->string('resever_name', 100);
 			$table->string('resver_phone', 100)->unique();
 			$table->integer('supplier_id')->unsigned();

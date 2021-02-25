@@ -9,7 +9,8 @@ class CreateOrdersTable extends Migration {
 	{
 		Schema::create('orders', function(Blueprint $table) {
 			$table->increments('id');
-			$table->timestamps();
+			$table->date('created_at');
+			$table->date('updated_at');
 			$table->integer('servant_id')->unsigned();
 			$table->integer('status_id')->unsigned();
 			$table->boolean('coming_from')->default(0);

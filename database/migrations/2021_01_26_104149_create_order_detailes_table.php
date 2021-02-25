@@ -9,12 +9,14 @@ class CreateOrderDetailesTable extends Migration {
 	{
 		Schema::create('order_detailes', function(Blueprint $table) {
 			$table->increments('id');
-			$table->timestamps();
-			$table->integer('product_id')->unsigned();
+            $table->date('created_at');
+			$table->date('updated_at');
+            $table->integer('product_id')->unsigned();
 			$table->integer('shipping_price')->unsigned()->default(0);
 			$table->integer('total_price')->unsigned()->default(0);
 			$table->integer('order_id')->unsigned()->nullable();
 			$table->string('product_status', 255);
+			$table->text('notes')->nullable();
 			$table->softDeletes();
 
 

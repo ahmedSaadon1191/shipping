@@ -1,4 +1,4 @@
-@extends('admin.layouts.master')
+d@extends('admin.layouts.master')
 
 @section('content')
     <div class="breadcrumb-header justify-content-between">
@@ -11,7 +11,7 @@
 
     <!-- row -->
         <div class="row row-sm">
-            
+
             <div class="col-lg-12 col-xl-12 col-md-12 col-sm-12">
                 <div class="card  box-shadow-0 ">
                     <div class="card-header">
@@ -21,13 +21,13 @@
                     <div class="card-body pt-0">
                         <form  class="parsley-style-1"  name="selectForm2" novalidate="" action="{{ route('cities.update',$city->id) }}" method="POST">
                             @csrf
-                            
-                        
+
+
                             <div class="row">
-                        
+
                                 {{--  GOVERNORATE ID   --}}
                                 <input type="hidden" name="city_id"  value="{{ $city->id }}" >
-                            
+
                                 {{--  CITY NAME   --}}
                                 <div class="col-md-6">
                                     <div class="form-group">
@@ -54,26 +54,26 @@
                                                 </option>
                                             @endforeach
                                         </select>
-                                       
+
                                             <span class="text-danger" id="governorate_id_error"></span>
                                     </div>
                                 </div>
-                        
+
                              <div class="col-md-6">
                                 <div class="mg-t-30">
                                     <button class="btn btn-main-primary pd-x-20 makeUpdateCity"  type="submit">تعديل بيانات المدينة </button>
                                 </div>
                              </div>
-                            
-                        </form> 
+
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
     <!-- row -->
 
-				
-			
+
+
 @endsection
 
 

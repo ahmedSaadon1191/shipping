@@ -9,7 +9,8 @@ class CreateServantsTable extends Migration {
 	{
 		Schema::create('servants', function(Blueprint $table) {
 			$table->increments('id');
-			$table->timestamps();
+			$table->date('created_at');
+			$table->date('updated_at');
 			$table->string('name', 255);
 			$table->string('adress', 255);
 			$table->string('phone', 100);

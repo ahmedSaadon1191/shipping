@@ -16,7 +16,7 @@
 <br><br>
 
 
-    
+
 
     {{--  TABLE TO SHOW ALL PRODUCTS RECIVED  --}}
 	<div class="row row-sm">
@@ -25,7 +25,7 @@
 				<div class="card-header pb-0">
 					<div class="d-flex justify-content-between">
 						<h4 class="card-title mg-b-0">كل الاوردرات</h4>
-						
+
 					</div>
 					<p class="tx-12 tx-gray-500 mb-2">Example of Valex Simple Table. <a href="">Learn more</a></p>
 				</div>
@@ -48,10 +48,10 @@
 						</button>
 					</div>
 
-					
+
 				{{--  END GET FLASH MESSAGES   --}}
 
-		
+
 
 
 					<div class="table-responsive">
@@ -71,8 +71,8 @@
 									@php
 										$x = 1;
 									@endphp
-								
-									
+
+
 									@foreach ($orders as $order)
 										<tr class="productRow">
 											<td>{{ $x++ }}</td>
@@ -80,6 +80,8 @@
 											<td>{{ $order->total_prices}}</td>
 											<td>{{ $order->status->name}}</td>
 											<td>{{ $order->created_at}}</td>
+
+
 											<td>
 												<div class="btn-icon-list">
 													<a href="{{ route('orders.edit',$order->id) }}">
@@ -90,29 +92,85 @@
 													</a>
 													@if (!$order->orders_detailes && !$order->returnsDetailes)
 														@if ($order->orders_detailes->count() < 1 && $order->returnsDetailes->count() < 1)
-														
+
 															<form action="{{ route('orders.makeSoftDelete',$order->id) }}" method="post">
 																@csrf
-																
+
 																<button class="btn btn-primary btn-icon"><i class="fa fa-trash"></i></button>
 															</form>
 														@endif
 													@endif
-								
-													
+
+
 												</div>
 											</td>
-										
-										
+
+
 										</tr>
 									@endforeach
-									
+
 
 								</tbody>
 							</table>
-						@else  
+						@elseif($returns && $returns->count() > 0)
+
+                        <table class="table text-md-nowrap" id="example1">
+                            <thead>
+                                <tr>
+                                    <th class="wd-15p border-bottom-0"> رقم الاوردر</th>
+                                    <th class="wd-15p border-bottom-0">اسم المندوب</th>
+                                    <th class="wd-15p border-bottom-0"> اجمالي الشحن</th>
+                                    <th class="wd-15p border-bottom-0"> حالة الشحنة</th>
+                                    <th class="wd-15p border-bottom-0">تاريخ التسليم</th>
+                                    <th class="wd-15p border-bottom-0"> الاجرائات</th>
+                                </tr>
+                            </thead>
+                            <tbody >
+                                @php
+                                    $x = 1;
+                                @endphp
+
+
+                                @foreach ($returns as $return)
+                                    <tr class="productRow">
+                                        <td>{{ $x++ }}</td>
+                                        <td>{{ $order->servant->name}}</td>
+                                        <td>{{ $order->total_prices}}</td>
+                                        <td>{{ $order->status->name}}</td>
+                                        <td>{{ $order->created_at}}</td>
+                                        <td>
+                                            <div class="btn-icon-list">
+                                                <a href="{{ route('orders.edit',$order->id) }}">
+                                                    <button class="btn btn-indigo btn-icon"><i class="fa fa-edit"></i></button>
+                                                </a>
+                                                <a href="{{ route('orders.show',$order->id) }}">
+                                                    <button class="btn btn-primary btn-icon"><i class="typcn typcn-calendar-outline"></i></button>
+                                                </a>
+                                                @if (!$order->orders_detailes && !$order->returnsDetailes)
+                                                    @if ($order->orders_detailes->count() < 1 && $order->returnsDetailes->count() < 1)
+
+                                                        <form action="{{ route('orders.makeSoftDelete',$order->id) }}" method="post">
+                                                            @csrf
+
+                                                            <button class="btn btn-primary btn-icon"><i class="fa fa-trash"></i></button>
+                                                        </form>
+                                                    @endif
+                                                @endif
+
+
+                                            </div>
+                                        </td>
+
+
+                                    </tr>
+                                @endforeach
+
+
+                            </tbody>
+                        </table>
+                        @else
 							<h1 class="text-center">لا يوجد اوردرات</h1>
-						  @endif
+                        @endif
 					</div>
 				</div>
 			</div>

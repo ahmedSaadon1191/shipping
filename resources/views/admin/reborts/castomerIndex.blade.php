@@ -20,10 +20,10 @@
 	<div class="row row-sm">
 		<div class="col-xl-12">
 			<div class="card">
-				<div class="card-header pb-0">	
+				<div class="card-header pb-0">
 					<form action="getCastomer_reborts" method="post">
                         @csrf
-                        
+
                        <div class="row">
                             <div class="form-group col-md-3">
                                 <label for="">اختار مورد</label>
@@ -33,26 +33,36 @@
                                         <option value="{{$item->id}}">{{$item->name}}</option>
                                     @endforeach
                                 </select>
+                                @error("date")
+                                    <span class="text-danger">{{$message}}</span>
+                                @enderror
                             </div>
                             <div class="form-group col-md-3">
                                 <label>من :</label>
                                 <input type="date" name="date1" class="form-control">
+                                @error("date1")
+                                <span class="text-danger">{{$message}}</span>
+                                @enderror
                             </div>
                             <div class="form-group col-md-3">
                                 <label>الي :</label>
                                 <input type="date" name="date2" class="form-control">
+                                @error("date2")
+                                    <span class="text-danger">{{$message}}</span>
+                                @enderror
                             </div>
                             <div class="form-group col-md-3">
                                 <input type="submit"  class="btn btn-primary btn-lg"   value="عرض" class="form-control" style="margin-top: 10%">
                             </div>
-                       </div>		
-                    </form> 
+
+                       </div>
+                    </form>
 			    </div>
 		    </div>
 	    </div>
     </div>
 
-	
+
 
 @endsection
 

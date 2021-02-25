@@ -11,7 +11,7 @@
 
     <!-- row -->
         <div class="row row-sm">
-            
+
             <div class="col-lg-12 col-xl-12 col-md-12 col-sm-12">
                 <div class="card  box-shadow-0 ">
                     <div class="card-header">
@@ -22,13 +22,13 @@
                         <form  class="parsley-style-1"  name="selectForm2"  action="{{ route('admins.update',$admin->id) }}" method="POST">
                             @csrf
                             @method('PUT')
-                            
-                        
+
+
                             <div class="row">
-                        
+
                                 {{--  ADMIN ID   --}}
                                 <input type="hidden" name="admin_id"  value="{{ $admin->id }}" >
-                            
+
                                 {{--  ADMIN NAME   --}}
                                 <div class="col-md-6">
                                     <div class="form-group">
@@ -62,30 +62,21 @@
                                     </div>
                                 </div>
 
-                                 ADMIN PASSWORD  
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="">الباسورد </label>
-                                        <input type="password" name="password" class="form-control" placeholder="ادخل الباسورد" value="">
-                                        @error("password")
-                                            <span class="text-danger">{{$message}}</span>
-                                        @enderror
-                                    </div>
-                                </div>
-                        
-                             
+                               
+
+
                             <div class="mg-t-30">
                                 <button class="btn btn-main-primary pd-x-20 makeUpdateGov"  type="submit">تعديل بيانات المدير </button>
                             </div>
-                        </form> 
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
     <!-- row -->
 
-				
-			
+
+
 @endsection
 
 

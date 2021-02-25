@@ -29,7 +29,7 @@ class ordersController extends Controller
                     'total_prices' => $request->total_price,
                 ]);
 
-                // CREATE ORDER ID IN ORDER DETAILES TABLE 
+                // CREATE ORDER ID IN ORDER DETAILES TABLE
             $orderDetailes = OrderDetailes::where('order_id',null)->get();
             $order_id = $create->id;
                 foreach($orderDetailes as $item)
@@ -52,12 +52,15 @@ class ordersController extends Controller
 
         $emptyOrder = Order::whereHas('orders_detailes')->with([
                 "orders_detailes" => function ($query) {
-                    $query->where('product_status', 4); 
+                    $query->where('product_status', 4);
                 }
             ])->get();
+
+            $returns = Order::withTrashed()->with('returns')->whereHas('returns')->get();
+            // return $returns;
         // return $emptyOrder;
 
-       return view('admin.orders.index',\compact('orders','emptyOrder'));
+       return view('admin.orders.index',\compact('orders','emptyOrder','returns'));
    }
 
    public function edit($id)
@@ -71,10 +74,10 @@ class ordersController extends Controller
 
             }else
             {
-                $allStatus = Status::all(); 
+                $allStatus = Status::all();
                 return \view('admin.orders.edit',\compact('order','allStatus'));
             }
-        }catch (\Throwable $th) 
+        }catch (\Throwable $th)
         {
             return $th;
             return \redirect()->route('orders.index')->with(['error' => 'هناك خطا ما برجاء المحاولة فيما بعد']);
@@ -89,7 +92,7 @@ class ordersController extends Controller
                 $order = Order::withTrashed()->with('orders_detailes')->find($id);
                 $last_status_id = Status::where('deleted_at',null)->get()->last()->id;
 
-            // CHECK IF ORDER IS FOUND IND DATA BASE 
+            // CHECK IF ORDER IS FOUND IND DATA BASE
                 if(!$order)
                 {
                     return \redirect()->route('orders.index')->with(['error' => 'هذا العنصر غير موجود']);
@@ -104,7 +107,7 @@ class ordersController extends Controller
                             'notes' => $request->notes,
                         ]);
 
-                        // $orderItems = $order->orders_detailes; 
+                        // $orderItems = $order->orders_detailes;
                         // foreach($orderItems as $item)
                         // {
                         //     $item->update(
@@ -124,7 +127,7 @@ class ordersController extends Controller
                     {
                         $order->delete();
 
-                        $orderItems = $order->orders_detailes; 
+                        $orderItems = $order->orders_detailes;
                         foreach($orderItems as $item)
                         {
                             $item->delete();
@@ -135,7 +138,7 @@ class ordersController extends Controller
                     {
                         $order->delete();
 
-                        $orderItems = $order->orders_detailes; 
+                        $orderItems = $order->orders_detailes;
                         foreach($orderItems as $item)
                         {
                             $item->delete();
@@ -144,7 +147,7 @@ class ordersController extends Controller
 
                 return \redirect()->route('orders.index')->with(['success' => 'تم تعديل حالة الاوردر بنجاح']);
             }
-        }catch (\Throwable $th) 
+        }catch (\Throwable $th)
         {
             return $th;
             return \redirect()->route('orders.index')->with(['error' => 'هناك خطا ما برجاء المحاولة فيما بعد']);
@@ -168,10 +171,10 @@ class ordersController extends Controller
             {
                 $allStatus = Status::where('deleted_at',null)->get();
                 $statusReturns = Status::where('deleted_at',null)->where('name','<>','تم رفضه')->where('name','<>','تاجيل')->get();
-                
+
                 return \view('admin.orders.show',\compact('order','allStatus','order2','statusReturns'));
             }
-        }catch (\Throwable $th) 
+        }catch (\Throwable $th)
         {
             return $th;
             return \redirect()->route('orders.index')->with(['error' => 'هناك خطا ما برجاء المحاولة فيما بعد']);
@@ -181,8 +184,9 @@ class ordersController extends Controller
     public function changeStatusItems(Request $request)
     {
         $prderDetailesRow = OrderDetailes::withTrashed()->find($request->id);
+        // return $prderDetailesRow;
         $last_status_id = Status::where('deleted_at',null)->get()->last()->id;
-       
+
         // لو حالة الاوردر تم التحصيل لا يمكن مسح اي عنصر داخله
         if($prderDetailesRow->order->status_id == $last_status_id)
         {
@@ -194,18 +198,24 @@ class ordersController extends Controller
 
         }else
         {
-            // UPDATE STATUS ROW IN ORDER DETAILES TABLE 
+            // UPDATE STATUS ROW IN ORDER DETAILES TABLE
             if($request->item_status == 3 || $request->item_status == 4)
             {
-                  
-            //UPDATE STATUS ROW IN ORDER DETAILES  TABLE 
+
+            //UPDATE STATUS ROW IN ORDER DETAILES  TABLE
                  $orderDetailesStatus = $prderDetailesRow->update(['product_status' => $request->item_status]);
 
-            //UPDATE STATUS ROW IN PRODUCTS TABLE 
+            //UPDATE STATUS ROW IN PRODUCTS TABLE
                  $productsStatus = $prderDetailesRow->product->update(['status_id' => $request->item_status]);
-               
-            
-                // STORE ITEM ROW IN RETURNS TABLE 
+
+            // UPDATE TOTAL PRICE IN ORDER TABLE
+                $total_price = $prderDetailesRow->order->update(
+                    [
+                        'total_prices' => $request->total
+                    ]);
+
+
+                // STORE ITEM ROW IN RETURNS TABLE
                     $create = Returns::create(
                         [
                             'resever_name' => $prderDetailesRow->product->resever_name,
@@ -217,22 +227,23 @@ class ordersController extends Controller
                             'status_id' => $prderDetailesRow->product->status_id,
                             'package_number' => $prderDetailesRow->product->package_number,
                             'notes' => $prderDetailesRow->product->notes,
-                            'order_id' => $prderDetailesRow->order->id
+                            'order_id' => $prderDetailesRow->order->id,
+                            'rescive_date' => $prderDetailesRow->product->rescive_date
                         ]);
 
-                // MAKE SOFT DELETE FOR THIS ROW FROM ORDER DETAILES TABLE 
-                    $delete = $prderDetailesRow->delete();   
+                // MAKE SOFT DELETE FOR THIS ROW FROM ORDER DETAILES TABLE
+                    $delete = $prderDetailesRow->delete();
 
             }else
-            {   
-                //UPDATE ITEM ROW IN ORDER DETAILES TABLE 
+            {
+                //UPDATE ITEM ROW IN ORDER DETAILES TABLE
                 $prderDetailesRow->update(
                     [
                         'product_status' => $request->item_status
                     ]);
-                    
 
-                 //UPDATE STATUS ROW IN PRODUCTS  TABLE 
+
+                 //UPDATE STATUS ROW IN PRODUCTS  TABLE
                 $product = $prderDetailesRow->product->update(['status_id' => $request->item_status]);
                 return \response()->json(
                     [
@@ -242,8 +253,8 @@ class ordersController extends Controller
             }
             return back();
         }
-        
-       
+
+
     }
 
 
@@ -260,14 +271,14 @@ class ordersController extends Controller
             {
                 return \redirect()->route('orders.index')->with(['error' => 'لا يوجد اوردرات محزوفة ']);
             }
-        }catch (\Throwable $th) 
+        }catch (\Throwable $th)
         {
-    
+
             return $th;
             return \redirect()->route('orders.index')->with(['error' => 'هناك خطا ما برجاء المحاولة فيما بعد']);
         }
     }
-    
+
     public function makeSoftDelete($id)
     {
         try
@@ -280,7 +291,7 @@ class ordersController extends Controller
                     [
                         'status_id' => 4
                     ]);
-                    
+
                 $orders->delete();
                 return \redirect()->back()->with(['success' => 'تم حزف الاوردر بنجاح']);
 
@@ -288,9 +299,9 @@ class ordersController extends Controller
             {
                 return \redirect()->route('orders.index')->with(['error' => 'لا يوجد اوردرات محزوفة ']);
             }
-        }catch (\Throwable $th) 
+        }catch (\Throwable $th)
         {
-    
+
             return $th;
             return \redirect()->route('orders.index')->with(['error' => 'هناك خطا ما برجاء المحاولة فيما بعد']);
         }
@@ -301,10 +312,10 @@ class ordersController extends Controller
         $order_restore = Order::withTrashed()->with('orders_detailes')->where('id',$request->id);
         $order_restore2 = Order::withTrashed()->with('orders_detailes')->where('id',$request->id)->get();
         $last_status_id = Status::where('deleted_at',null)->get()->last()->id;
-        
-       
-        
-        // RESTORE ORDER 
+
+
+
+        // RESTORE ORDER
         $order_restore->restore();
 
         // CHANGE ORDER STATUS TO PENDING
@@ -313,7 +324,7 @@ class ordersController extends Controller
                 'status_id' => 1
             ]);
 
-        
+
 
         return \response()->json(
             [
@@ -334,8 +345,27 @@ class ordersController extends Controller
     {
        $order = Order::withTrashed()->with('orders_detailes')->whereHas('orders_detailes')->find($id);
        $order2 = Order::withTrashed()->with('returns_detailes')->whereHas('returns_detailes')->find($id);
-    //    return $order;
+        //    return $order;
         return view('admin.orders.show_order_detailes',compact('order','order2'));
     }
-    
+
+    public function productNote(Request $request,$id)
+    {
+
+        try
+        {
+            $product = OrderDetailes::withTrashed()->find($id);
+            $update = $product->update(
+                [
+                    'notes' => $request->notes
+                ]);
+                return redirect()->back()->with(['success' => 'تم التعديل بنجاح']);
+
+
+        } catch (\Throwable $th)
+        {
+            return redirect()->route('orders.index')->with(['error' => 'هناك خطا ما برجاء المحاولة فيما بعد']);
+        }
+    }
+
 }

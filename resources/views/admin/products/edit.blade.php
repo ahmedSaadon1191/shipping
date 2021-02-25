@@ -11,7 +11,7 @@
 
     <!-- row -->
         <div class="row row-sm">
-            
+
             <div class="col-lg-12 col-xl-12 col-md-12 col-sm-12">
                 <div class="card  box-shadow-0 ">
                     <div class="card-header">
@@ -21,10 +21,10 @@
                     <div class="card-body pt-0">
                         <form  class="parsley-style-1"  name="selectForm2" novalidate="" action="{{ route('products.update',$product->id) }}" method="POST">
                             @csrf
-                            
-                        
+
+
                             <div class="row">
-                        
+
                                 {{--  PRODUCT ID   --}}
                                 <input type="hidden" name="product_id"  value="{{ $product->id }}" >
 
@@ -32,8 +32,8 @@
                                 @foreach ($gover_id as $g_id)
                                     <input type="hidden"  value="{{ $g_id->governorate->id }}" id="getGov" >
                                 @endforeach
-                                
-                            
+
+
                                  {{--  SUPPLIER ID   --}}
                                  <div class="col-md-6">
                                     <div class="form-group">
@@ -48,7 +48,7 @@
                                                 </option>
                                             @endforeach
                                         </select>
-                                    
+
                                         <span class="text-danger" id="supplier_id_error"></span>
                                     </div>
                                 </div>
@@ -58,17 +58,17 @@
                                     <div class="form-group">
                                         <label for="">اسم المستلم</label>
                                         <input type="text" name="resever_name" class="form-control" placeholder="ادخل اسم المستلم" value="{{ $product->resever_name }}">
-                                    
+
                                             <span class="text-danger" id="resever_name_error"></span>
                                     </div>
                                 </div>
-                                
+
                                 {{--  RESEVER PHONE   --}}
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="">تليفون المستلم</label>
                                         <input type="text" name="resver_phone" class="form-control" placeholder="ادخل تليفون المستلم" value="{{ $product->resver_phone }}">
-                                    
+
                                             <span class="text-danger" id="resver_phone_error"></span>
                                     </div>
                                 </div>
@@ -79,10 +79,10 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="">اسم المحافظة</label>
-                                        
+
                                         <select  class="form-control" id="gov">
                                             <option value="">اختار محافظة</option>
-                                            
+
                                             @foreach ($governorates as $gov)
                                                 <option value="{{ $gov->id }}"  @if ($gov->id == $supplier->governorate_id)
                                                     selected
@@ -93,7 +93,7 @@
                                         </select>
                                     </div>
                                 </div>
-                               
+
 
                                {{-- CITY ID  --}}
                                 <div class="col-md-6">
@@ -101,10 +101,10 @@
                                         <label for="">اختار المدينة</label>
                                         <select class="search_form_select form-control" name="city_id" id="city">
                                             <select class="form-control input-lg dynamic" name="city_id" id="city" disabled>
-                                    
+
                                         </select>
                                         <span class="text-danger" id="city_id_error"></span>
-                                    </div> 
+                                    </div>
                                 </div>
 
                                 {{--  ADRESS   --}}
@@ -112,20 +112,42 @@
                                     <div class="form-group">
                                         <label for="">عنوان المستلم</label>
                                         <input type="text" name="adress" class="form-control" placeholder="ادخل عنوان المستلم" value="{{ $product->adress }}">
-                                    
+
                                         <span class="text-danger" id="adress_error"></span>
                                     </div>
                                 </div>
+
+                                 {{--  TOTAL PRICE   --}}
+                                 <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="">اجمالي سعر الشحنة</label>
+                                        <input type="number" name="total_price" class="form-control" placeholder="ادخل اجمالي سعر الشحنة" id="totalPrice" value="{{ $product->total_price }}">
+
+                                        <span class="text-danger" id="total_price_error"></span>
+                                    </div>
+                                </div>
+
+                                {{--  SHIPPING PRICE   --}}
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="">سعر الشحن</label>
+                                        <input type="number" name="shipping_price" class="form-control" placeholder="ادخل قيمة الشحن" id="shippingPrice" value="{{ $product->shipping_price }}">
+
+                                        <span class="text-danger" id="shipping_price_error"></span>
+                                    </div>
+                                </div>
+
 
                                 {{--  PRODUCT PRICE   --}}
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="">سعر الشحنة</label>
                                         <input type="number" name="product_price" class="form-control" placeholder="ادخل سعر الشحنة" value="{{ $product->product_price }}">
-                                    
+
                                         <span class="text-danger" id="product_price_error"></span>
                                     </div>
                                 </div>
+
 
                                  {{--  STATUS ID   --}}
                                  <div class="col-md-6" hidden>
@@ -141,7 +163,7 @@
                                                 </option>
                                             @endforeach
                                         </select>
-                                    
+
                                         <span class="text-danger" id="status_id_error"></span>
                                     </div>
                                 </div>
@@ -153,19 +175,19 @@
                                         <textarea name="notes" id="" cols="50" rows="5">
                                             {{ $product->notes }}
                                         </textarea>
-                                    
+
                                         <span class="text-danger" id="notes_error"></span>
                                     </div>
                                 </div>
 
-                        
+
                              <div class="col-md-6">
                                 <div class="mg-t-30">
                                     <button class="btn btn-main-primary pd-x-20 makeUpdateCity"  type="submit">تعديل بيانات المورد </button>
                                 </div>
                              </div>
-                            
-                        </form> 
+
+                        </form>
                     </div>
                 </div>
             </div>
@@ -177,7 +199,7 @@
             $(document).ready(function()
             {
                 var gov_id_selected = $('#getGov').val();
-          
+
                 if(gov_id_selected != null)
                 {
                     //alert(gov_id_selected);
@@ -201,7 +223,7 @@
                     $('#gov').on('change',function()
                     {
                         var gov = $(this).val();
-        
+
                         if(gov)
                         {
                             $.ajax(
@@ -225,8 +247,8 @@
         </script>
     @endsection
 
-				
-			
+
+
 @endsection
 
 

@@ -19,7 +19,7 @@ class orderDetailesController extends Controller
     {
         $governorates = Governorate::all();
         $servants = Servant::all();
-       
+
         return view('admin.orderDetailes.create',compact('governorates','servants'));
     }
 
@@ -37,7 +37,7 @@ class orderDetailesController extends Controller
         return \response()->json($productsReturend);
     }
 
-    public function forceDelete($id)      // DELETE ITEMS FROM ORDER DETAILES TABLE IF I DON,T CREATED NEW ORDER 
+    public function forceDelete($id)      // DELETE ITEMS FROM ORDER DETAILES TABLE IF I DON,T CREATED NEW ORDER
     {
         // GET ITEM FROM ORDER DETAILES TABLE  TO DELETE IT
             $item = OrderDetailes::withTrashed()->find($id);
@@ -49,13 +49,13 @@ class orderDetailesController extends Controller
             }else
             {
 
-        // RESTORE ITEM TO PRODUCTS TABLE 
+        // RESTORE ITEM TO PRODUCTS TABLE
             $item->product->restore();
 
-        // CHANGE STATUS OF ITEM RESTORING TO PENDING 
-            $update = $item->product->update(['status_id' => 1]);                
+        // CHANGE STATUS OF ITEM RESTORING TO PENDING
+            $update = $item->product->update(['status_id' => 1]);
 
-        // FORCE DELETE FOR THIS ITEM FROM ORDER DETAILES TABLE 
+        // FORCE DELETE FOR THIS ITEM FROM ORDER DETAILES TABLE
                 $item->forceDelete();
                 return \redirect()->back()->with(['success' => 'تم مسح الشحنة بنجاح من الاوردر و اعادتها الي جدول الشحنات']);
             }
@@ -64,16 +64,19 @@ class orderDetailesController extends Controller
 
     public function addToCart(Request $request)     // TO ADD PRODUCT TO ORDER DETAILES PAGE AND DELETE IT FROM PRODUCTS PAGE
     {
-        // DELETE ROW FROM PRODUCTS TABLE 
+        // DELETE ROW FROM PRODUCTS TABLE
         $product_delete = Product::find($request->id);
-        
+
+
         $product_delete->delete();
-      
-          // ADD PRODUCT TO ORDER DETAILES TABLE 
+
+          // ADD PRODUCT TO ORDER DETAILES TABLE
         $createOrderDetailes = OrderDetailes::create(
         [
             'product_id' => $product_delete->id,
             'product_status' => $product_delete->status_id,
+            'shipping_price' => $product_delete->shipping_price,
+            'total_price' => $product_delete->total_price,
         ]);
 
         return \response()->json(
@@ -81,18 +84,18 @@ class orderDetailesController extends Controller
                 'status' => true,
                 'msg' => 'تم حزف الشحنة من المخزن بنجاح',
                 'id' => $request->id
-            ]); 
+            ]);
     }
 
     public function submit_new_order()
     {
         $orderDetailes = OrderDetailes::with('product')->where('order_id',null)->get();
 
-        // GET LAST ROW IN STATUS TABLE 
+        // GET LAST ROW IN STATUS TABLE
         $lastStatus = Status::latest()->first();
 
-        // GET ALL ROWS WITH OUT LAST ROW AND ROW OF NAME تاجيل AND تم رفضه IN STATUS TABLE 
-        $allStatus = Status::where('id','<>',$lastStatus->id)->where('name','<>','تم رفضه')->where('name','<>','تاجيل')->get(); 
+        // GET ALL ROWS WITH OUT LAST ROW AND ROW OF NAME تاجيل AND تم رفضه IN STATUS TABLE
+        $allStatus = Status::where('id','<>',$lastStatus->id)->where('name','<>','تم رفضه')->where('name','<>','تاجيل')->get();
 
         $servants = Servant::where('deleted_at',null)->get();
         $orders = Order::get()->last();
@@ -106,17 +109,17 @@ class orderDetailesController extends Controller
 
     public function changeStatus(Request $request)
     {
-     
+
         $prderDetailesRow = OrderDetailes::with('product')->find($request->id);
 
-        // UPDATE STATUS ROW IN ORDER DETAILES TABLE 
+        // UPDATE STATUS ROW IN ORDER DETAILES TABLE
         $updateStatusOrder = $prderDetailesRow->update(
             [
                 'product_status' => $request->product_status
             ]);
 
-                               
-        // UPDATE STATUS ROW IN PRODUCTS  TABLE 
+
+        // UPDATE STATUS ROW IN PRODUCTS  TABLE
             $product = $prderDetailesRow->product->update(['status_id' => $request->product_status]);
             return \response()->json(
                 [
@@ -127,16 +130,16 @@ class orderDetailesController extends Controller
 
     public function changeShippingPrice(Request $request)
     {
-        
+
         // UPDATE CHIPPING PRICE FOR ORDERS
         $price = OrderDetailes::with('product')->find($request->id);
         $price->update(
             [
                 'shipping_price' => $request->price
             ]);
-            
 
-                // GET TOTAL PRICE FOR PRODUCT 
+
+                // GET TOTAL PRICE FOR PRODUCT
             $totalPrice = $price->product->product_price + $price->shipping_price;
 
             // return back();
@@ -144,16 +147,16 @@ class orderDetailesController extends Controller
                 [
                     'total_price' => $totalPrice
                 ]);
-                
+
 
             return \response()->json(
                 [
                     'status' => true,
                     'msg' => 'تم حزف الشحنة من المخزن بنجاح',
                ]);
-               
-              
 
-            
+
+
+
     }
 }
