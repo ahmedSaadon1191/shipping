@@ -48,7 +48,7 @@ class ordersController extends Controller
 
    public function index()
    {
-        $orders = Order::with('status')->get();
+        $orders = Order::with('status','servant')->get();
 
         $emptyOrder = Order::whereHas('orders_detailes')->with([
                 "orders_detailes" => function ($query) {
@@ -56,11 +56,11 @@ class ordersController extends Controller
                 }
             ])->get();
 
-            $returns = Order::withTrashed()->with('returns')->whereHas('returns')->get();
+            // $returns = Order::withTrashed()->with('returns')->whereHas('returns')->get();
             // return $returns;
         // return $emptyOrder;
 
-       return view('admin.orders.index',\compact('orders','emptyOrder','returns'));
+       return view('admin.orders.index',\compact('orders','emptyOrder'));
    }
 
    public function edit($id)

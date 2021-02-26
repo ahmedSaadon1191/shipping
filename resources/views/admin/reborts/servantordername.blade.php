@@ -14,33 +14,36 @@
 
 @section('content')
 <br><br>
-    
+
 
     {{--  TABLE TO SHOW ALL PRODUCTS RECIVED  --}}
 	<div class="row row-sm">
 		<div class="col-xl-12">
 			<div class="card">
 				<div class="card-header pb-0">
-					<div class="d-flex justify-content-between">
-						{{-- {{ $datas_Returns->pluck('returns')->pluck('returns_detailes')[0] }} --}}
-						{{-- <h4 class="card-title mg-b-0">اجمالي سعر الشحن :  {{$sum + $sum2}} </h4>
-                       @if ($datas_Orders && $datas_Orders->count() > 0)
-						    <h3 style="color: #a7a7a7">
-                           		 عرض الشحنات الخاصة  ب {{ $datas_Orders->pluck('servant')->pluck('name')->implode(',') }} 
-                        	</h3>
-						@else
-							<h3 style="color: #a7a7a7">
-								عرض الشحنات الخاصة  ب {{ $datas_Orders->pluck('servant')->pluck('name')->implode(',') }} 
-							</h3>
-					   @endif --}}
+
+                    <div class="d-flex justify-content-between">
+                        <div class="form-group">
+                            <label for="">الاجمالي</label>
+                            <input type="text" id="total" disabled class="text-center">
+                        </div>
 						<i class="mdi mdi-dots-horizontal text-gray"></i>
-						</div>
+					</div>
+
+                    <button href="#" onclick="window.print();"  class="btn btn-info btn-lg " style=" margin-top:-90px; margin-right:360px;hieght:20px;">
+                        <span  class="fa fa-print noPrint	" ></span>
+                    </button>
+
+
 
 				<div class="card-body">
+                    <h3 style="color: #a7a7a7">
+                        عرض الشحنات الخاصة  ب {{ $servant[0]->name }}
+                    </h3>
 					<div class="table-responsive">
 							<table class="table text-md-nowrap" id="example1">
 								<thead>
-									<tr>	
+									<tr>
 										<th class="wd-15p border-bottom-0"> رقم الشحنة</th>
 										<th class="wd-15p border-bottom-0"> اسم المستلم</th>
 										<th class="wd-15p border-bottom-0"> اسم المنطقة</th>
@@ -53,108 +56,106 @@
 								</thead>
 								<tbody id="productRow">
 
-									{{ $orders2->count() }}
-									{{ $orders->count() }}
 
 
 									@foreach ($orders as $item)
 											@foreach ($item->orders_detailes as $item1)
-												
+
 											<tr class="productRow">
-												<td> 
-													{{ $item1->product->package_number }}					
+												<td>
+													{{ $item1->product->package_number }}
 												</td>
-												<td> 
-													{{ $item1->product->resever_name }}					
+												<td>
+													{{ $item1->product->resever_name }}
 												</td>
-												<td> 
-													{{ $item1->product->cities->name }}					
+												<td>
+													{{ $item1->product->cities->name }}
 												</td>
-												<td> 
-													{{ $item1->product->product_price }}					
+												<td>
+													{{ $item1->product->product_price }}
 												</td>
-												<td> 
-													{{ $item1->shipping_price }}					
+												<td>
+													{{ $item1->shipping_price }}
 												</td>
-												<td> 
-													{{ $item1->total_price }}					
+												<td class="total_price">
+													{{ $item1->total_price }}
 												</td>
-												<td> 
-													{{ $item1->product->status->name }}					
+												<td>
+													{{ $item1->product->status->name }}
 												</td>
-												<td> 
-													{{ $item1->product->created_at }}					
+												<td>
+													{{ $item1->product->created_at }}
 												</td>
-												
-												
-												
+
+
+
 											</tr>
 											@endforeach
 										@endforeach
 
 										@foreach ($orders2 as $item)
 											@foreach ($item->returns_detailes as $item1)
-												
+
 											<tr class="productRow">
-												<td> 
-													{{ $item1->returns->package_number }}					
+												<td>
+													{{ $item1->returns->package_number }}
 												</td>
-												<td> 
-													{{ $item1->returns->resever_name }}					
+												<td>
+													{{ $item1->returns->resever_name }}
 												</td>
-												<td> 
-													{{ $item1->returns->cities->name }}					
+												<td>
+													{{ $item1->returns->cities->name }}
 												</td>
-												<td> 
-													{{ $item1->returns->product_price }}					
+												<td>
+													{{ $item1->returns->product_price }}
 												</td>
-												<td> 
-													{{ $item1->shipping_price }}					
+												<td>
+													{{ $item1->shipping_price }}
 												</td>
-												<td> 
-													{{ $item1->total_price }}					
+												<td class="total_price">
+													{{ $item1->total_price }}
 												</td>
-												<td> 
-													{{ $item1->returns->status->name }}					
+												<td>
+													{{ $item1->returns->status->name }}
 												</td>
-												<td> 
-													{{ $item1->returns->created_at }}					
+												<td>
+													{{ $item1->returns->created_at }}
 												</td>
 											</tr>
 											@endforeach
 										@endforeach
 
 									{{-- @if ($orders && $orders->count() > 0)
-										
+
 									@elseif($orders2 && $orders2->count() > 0)
-										
+
 									@elseif(isset($orders) && isset($orders2))
 										@foreach ($orders as $item)
-											@foreach ($item->orders_detailes as $item1)	
+											@foreach ($item->orders_detailes as $item1)
 												<tr class="productRow">
-													<td> 
-														{{ $item1->product->package_number }}					
+													<td>
+														{{ $item1->product->package_number }}
 													</td>
-													<td> 
-														{{ $item1->product->resever_name }}					
+													<td>
+														{{ $item1->product->resever_name }}
 													</td>
-													<td> 
-														{{ $item1->product->cities->name }}					
+													<td>
+														{{ $item1->product->cities->name }}
 													</td>
-													<td> 
-														{{ $item1->product->product_price }}					
+													<td>
+														{{ $item1->product->product_price }}
 													</td>
-													<td> 
-														{{ $item1->shipping_price }}					
+													<td>
+														{{ $item1->shipping_price }}
 													</td>
-													<td> 
-														{{ $item1->total_price }}					
+													<td>
+														{{ $item1->total_price }}
 													</td>
-													<td> 
-														{{ $item1->product->status->name }}					
+													<td>
+														{{ $item1->product->status->name }}
 													</td>
-													<td> 
-														{{ $item1->product->created_at }}					
+													<td>
+														{{ $item1->product->created_at }}
 													</td>
 												</tr>
 											@endforeach
@@ -162,31 +163,31 @@
 
 										@foreach ($orders2 as $item)
 											@foreach ($item->returns_detailes as $item1)
-												
+
 											<tr class="productRow">
-												<td> 
-													{{ $item1->returns->package_number }}					
+												<td>
+													{{ $item1->returns->package_number }}
 												</td>
-												<td> 
-													{{ $item1->returns->resever_name }}					
+												<td>
+													{{ $item1->returns->resever_name }}
 												</td>
-												<td> 
-													{{ $item1->returns->cities->name }}					
+												<td>
+													{{ $item1->returns->cities->name }}
 												</td>
-												<td> 
-													{{ $item1->returns->product_price }}					
+												<td>
+													{{ $item1->returns->product_price }}
 												</td>
-												<td> 
-													{{ $item1->shipping_price }}					
+												<td>
+													{{ $item1->shipping_price }}
 												</td>
-												<td> 
-													{{ $item1->total_price }}					
+												<td>
+													{{ $item1->total_price }}
 												</td>
-												<td> 
-													{{ $item1->returns->status->name }}					
+												<td>
+													{{ $item1->returns->status->name }}
 												</td>
-												<td> 
-													{{ $item1->returns->created_at }}					
+												<td>
+													{{ $item1->returns->created_at }}
 												</td>
 											</tr>
 											@endforeach
@@ -198,11 +199,11 @@
 											</h1>
 									@endif --}}
 
-									
-										
-																			
-										
-                                   
+
+
+
+
+
 
 								</tbody>
 							</table>
@@ -243,5 +244,22 @@
 	<script src="{{URL::asset('assets/plugins/select2/js/select2.min.js')}}"></script>
 	<!-- Internal Modal js-->
 	<script src="{{URL::asset('assets/js/modal.js')}}"></script>
+
+    {{-- GET TOTAL RECORDES --}}
+    <script>
+        $(document).ready(function()
+        {
+            // alert("hello");
+            var sum = 0;
+			$('.total_price').each(function ()
+			{
+				sum += Number($(this).html());
+			});
+            // alert(sum);
+
+            $('#total').val(sum);
+        });
+
+    </script>
 
 @endsection

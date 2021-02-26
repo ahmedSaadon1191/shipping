@@ -62,7 +62,66 @@
 	    </div>
     </div>
 
+    <div class="table-responsive">
+        @if ($projects)
+            <table class="table text-md-nowrap" id="example1">
+                <thead>
+                <tr>
+                    <th class="wd-15p border-bottom-0"> رقم الشحنة</th>
+                    <th class="wd-15p border-bottom-0"> اسم المستلم</th>
+                    <th class="wd-15p border-bottom-0"> تليفون المستلم</th>
+                    <th class="wd-15p border-bottom-0"> اسم المورد</th>
+                    <th class="wd-15p border-bottom-0"> تليفون المورد</th>
+                    {{-- <th class="wd-15p border-bottom-0"> اسم المندوب </th> --}}
+                    <th class="wd-15p border-bottom-0"> سعر الشحنة</th>
+                    <th class="wd-15p border-bottom-0">سعر الشحن</th>
+                    <th class="wd-15p border-bottom-0"> اجمالي الشحن</th>
+                    <th class="wd-15p border-bottom-0"> حالة الشحنة</th>
+                    <th class="wd-15p border-bottom-0">  ملاحظات</th>
+                    <th class="wd-15p border-bottom-0">تاريخ التسليم</th>
+                </tr>
+                </thead>
 
+                    @foreach ($projects as $item)
+                       <tr>
+                            <td> {{ $item->package_number }}</td>
+                            <td> {{ $item->resever_name }}</td>
+                            <td> {{ $item->resver_phone }}</td>
+                            <td> {{ $item->supplier->name }}</td>
+                            <td> {{ $item->supplier->phone }}</td>
+                            {{-- <td> {{ $item->status->orders }}</td> --}}
+                            <td> {{ $item->product_price }}</td>
+                            <td> {{ $item->shipping_price }}</td>
+                            <td> {{ $item->total_price }}</td>
+                            <td> {{ $item->status->name }}</td>
+                            <td> {{ $item->notes }}</td>
+                            <td> {{ $item->rescive_date }}</td>
+
+                       </tr>
+                    @endforeach
+
+                    @if ($returns)
+                        @foreach ($returns as $item)
+                            <tr>
+                                <td> {{ $item->package_number }}</td>
+                                <td> {{ $item->resever_name }}</td>
+                                <td> {{ $item->resver_phone }}</td>
+                                <td> {{ $item->supplier->name }}</td>
+                                <td> {{ $item->supplier->phone }}</td>
+                                {{-- <td> {{ $item->order->pluck('') }}</td> --}}
+                                <td> {{ $item->product_price }}</td>
+                                <td> {{ $item->returnsDetailes->pluck('shipping_price')->implode(',') }}</td>
+                                <td> {{ $item->returnsDetailes->pluck('total_price')->implode(',') }}</td>
+                                <td> {{ $item->status->name }}</td>
+                                <td> {{ $item->notes }}</td>
+                                <td> {{ $item->rescive_date }}</td>
+
+                            </tr>
+                        @endforeach
+                    @endif
+            </table><br>
+        @endif
+    </div>
 
 @endsection
 

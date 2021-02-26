@@ -78,56 +78,76 @@
 					</div>
 				{{--  END GET FLASH MESSAGES   --}}
 
-
+{{-- {{ $allOrders->count() }} <br>
+{{ $aalReturns->count() }} --}}
 
 					<div class="table-responsive">
 
-							<table class="table text-md-nowrap" id="example1">
-								<thead>
-									<tr>
-
-										<th class="wd-15p border-bottom-0"> رقم الشحنة</th>
-										<th class="wd-15p border-bottom-0"> اسم المستلم</th>
-										<th class="wd-15p border-bottom-0"> سعر الشحن</th>
-										<th class="wd-15p border-bottom-0">سعر الشحنة</th>
-										<th class="wd-15p border-bottom-0"> اجمالي الشحن</th>
-									<!-- 	<th class="wd-15p border-bottom-0"> حالة الشحنة</th> -->
-										<th class="wd-15p border-bottom-0">تاريخ التسليم</th>
-										<!-- <th class="wd-15p border-bottom-0"> الاجرائات</th> -->
-									</tr>
-								</thead>
-								<tbody id="productRow">
 
 
-													@foreach ($ordersdetails as $item)
-										<tr class="productRow">
+                                @if ($allOrders)
+                                    <table class="table text-md-nowrap" id="example1">
+                                        <thead>
+                                        <tr>
+                                            <th class="wd-15p border-bottom-0"> رقم الشحنة</th>
+                                            <th class="wd-15p border-bottom-0"> اسم المستلم</th>
+                                            <th class="wd-15p border-bottom-0"> تليفون المستلم</th>
+                                            <th class="wd-15p border-bottom-0"> اسم المورد</th>
+                                            <th class="wd-15p border-bottom-0"> تليفون المورد</th>
+                                            {{-- <th class="wd-15p border-bottom-0"> اسم المندوب </th> --}}
+                                            <th class="wd-15p border-bottom-0"> سعر الشحنة</th>
+                                            <th class="wd-15p border-bottom-0">سعر الشحن</th>
+                                            <th class="wd-15p border-bottom-0"> اجمالي الشحن</th>
+                                        	<th class="wd-15p border-bottom-0"> حالة الشحنة</th>
+                                        	<th class="wd-15p border-bottom-0">  ملاحظات</th>
+                                            <th class="wd-15p border-bottom-0">تاريخ التسليم</th>
+                                        </tr>
+                                        </thead>
 
-											<td>{{ $item->id }}</td>
-											<td>{{ $item->Product->resever_name }}</td>
-											<td>{{ $item->shipping_price }}</td>
-											<td>{{ $item->Product->product_price }}</td>
-											<td>{{ $item->total_price }}</td>
-										<!-- 	<td>{{ $item->Product->Status->name }}</td> -->
-											<td>{{ $item->created_at }}</td>
+                                            @foreach ($allOrders as $item)
+                                               <tr>
+                                                    <td> {{ $item->product->package_number }}</td>
+                                                    <td> {{ $item->product->resever_name }}</td>
+                                                    <td> {{ $item->product->resver_phone }}</td>
+                                                    <td> {{ $item->product->supplier->name }}</td>
+                                                    <td> {{ $item->product->supplier->phone }}</td>
+                                                    {{-- <td> {{ $item->order->pluck('') }}</td> --}}
+                                                    <td> {{ $item->product->product_price }}</td>
+                                                    <td> {{ $item->product->shipping_price }}</td>
+                                                    <td class="total_price"> {{ $item->product->total_price }}</td>
+                                                    <td> {{ $item->product->status->name }}</td>
+                                                    <td> {{ $item->notes }}</td>
+                                                    <td> {{ $item->product->rescive_date }}</td>
 
-											{{--  <td>
-												<div class="btn-icon-list">
-													<a href="{{ route('products.edit',$product->id) }}">
-														<button class="btn btn-indigo btn-icon"><i class="typcn typcn-folder"></i></button>
-													</a>
-													<a href="" class="makeDeleteProduct" order_id="{{ $product->id }}">
-														<button class="btn btn-primary btn-icon"><i class="typcn typcn-calendar-outline"></i></button>
-													</a>
-													<a href="{{ route('products.show',$product->id) }}">
-														<button class="btn btn-success btn-icon"><i class="typcn typcn-document-add"></i></button>
-													</a>
-												</div>  --}}
-											{{--  </td>  --}}
-										</tr>
-										@endforeach
+                                               </tr>
+                                            @endforeach
 
-								</tbody>
-							</table><br>
+                                            @if ($aalReturns)
+
+                                            @foreach ($aalReturns as $item)
+                                            <tbody>
+                                               <tr>
+                                                <td> {{ $item->package_number }}</td>
+                                                <td> {{ $item->resever_name }}</td>
+                                                <td> {{ $item->resver_phone }}</td>
+                                                <td> {{ $item->supplier->name }}</td>
+                                                <td> {{ $item->supplier->phone }}</td>
+                                                <td> {{ $item->product_price }}</td>
+                                                <td> {{ $item->returnsDetailes->pluck('shipping_price')->implode(',') }}</td>
+                                                <td> {{ $item->returnsDetailes->pluck('total_price')->implode(',') }}</td>
+                                                <td> {{ $item->status->name }}</td>
+                                                <td> {{ $item->notes }}</td>
+                                                <td> {{ $item->rescive_date }}</td>
+                                               </tr>
+                                            </tbody>
+                                            @endforeach
+
+                                    @endif
+
+
+
+                                    </table><br>
+                                @endif
 
 
 					</div>
@@ -310,4 +330,22 @@
              });
          });
     </script>
+
+    {{-- GET TOTAL PRICE --}}
+
+<script>
+    $(document).ready(function()
+    {
+        // alert("hello");
+        var sum = 0;
+        $('.total_price').each(function ()
+        {
+            sum += Number($(this).html());
+        });
+        // alert(sum);
+
+        $('#total').val(sum);
+    });
+
+</script>
 @endsection

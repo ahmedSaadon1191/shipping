@@ -332,25 +332,18 @@
 
     $(document).ready(function()
     {
-        // $('#totalPrice').on('change',function()
-        // {
+        $('#totalPrice').on('change',function()
+        {
             var total_price = $('#totalPrice').val();
             var shipping_price = $("#shippingPrice").val();
             var product_price = $("#productPrice").val(total_price-shipping_price);
-            // alert(product_price);
-//
-            // if (shipping_price.length > 0 && shipping_price !=null)
-            // {
-            //
-            // }
-
-            if (total_price.value !== '')
-            {
-                alert("hello");
-            }
-
-
-        // });
+        });
+        $('#shippingPrice').on('change',function()
+        {
+            var total_price = $('#totalPrice').val();
+            var shipping_price = $("#shippingPrice").val();
+            var product_price = $("#productPrice").val(total_price-shipping_price);
+        });
     });
 </script>
 @endsection

@@ -19,7 +19,7 @@
                     <div class="card">
                         <div class="card-header pb-0">
                             <div class="d-flex justify-content-between">
-                                <h4 class="card-title mg-b-0">كل الاوردرات المحزوفة</h4>هىيث
+                                <h4 class="card-title mg-b-0">كل خطوط السير المحزوفة</h4>هىيث
                                 <i class="mdi mdi-dots-horizontal text-gray"></i>
                             </div>
                         </div>
@@ -42,17 +42,17 @@
                                     <table class="table text-md-nowrap" id="example1">
                                         <thead>
                                             <tr>
-                                                <th class="wd-15p border-bottom-0"> رقم</th>
-                                                <th class="wd-15p border-bottom-0"> اسم المندوب</th>
-                                                <th class="wd-15p border-bottom-0"> اجمالي الشحن</th>
+                                                <th class="wd-5p border-bottom-0"> رقم</th>
+                                                <th class="wd-5p border-bottom-0"> اسم المندوب</th>
+                                                <th class="wd-5p border-bottom-0"> اجمالي الشحن</th>
                                                 <th class="wd-15p border-bottom-0"> حالة الاوردر</th>
                                                 <th class="wd-15p border-bottom-0"> تاريخ التسليم</th>
-                                                {{-- <th class="wd-10p border-bottom-0">الاجرائات</th> --}}
-                                                
+                                                <th class="wd-10p border-bottom-0">الاجرائات</th>
+
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            
+
                                             @php
                                                 $x = 1;
                                             @endphp
@@ -66,7 +66,9 @@
                                                     <td>
                                                         <div class="btn-icon-list">
                                                             <a href="{{ route('orders.show_order_detailes',$order->id) }}">
-                                                                <button class="btn btn-success btn-icon"><i class="typcn typcn-calendar-outline"></i></button>
+                                                                <button class="btn btn-success">
+                                                                    عرض تفاصيل خط السير
+                                                                </button>
                                                             </a>
                                                         </div>
                                                         {{-- <div class="btn-icon-list">
@@ -127,7 +129,7 @@
 
 
 
-	
+
 
 	{{--  DELETE ADMIN   --}}
 
@@ -136,31 +138,31 @@
 		{
 			e.preventDefault();
 
-			
 
-			//Get Form Data           
+
+			//Get Form Data
             var order_id = $(this).attr('order_id');
-            
+
 			$.ajax(
 			{
 				type: 'get',
 				url: "{{route('orders.restore')}}",
-				data: 
+				data:
 				{
-					
+
              		'id'     : order_id
 				},
-				
+
 				success: function(data)
 				{
 					if(data.status == true)
 					{
-						
+
 						if(data.status == true)
 						{
 							$('#successMsg').show();
                         }
-                        
+
                         // DELETE ROW FROM TABLE
                         $('.orderRow'+data.id).remove();
 					}
@@ -172,9 +174,9 @@
 					{
 					    $("#" + key + "_error").text(val[0]);
 					});
-				}    
+				}
 
 			});
 		});
-	</script>   
+	</script>
 @endsection

@@ -28,8 +28,8 @@
 
 
 .main {
-  
-    font-size: 18px; 
+
+    font-size: 18px;
 
 }
 
@@ -51,7 +51,7 @@ font-size:50px;
 	<div class="row row-sm">
 
 		<div class="col-xl-12">
-			
+
 			<div class="card">
 
 				<div class="card-header pb-0">
@@ -61,13 +61,13 @@ font-size:50px;
 
 						<i class="mdi mdi-dots-horizontal text-gray"></i>
 					</div>
-	
+
 <div class="main">
-  <h2><span class="glyphicon glyphicon-chevron-right"></span>&nbsp;Dashboard</h2>
+  <h2><span class="glyphicon glyphicon-chevron-right"></span>&nbsp;الصفــحة الرئيسيــــة</h2>
    <ul class="breadcrumb">
-    <li><a href="">Home</a> /</li>   
+    <li><a href="">الصفحـة الرئيسيـة</a> /</li>
   </ul>
-    <p>Welcome</p>
+    <p>أهــــلا بــك : {{ auth()->user()->name }}</p>
   <hr />
     <table class="table table-bordered">
     <tbody>
@@ -90,7 +90,7 @@ font-size:50px;
   </div>
 <!-- 					<p class="tx-12 tx-gray-500 mb-2">Example of Valex Simple Table. <a href="">Learn more</a></p>
  -->				</div>
-		
+
 			</div>
 		</div>
 		<!--/div-->

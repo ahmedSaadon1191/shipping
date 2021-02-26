@@ -14,31 +14,37 @@
 
 @section('content')
 <br><br>
-    {{-- {{ $datas_Orders->count() }} <br>
-	{{ $datas_Returns->count() }} --}}
 
     {{--  TABLE TO SHOW ALL PRODUCTS RECIVED  --}}
 	<div class="row row-sm">
 		<div class="col-xl-12">
 			<div class="card">
 				<div class="card-header pb-0">
-					{{-- <h2>
-						المورد : {{ $datas_Orders->supplier->name }}
-					</h2> --}}
-					{{-- <div class="d-flex justify-content-between">
-						{{ $datas_Returns->pluck('returns')->pluck('returns_detailes')[0] }}
-						<h4 class="card-title mg-b-0">اجمالي سعر الشحن :  {{$sum + $sum2}} </h4>
+
+
+
+                    <div class="d-flex justify-content-between">
+                        <div class="form-group">
+                            <label for="">الاجمالي</label>
+                            <input type="text" id="total" disabled class="text-center">
+                        </div><br>
                         <h3 style="color: #a7a7a7">
-                            عرض الشحنات الخاصة  ب {{ $datas_Orders->pluck('servant')->pluck('name')->implode(',') }} 
+                            عرض الشحنات الخاصة  ب {{ $supplier[0]->name }}
                         </h3>
+
 						<i class="mdi mdi-dots-horizontal text-gray"></i>
-					</div> --}}
+					</div>
+
+                    <button href="#" onclick="window.print();"  class="btn btn-info btn-lg " style=" margin-top:-90px; margin-right:360px;hieght:20px;">
+                        <span  class="fa fa-print noPrint	" ></span>
+                    </button>
 
 				<div class="card-body">
 					<div class="table-responsive">
+
 							<table class="table text-md-nowrap" id="example1">
 								<thead>
-									<tr>	
+									<tr>
 										<th class="wd-15p border-bottom-0"> رقم الشحنة</th>
 										<th class="wd-15p border-bottom-0"> اسم المستلم</th>
 										<th class="wd-15p border-bottom-0"> اسم المنطقة</th>
@@ -51,74 +57,74 @@
 								</thead>
 								<tbody id="productRow">
 									@if ($datas_Orders->count() > 0)
-																		
+
 										@foreach ($datas_Orders as $item1)
 											<tr class="productRow">
-												<td> 
+												<td>
 													 {{ $item1->package_number }}
 												</td>
-												<td> 
+												<td>
 													 {{ $item1->resever_name }}
 												</td>
-												<td> 
+												<td>
 													 {{ $item1->cities->name }}
 												</td>
-												<td> 
+												<td>
 													 {{ $item1->product_price }}
 												</td>
-												<td> 
+												<td>
 													 {{ $item1->orders_detailes->pluck('shipping_price')->implode(',') }}
 												</td>
-												<td> 
+												<td class="total_price">
 													 {{ $item1->orders_detailes->pluck('total_price')->implode(',') }}
 												</td>
-												<td> 
+												<td>
 													 {{ $item1->status->name }}
 												</td>
-												<td> 
+												<td>
 													 {{ $item1->created_at }}
 												</td>
 											</tr>
 										@endforeach
 
-										
+
 									@else
 										<h3>لا يوجد شحنات </h3>
 									@endif
 
 
                                     @if ($datas_Returns->count() > 0)
-																		
+
 										@foreach ($datas_Returns as $item1)
 											<tr class="productRow">
-												<td> 
+												<td>
 													 {{ $item1->package_number }}
 												</td>
-												<td> 
+												<td>
 													 {{ $item1->resever_name }}
 												</td>
-												<td> 
+												<td>
 													 {{ $item1->cities->name }}
 												</td>
-												<td> 
+												<td>
 													 {{ $item1->product_price }}
 												</td>
-												<td> 
+												<td>
 													 {{ $item1->returnsDetailes->pluck('shipping_price')->implode(',') }}
 												</td>
-												<td> 
+												<td class="total_price">
 													 {{ $item1->returnsDetailes->pluck('total_price')->implode(',') }}
 												</td>
-												<td> 
+												<td>
 													 {{ $item1->status->name }}
 												</td>
-												<td> 
+												<td>
 													 {{ $item1->created_at }}
 												</td>
 											</tr>
 										@endforeach
 
-										
+
 									@else
 										<h3> لا يوجد شحنات مرتجعة</h3>
 									@endif
@@ -162,5 +168,22 @@
 	<script src="{{URL::asset('assets/plugins/select2/js/select2.min.js')}}"></script>
 	<!-- Internal Modal js-->
 	<script src="{{URL::asset('assets/js/modal.js')}}"></script>
+    
+{{-- GET TOTAL RECORDES --}}
+    <script>
+        $(document).ready(function()
+        {
+            // alert("hello");
+            var sum = 0;
+			$('.total_price').each(function ()
+			{
+				sum += Number($(this).html());
+			});
+            // alert(sum);
+
+            $('#total').val(sum);
+        });
+
+    </script>
 
 @endsection

@@ -16,7 +16,7 @@
 <br><br>
 
 
-    
+
 
     {{--  TABLE TO SHOW ALL PRODUCTS RECIVED  --}}
 	<div class="row row-sm">
@@ -46,7 +46,7 @@
 						</button>
 					</div>
 
-					
+
 				{{--  END GET FLASH MESSAGES   --}}
 
 
@@ -59,7 +59,7 @@
 							<div class="col-md-3">
 								<div class="form-group">
 									<label for="">الاجمالي</label>
-									<input type="number" name="total_price" class="form-control" value="{{ $totalPrice }}">
+									<input type="number" name="total_price" class="form-control total" value="{{ $totalPrice }}">
 								</div>
 							</div>
 							<div class="col-md-3">
@@ -82,21 +82,21 @@
 							<div class="col-md-3">
 								<div class="form-group">
 									<label for="">رقم الفاتورة</label>
-									
+
 										<input type="number" value="{{ $orders->id+1 }}">
-								
+
 								</div>
 							</div>
 							@endif
+
 							
-							<div class="col-md-3">
-								<div class="form-group">
-									
-									<button class="btn btn-primary form-control">
-										اضافة الاوردر
-									</button>
-								</div>
-							</div>
+                                <div class="form-group">
+
+                                    <button class="btn btn-primary form-control "  style="width:50%; margin-right:20%; background-color:#00b9ff">
+                                        اضافة الاوردر
+                                    </button>
+                                </div>
+
 						</div>
 					</form>
 
@@ -127,7 +127,7 @@
 									@php
 										$x = 1;
 									@endphp
-								
+
 									@foreach ($orderDetailes as $index=>$item)
 										<tr class="productRow">
 											<td>{{ $x++ }}</td>
@@ -147,11 +147,11 @@
 												</form>
 											</td>
 																		{{-- TOTAL PRICE --}}
-											<td class="total_price" id="total_price{{ $item->id }}">						
+											<td class="total_price" id="total_price{{ $item->id }}">
 												{{ $item->returns->product_price + $item->shipping_price }}
 											</td>
 											<td>						{{-- CHANGE STATUS --}}
-												<form action="" class="status">										
+												<form action="" class="status">
 													<select name="status_id{{ $item->id }}" id="package_status{{ $item->id }}" class="st_id{{ $item->id }} form-control">
 														<option value="">اختار الحالة</option>
 														@foreach ($allStatus as $status)
@@ -178,11 +178,11 @@
 											</td>
 										</tr>
 									@endforeach
-									
+
 
 								</tbody>
 							</table>
-						@else  
+						@else
 							<h1 class="text-center">No Products</h1>
 						@endif
 
@@ -231,78 +231,47 @@
 
 
 
-	
-	
-     {{--  GET CITIES  --}}
-    <script>
-        
-         $(document).ready(function()
-         {
-             $('#gov').on('change',function()
-             {
-                 var gov = $(this).val();
- 
-                 if(gov)
-                 {
-                     $.ajax(
-                         {
-                             url:"{{ url('/admin/orderDetailes/cities/') }}/" + gov,
-                             type:"GET",
-                             dataType:"json",
-                             success:function(data)
-                             {
-                                 $("#city").empty();
-                                 $.each(data,function(key,value)
-                                 {
-                                     $("#city").append('<option value="'+value.id+'">'+value.name+'</option>')
-                                 });
-                             }
-                         });
-                 }else
-                 {
-                     alert('Error');
-                 }
-             });
-         });
-	</script>
 
-	
+
+
+
+
      {{--  CHANGE STATUS  --}}
 	 <script>
 		$(document).on('click','.makeStatus',function(e)
 		{
 			e.preventDefault();
 
-			//Get Form Data           
+			//Get Form Data
 			var itemId = $(this).attr('id');
-			
+
 			//var item_id = document.getElementById("item_id"+itemId).value;
 			var sel_val = document.getElementById("package_status"+itemId).value;
-			
+
 			console.log(sel_val);
 			//console.log(item_id);
-			
+
 			$.ajax(
 			{
 				type: 'post',
 			url: "{{route('returns.changeStatus')}}",
-				data: 
+				data:
 				{
 					'_token' : "{{ csrf_token() }}",
 					'product_status' : sel_val,
-					'id'     : itemId, 
+					'id'     : itemId,
 				},
-				
+
 				success: function(data)
 				{
 					if(data.status == true)
 					{
-						
+
 						if(data.status == true)
 						{
 							$('#successMsg').show();
                         }
-                        
+
                         // DELETE ROW FROM TABLE
                         $('.supplierRow'+data.id).remove();
 					}
@@ -314,12 +283,12 @@
 					{
 					$("#" + key + "_error").text(val[0]);
 					});
-				}    
+				}
 
 			});
 		});
-	</script>  
-	
+	</script>
+
 
      {{--  CHANGE SHIPPING PRICE  --}}
 	 <script>
@@ -327,11 +296,11 @@
 		{
 			e.preventDefault();
 
-			//Get Form Data           
+			//Get Form Data
 			var itemId = $(this).attr('row_id');
-			
-			var sel_val = document.getElementById("price"+itemId).value;	
-			var productPrice_row = $("#product_price"+itemId).html();	
+
+			var sel_val = document.getElementById("price"+itemId).value;
+			var productPrice_row = $("#product_price"+itemId).html();
 
 			//GET CALCULATE OF TOTAL PRICE FOR EVRY ROW
 			var sumRow = parseFloat(sel_val) + parseFloat(productPrice_row);
@@ -339,36 +308,38 @@
 
 			//CALCULATE TOTAL PRICE OF ORDER IN TOTAL INPUT
 			var numRow =  $(".total_price").length;
-			
+
 			var sum = 0;
-			$('.total_price').each(function () 
+			$('.total_price').each(function ()
 			{
 				sum += Number($(this).html());
 			});
-        
 
-    	
+            $('.total').val(sum);
+
+
+
 			$.ajax(
 			{
 				type: 'post',
 				url: "{{route('returns.changeShippingPrice')}}",
-				data: 
+				data:
 				{
 					'_token' : "{{ csrf_token() }}",
 					'price' : sel_val,
-					'id'     : itemId, 
+					'id'     : itemId,
 				},
-				
+
 				success: function(data)
 				{
 					if(data.status == true)
 					{
-						
+
 						if(data.status == true)
 						{
 							$('#successMsg').show().fadeOut(2500);
                         }
-                        
+
                         // DELETE ROW FROM TABLE
                         $('.supplierRow'+data.id).remove();
 					}
@@ -380,9 +351,9 @@
 					{
 						$("#" + key + "_error").text(val[0]);
 					});
-				}    
+				}
 
 			});
 		});
-    </script>  
+    </script>
 @endsection

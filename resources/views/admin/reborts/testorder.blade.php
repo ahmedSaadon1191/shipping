@@ -14,7 +14,7 @@
 
 @section('content')
 <br><br>
-    
+
     {{--  TABLE TO SHOW ALL PRODUCTS RECIVED  --}}
 	<div class="row row-sm">
 		<div class="col-xl-12">
@@ -22,7 +22,10 @@
 
 				<div class="card-header pb-0">
 					<div class="d-flex justify-content-between">
-						<h4 class="card-title mg-b-0">اجمالي سعر الشحن :  {{$sum + $sum2 }} </h4>
+						<div class="form-group">
+                            <label for="">اجمالي سعر الشحنات </label>
+                            <input type="text" id="total" class="text-center" disabled>
+                        </div>
                         <h3 style="color: #a7a7a7">
                             عرض الشحنات خلال قترة معينة
                         </h3>
@@ -38,14 +41,14 @@
 							<table class="table text-md-nowrap" id="example1">
 								<thead>
 									<tr>
-										
+
 										<th class="wd-15p border-bottom-0"> رقم الاوردر</th>
 										<th class="wd-15p border-bottom-0"> رقم الشحنة</th>
 										<th class="wd-15p border-bottom-0"> اسم المستلم</th>
 										<th class="wd-15p border-bottom-0"> سعر الشحن</th>
 										<th class="wd-15p border-bottom-0">سعر الشحنة</th>
 										<th class="wd-15p border-bottom-0"> اجمالي الشحن</th>
-										
+
 									 	<th class="wd-15p border-bottom-0"> حالة الشحنة</th>
 										<th class="wd-15p border-bottom-0">تاريخ التسليم</th>
 										<!-- <th class="wd-15p border-bottom-0"> الاجرائات</th> -->
@@ -55,43 +58,43 @@
                                 {{-- GET ALL PRODUCTS FROM ORDER DETAILES TABLE  --}}
                                 @if ($datas && $datas->count() > 0)
                                     <tbody id="productRow">
-                                
+
                                         @foreach ($datas as $item)
                                             <tr class="productRow">
-                                                
+
                                                 <td>{{ $item->id }}</td>
                                                 <td>{{ $item->Product->package_number }}</td>
                                                 <td>{{ $item->Product->resever_name }}</td>
                                                 <td>{{ $item->shipping_price }}</td>
                                                 <td>{{ $item->Product->product_price }}</td>
-                                                <td>{{ $item->total_price }}</td>
-                                              
-                                                <td>{{ $item->Product->Status->name }}</td> 
+                                                <td class="total_price">{{ $item->total_price }}</td>
+
+                                                <td>{{ $item->Product->Status->name }}</td>
                                                 <td>{{ $item->created_at }}</td>
 
-                                                
+
                                             </tr>
                                         @endforeach
 
                                     </tbody>
                                 @endif
-                                    
+
                                 {{-- GET ALL PRODUCTS FROM RETURNS DETAILES TABLE  --}}
                                 @if ($returns && $returns->count() > 0)
                                     <tbody id="productRow">
-                                
+
                                         @foreach ($returns as $item)
                                             <tr class="productRow">
-                                                
+
                                                 <td>{{ $item->id }}</td>
                                                 <td>{{ $item->package_number }}</td>
                                                 <td>{{ $item->resever_name }}</td>
                                                 <td>{{ $item->orders->total_prices -  $item->product_price}}</td>
                                                 <td>{{ $item->product_price }}</td>
-                                                <td>{{ $item->orders->total_prices }}</td>
-                                                
-                                                
-                                                <td>{{ $item->Status->name }}</td> 
+                                                <td class="total_price">{{ $item->orders->total_prices }}</td>
+
+
+                                                <td>{{ $item->Status->name }}</td>
                                                 <td>{{ $item->created_at }}</td>
                                             </tr>
                                         @endforeach
@@ -104,13 +107,13 @@
                                         لا شحنات في هذه الفترة
                                     </h1>
                                 @endif
-								
+
 							</table><br>
 					</div>
 				</div>
 			</div>
 		</div>
-	
+
 	</div>
 
 @endsection
@@ -144,5 +147,21 @@
 	<script src="{{URL::asset('assets/plugins/select2/js/select2.min.js')}}"></script>
 	<!-- Internal Modal js-->
 	<script src="{{URL::asset('assets/js/modal.js')}}"></script>
+
+    <script>
+    $(document).ready(function()
+    {
+        // alert("hello");
+        var sum = 0;
+        $('.total_price').each(function ()
+        {
+            sum += Number($(this).html());
+        });
+        // alert(sum);
+
+        $('#total').val(sum);
+    });
+
+</script>
 
 @endsection

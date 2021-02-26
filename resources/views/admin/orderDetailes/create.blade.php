@@ -1,37 +1,3 @@
-Skip to content
-Search or jump to…
-
-Pull requests
-Issues
-Marketplace
-Explore
-
-@ahmedSaadon1191
-Learn Git and GitHub without any code!
-Using the Hello World guide, you’ll start a branch, write comments, and open a pull request.
-
-
-ahmedSaadon1191
-/
-shipping
-1
-00
-Code
-Issues
-Pull requests
-Actions
-Projects
-Wiki
-Security
-Insights
-Settings
-shipping/resources/views/admin/orderDetailes/create.blade.php
-@asaadon1191
-asaadon1191 initial
-Latest commit f4fd0ab 11 days ago
- History
- 1 contributor
-302 lines (254 sloc)  10.3 KB
 
 @extends('admin.layouts.master')
 @section('css')

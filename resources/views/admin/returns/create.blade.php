@@ -32,10 +32,10 @@
 							</option>
 						@endforeach
                     </select>
-                    <span class="text-danger" id="governorate_id_error"></span>				
+                    <span class="text-danger" id="governorate_id_error"></span>
 				</div>
 			</div>
-		
+
 
 			{{-- CITY ID  --}}
 			<div class="col-md-2">
@@ -43,12 +43,12 @@
 					<label for="">اختار المدينة</label>
 					<select class="search_form_select form-control" name="city_id" id="city">
 						<option disabled selected>Select City</option>
-				
+
 					</select>
 					<span class="text-danger" id="city_id_error"></span>
-				</div> 
+				</div>
             </div>
-            
+
 			<div class="col-md-2">
 				<div class="form-group"><br>
 					<button class="form-control btn btn-primary" id="makeCreateOrder" style="background-color:#7a7a7a">
@@ -58,7 +58,7 @@
 			</div>
 		</div>
     </form>
-    
+
 
     {{--  TABLE TO SHOW ALL PRODUCTS RECIVED  --}}
 	<div class="row row-sm">
@@ -103,9 +103,9 @@
 									</tr>
 								</thead>
 								<tbody id="productRow">
-								
+
 										<tr class="productRow" >
-											
+
 											{{--  <td>
 												<div class="btn-icon-list">
 													<a href="{{ route('products.edit',$product->id) }}">
@@ -123,10 +123,10 @@
 
 								</tbody>
 							</table><br>
-                        
+
                             <div class="row">
                                 <div class="col-md-6">
-                                 
+
                                      {{-- Back BUTTON  --}}
                                      <a href="{{ route('returns.index') }}" class="text-center " style="margin-left: 91%;">
                                         <button class="btn btn-danger">
@@ -144,7 +144,7 @@
                                     </a>
                                     {{-- NEXT BUTTON  --}}
                                 </div>
-                            </div>						
+                            </div>
 					</div>
 				</div>
 			</div>
@@ -193,13 +193,13 @@
 			e.preventDefault();
 
 			// DELETE ERROR MESSAGE IF INPUT HAVE VALUE WITHOUT REFRESH PAGE
-			
-		
+
+
 			$('#governorate_id_error').text('');
 			$('#city_id_error').text('');
-			
+
 			//Get Form Data
-            var formData = new FormData($('#createٍOrder')[0]);   
+            var formData = new FormData($('#createٍOrder')[0]);
 
 			$.ajax(
 			{
@@ -226,8 +226,8 @@
                             "<td>"+
                                 "<button class='btn btn-success createProductToOrder' id='add' product_id="+value.id+">Add</button>"
                             +"</td>"+
-                            
-                           
+
+
                         +"</tr>")
                     });
 				},
@@ -238,11 +238,11 @@
 					{
 					$("#" + key + "_error").text(val[0]);
 					});
-				}    
+				}
 
 			});
 		});
-	</script>   
+	</script>
 
 	{{--  CREATE PRODUCT TO ORDER   --}}
 	<script>
@@ -250,30 +250,30 @@
 		{
 			e.preventDefault();
 
-			
-			//Get Form Data           
+
+			//Get Form Data
            var product_id = $(this).attr('product_id');
 
 			$.ajax(
 			{
 				type: 'post',
 				url: "{{route('returns.addToCart')}}",
-				data: 
+				data:
 				{
 					'_token' : "{{ csrf_token() }}",
              		'id'     : product_id
 				},
-				
+
 				success: function(data)
 				{
 					if(data.status == true)
 					{
-						
+
 						if(data.status == true)
 						{
-							$('#successMsg').show();
+							$('#successMsg').show().fadeOut(500);
                         }
-                        
+
                         // DELETE ROW FROM TABLE
                         $('.productRow'+data.id).remove();
 					}
@@ -285,21 +285,21 @@
 					{
 					$("#" + key + "_error").text(val[0]);
 					});
-				}    
+				}
 
 			});
 		});
-    </script>  
+    </script>
 
      {{--  GET CITIES  --}}
     <script>
-        
+
          $(document).ready(function()
          {
              $('#gov').on('change',function()
              {
                  var gov = $(this).val();
- 
+
                  if(gov)
                  {
                      $.ajax(

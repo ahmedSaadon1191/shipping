@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Servant extends Model 
+class Servant extends Model
 {
     use SoftDeletes;
 
@@ -15,7 +15,7 @@ class Servant extends Model
 
     public function orders()
     {
-        return $this->hasMany('App\Models\Order')->withTrashed();
+        return $this->hasMany('App\Models\Order')->withTrashed()->with();
     }
 
     public function returns()
@@ -24,3 +24,4 @@ class Servant extends Model
     }
 
 }
+
