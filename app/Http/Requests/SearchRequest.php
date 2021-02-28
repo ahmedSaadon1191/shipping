@@ -23,11 +23,18 @@ class SearchRequest extends FormRequest
      */
     public function rules()
     {
-        return 
+        return
         [
-            'castomer_type' => 'required',
-            'search_type' => 'required',
+            // 'castomer_type' => 'required',
+            // 'search_type' => 'required',
             'search' => 'required',
+        ];
+    }
+    public function messages()
+    {
+        return
+        [
+            'search.required' => 'برجاء ادخال رقم الشحنة'
         ];
     }
 }

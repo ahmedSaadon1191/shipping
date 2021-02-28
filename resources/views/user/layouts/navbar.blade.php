@@ -4,7 +4,7 @@
             <div class="container">
                 <nav class="navbar navbar-expand-lg navbar-light">
                     <h1><a class="navbar-brand" href="index.html">
-                            <span>Food</span>yuppie
+                            <span>On</span>Fast
                         </a></h1>
                     <button class="navbar-toggler collapsed" type="button" data-toggle="collapse"
                         data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
@@ -41,7 +41,7 @@
                         </ul>
 
                         <!-- //toggle switch for light and dark theme -->
-                       
+
                     </div>
                     <!-- toggle switch for light and dark theme -->
                     <div class="mobile-position">

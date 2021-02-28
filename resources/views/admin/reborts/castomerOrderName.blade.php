@@ -73,10 +73,11 @@
 													 {{ $item1->product_price }}
 												</td>
 												<td>
-													 {{ $item1->orders_detailes->pluck('shipping_price')->implode(',') }}
+													 {{-- {{ $item1->orders_detailes->pluck('shipping_price')->implode(',') }} --}}
+													 {{ $item1->shipping_price }}
 												</td>
 												<td class="total_price">
-													 {{ $item1->orders_detailes->pluck('total_price')->implode(',') }}
+													 {{ $item1->total_price}}
 												</td>
 												<td>
 													 {{ $item1->status->name }}
@@ -168,7 +169,7 @@
 	<script src="{{URL::asset('assets/plugins/select2/js/select2.min.js')}}"></script>
 	<!-- Internal Modal js-->
 	<script src="{{URL::asset('assets/js/modal.js')}}"></script>
-    
+
 {{-- GET TOTAL RECORDES --}}
     <script>
         $(document).ready(function()

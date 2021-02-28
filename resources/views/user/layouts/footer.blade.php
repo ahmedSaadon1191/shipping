@@ -18,12 +18,9 @@
                 </div>
 
                 <h2><a class="navbar-brand" href="index.html">
-                        Food<span>yuppie</span>
+                        On<span>Fast</span>
                     </a></h2>
-                <p class="f-para mt-3">Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequuntur hic
-                    odio
-                    voluptatem
-                    tenetur consequatur.Curabitur id gravida risus. Fusce eget ex fermentum</p>
+                <p class="f-para mt-3">توفر توصيلًا سريعًا وموثوقًا ومحدّد الوقت لأكثر من 27 محافظة و منطقة</p>
             </div>
             <div class="footer-social-accounts text-center mt-lg-5 mt-4">
 

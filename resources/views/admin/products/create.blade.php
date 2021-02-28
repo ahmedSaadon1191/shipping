@@ -152,7 +152,7 @@
                                                  <div class="col-md-12">
                                                     <div class="form-group">
                                                         <label for="">ملاحظات الشحنة</label>
-                                                        <textarea name="notes" id="" cols="50" rows="5">
+                                                        <textarea name="notes" id="" cols="50" rows="3">
 
                                                         </textarea>
 

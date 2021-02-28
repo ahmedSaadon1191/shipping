@@ -19,10 +19,10 @@
                     <div class="card">
                         <div class="card-header pb-0">
                             <div class="d-flex justify-content-between">
-                                <h4 class="card-title mg-b-0">SIMPLE TABLE</h4>
+                                <h4 class="card-title mg-b-0">المرتجعـــــــــات</h4>
                                 <i class="mdi mdi-dots-horizontal text-gray"></i>
                             </div>
-                            <p class="tx-12 tx-gray-500 mb-2">Example of Valex Simple Table. <a href="">Learn more</a></p>
+                            {{-- <p class="tx-12 tx-gray-500 mb-2">Example of Valex Simple Table. <a href="">Learn more</a></p> --}}
                         </div>
                         <div class="card-body">
 
@@ -58,7 +58,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            
+
                                             @php
                                                 $x = 1;
                                             @endphp
@@ -66,16 +66,16 @@
                                                 <tr class="productRow{{ $item->id }}">
                                                     <td>{{ $x++ }}</td>
                                                     <td>{{ $item->package_number }}</td>
-                                                    <td>{{ $item->supplier->name }}</td> 
-                                                    <td>{{ $item->resever_name }}</td> 
-                                                    <td>{{ $item->resver_phone }}</td>  
-                                                    <td>{{ $item->cities->governorate->name }}</td> 
-                                                    <td>{{ $item->cities->name }}</td> 
-                                                    <td>{{ $item->adress }}</td> 
-                                                    <td>{{ $item->product_price }}</td> 
-                                                    <td>{{ $item->status->name }}</td> 
-                                                    <td>{{ $item->notes }}</td> 
-                
+                                                    <td>{{ $item->supplier->name }}</td>
+                                                    <td>{{ $item->resever_name }}</td>
+                                                    <td>{{ $item->resver_phone }}</td>
+                                                    <td>{{ $item->cities->governorate->name }}</td>
+                                                    <td>{{ $item->cities->name }}</td>
+                                                    <td>{{ $item->adress }}</td>
+                                                    <td>{{ $item->product_price }}</td>
+                                                    <td>{{ $item->status->name }}</td>
+                                                    <td>{{ $item->notes }}</td>
+
                                                     {{-- <td>
                                                         <div class="btn-icon-list">
                                                             <a href="{{ route('products.edit',$item->id) }}">
@@ -105,7 +105,7 @@
                                         </button>
                                     </a>
                                 {{-- NEXT BUTTON  --}}
-                                
+
 
                             </div>
                         </div>

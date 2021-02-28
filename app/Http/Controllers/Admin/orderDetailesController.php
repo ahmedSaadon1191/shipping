@@ -95,7 +95,7 @@ class orderDetailesController extends Controller
         $lastStatus = Status::latest()->first();
 
         // GET ALL ROWS WITH OUT LAST ROW AND ROW OF NAME تاجيل AND تم رفضه IN STATUS TABLE
-        $allStatus = Status::where('id','<>',$lastStatus->id)->where('name','<>','تم رفضه')->where('name','<>','تاجيل')->get();
+        $allStatus = Status::where('id','<>',$lastStatus->id)->where('name','<>','تم رفضه')->where('name','<>','تاجيل')->where('name','<>','تم تسليم المرتجع للعميل')->get();
 
         $servants = Servant::where('deleted_at',null)->get();
         $orders = Order::get()->last();

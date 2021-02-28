@@ -3,57 +3,38 @@
 @section('content')
 
 
-        <div class="container" dir="rtl">
-            <div id="search" >
-                
-                    <form action="{{ route('user.search') }}" method="post" style="margin-top: 500px; margin-bottom:100px">
+        <!-- banner section SECTION 1 -->
+    <section id="home" class="w3l-banner py-5">
+        <div class="container py-lg-5 py-md-4">
+            <div class="row align-items-center">
+                <div class="col-lg-6 col-sm-12 mt-lg-0 mt-4">
+                    {{-- <span class="subhny-title mb-2">بسرعة و سهولة</span> --}}
+                    <h3 class="mb-4">المتابعــــــة<br>
+                        برقم الشحنة</h3>
+                    <form action="{{ route('user.search') }}" method="post">
                         @csrf
-            
-                        <select name="castomer_type" id="castomer_type">
-                            <option value="">اختار نوع المستخدم</option>
-                            <option value="castomer" class="text-center">عميل</option>
-                            <option value="supplier" class="text-center">مورد</option>
-                            @error("castomer_type")
-                                <span class="text-danger">{{$message}}</span>
-                            @enderror
-                        </select>
-                        <select name="search_type" id="search_type">
-                            <option value="">اختار طريقة البحث</option>
-                            <option value="phone" class="text-center">رقم التليفون</option>
-                            <option value="product_number" class="text-center">رقم الشحنة</option>
-                            @error("search_type")
-                                <span class="text-danger">{{$message}}</span>
-                            @enderror
-                        </select>
-                        <input type="search" placeholder="Search.." name="search" required="required"
-                            autofocus>
+
+                        <div class="form-group">
+                            <input type="number" name="search" class="form-control">
                             @error("search")
                                 <span class="text-danger">{{$message}}</span>
                             @enderror
-                        <button type="submit">Search</button>
-                        <a class="close" href="#url">&times;</a>
+                        </div>
+                        <div class="mt-sm-5 mt-4">
+
+                            <button class="btn btn-primary btn-style" type="submit"> بحث <span
+                                    class="fa fa-chevron-right"></span></button>
+                        </div>
                     </form>
-                
-            </div>
-        </div>
-   
-    {{-- <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <div class="card">
-                    <div class="card-header">{{ __('Dashboard') }}</div>
 
-                    <div class="card-body">
-                        @if (session('status'))
-                            <div class="alert alert-success" role="alert">
-                                {{ session('status') }}
-                            </div>
-                        @endif
-
-                        {{ __('You are logged in!') }}
+                </div>
+                <div class="col-lg-6 col-md-8 col-sm-10 mt-lg-0 mt-5">
+                    <div class="img-effect text-lg-center">
+                        <img src="{{ asset('assets/user/assets/images/pic1.png') }}" alt="banner" class="img-fluid">
                     </div>
                 </div>
             </div>
         </div>
-    </div> --}}
+    </section>
+    <!-- //banner section -->
 @endsection

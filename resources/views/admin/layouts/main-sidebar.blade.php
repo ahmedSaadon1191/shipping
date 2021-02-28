@@ -207,7 +207,7 @@
 						<ul class="slide-menu">
 							<li><a class="slide-item" href="{{ route('reborts.index') }}"> كل التقارير </a></li>
 							<li><a class="slide-item" href="{{ route('reborts.servantindex') }}">تقارير المناديب</a></li>
-							<li><a class="slide-item" href="{{ route('reborts.castomerIndex') }}">تقارير العملاء</a></li>
+							<li><a class="slide-item" href="{{ route('reborts.castomerIndex') }}">تقارير (الموردين) العملاء</a></li>
 						</ul>
 					</li>
 

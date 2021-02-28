@@ -6,7 +6,7 @@
 <link href="{{URL::asset('assets/plugins/treeview/treeview-rtl.css')}}" rel="stylesheet" type="text/css" />
 @endsection
 @section('page-header')
-				
+
 @endsection
 
 
@@ -22,17 +22,17 @@
 					<div class="col-md-12">
 						<div class="card mg-b-20">
 							<div class="card-body">
-								
+
 								<div class="row">
 									<!-- col -->
 									<div class="col-lg-12 text-center">
-										
+
                                         @if ($order)
                                             <h2> اوردر رقم : {{ $order->id }}</h2>
                                         @elseif($order2)
                                             <h2> اوردر رقم : {{ $order2->id }}</h2>
                                         @endif
-                                        
+
 									</div>
 									<!-- /col -->
 								</div>
@@ -42,7 +42,7 @@
 
 						<div class="card">
 
-                           
+
                             @if ($order)
                                @foreach ($order->orders_detailes as $item)
                                 <div class="card-body">
@@ -106,7 +106,7 @@
                                                     <td class="bg-gray-100 wd-20p" style="font-size: 18px"><b><strong>   تاريخ التسليم :</strong></b></td>
                                                     <td style="color: #b91d7e; font-size:18px">{{ $item->product->created_at }}</td>
                                                 </tr>
-                                                
+
                                             </tbody>
                                         </table>
                                     </div>
@@ -175,7 +175,7 @@
                                                         <td class="bg-gray-100 wd-20p" style="font-size: 18px"><b><strong>   تاريخ التسليم :</strong></b></td>
                                                         <td style="color: #b91d7e; font-size:18px">{{ $item->returns->created_at }}</td>
                                                     </tr>
-                                                    
+
                                                 </tbody>
                                             </table>
                                         </div>
@@ -187,7 +187,7 @@
                                 </h1>
                             @endif
 						</div>
-						
+
 					</div>
 				</div>
 				<!-- row -->

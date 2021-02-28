@@ -297,7 +297,7 @@
 
 					var new_total = total_all - productPrice_row;
 					$("#total").val(new_total);
-					alert(new_total);
+					// alert(new_total);
 					$(this).hide();
 				}
 
