@@ -14,12 +14,30 @@
                     <form action="{{ route('user.search') }}" method="post">
                         @csrf
 
-                        <div class="form-group">
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" style="height: 5%">
+                                <select name="type" id="" class="btn btn-primary btn-sm">
+                                    <option value="">اختر نوع البحث</option>
+                                    <option value="supplier">مورد</option>
+                                    <option value="castomer">عميل</option>
+                                </select>
+                                <input type="number" class="form-control" name="search">
+                                @error("search")
+                                    <span class="text-danger">{{$message}}</span>
+                                @enderror
+                                @error("type")
+                                    <span class="text-danger">{{$message}}</span>
+                                @enderror
+                            </span>
+
+                        </div>
+
+                        {{-- <div class="form-group">
                             <input type="number" name="search" class="form-control">
                             @error("search")
                                 <span class="text-danger">{{$message}}</span>
                             @enderror
-                        </div>
+                        </div> --}}
                         <div class="mt-sm-5 mt-4">
 
                             <button class="btn btn-primary btn-style" type="submit"> بحث <span

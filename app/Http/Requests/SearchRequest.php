@@ -25,16 +25,16 @@ class SearchRequest extends FormRequest
     {
         return
         [
-            // 'castomer_type' => 'required',
-            // 'search_type' => 'required',
-            'search' => 'required',
+            'type'      => 'required',
+            'search'    => 'required',
         ];
     }
     public function messages()
     {
         return
         [
-            'search.required' => 'برجاء ادخال رقم الشحنة'
+            'search.required' => 'برجاء ادخال رقم الشحنة',
+            'type.required' => 'برجاء اختيار نوع البحث',
         ];
     }
 }

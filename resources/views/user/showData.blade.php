@@ -2,193 +2,222 @@
 
 @section('content')
 
+<div class="greyBg">
+    <div class="container">
+		<div class="wrapper">
+      <div class="row">
+				<div class="col-sm-12">
+				 <div class="breadcrumbs">
+			       <ul>
+			          <li><a href="{{url('/')}}">Home </a></li>
+                 <li><span class="dot">/</span>
+			          <a href="{{url('/myaccount')}}"> {{Auth::user()->name}}</a></li>
+                <li><span class="dot">/</span>
+                  <a href="">Track Order</a>
+			        </ul>
+                        </div>
+                    </div>
+	     </div>
+
+          <div class="row top25 inboxMain" >
+             <div class="row text-center alert alert-info">
+             <div class="col-md-4"><h3>Order No:  {{$product[0]->id}}</h3> </div>
+             <div class="col-md-4"><h3>Total: {{$product[0]->total}}</h3> </div>
+             <div class="col-md-4"><h3> Status: <mark>{{$product[0]->status}}</h3></mark></div>
+            </div>
+
+               @if($product[0]->status=="pending")
+               <ol class="progtrckr" data-progtrckr-steps="5">
+                <li class="progtrckr-done">Pending</li>
+                <li class="progtrckr-todo">Dispatched </li>
+                <li class="progtrckr-todo">Processed</li>
+                <li class="progtrckr-todo">Shipped</li>
+                <li class="progtrckr-todo">Delivered</li>
+          </ol>
+
+               @elseif($product[0]->status=="dispatched")
+                {{-- @include('myaccount.steps.dispatched') --}}
+
+
+                 @elseif($product[0]->status=="processed")
+                {{-- @include('myaccount.steps.processed') --}}
+
+
+                 @elseif($product[0]->status=="shipped")
+                @include('myaccount.steps.shipped')
+
+                @elseif($product[0]->status=="delivered")
+                @include('myaccount.steps.delivered')
+
+                @elseif($product[0]->status=="cancelled")
+
+              <h1 align="center">your order cancelled by admin</h1>
+
+               @endif
+
+              </div>
+
+
+
+        </div>
+    </div>
+  </div>
+</div>
 <style>
+    ul
+    {
+        position: relative;
+        display: flex;
+        padding: 10px,20px;
+        border-radius: 50px;
+        background: #2d2d2d;
+        box-shadow: 0 5px 15px rgba(0, 0, 0,.2);
+    }
 
-ol.progtrckr {
-    margin: 0;
-    padding: 0;
-    list-style-type none;
-}
+    ul li
+    {
+        list-style: none;
+        line-height: 50px;
+        margin: 0 5px;
+    }
 
-ol.progtrckr li {
-    display: inline-block;
-    text-align: center;
-    line-height: 3.5em;
-}
+    ul li .pageNumber
+    {
+        height: 50px;
+        width: 50px;
+        text-align: center;
+        line-height: 50px;
+    }
 
-ol.progtrckr[data-progtrckr-steps="2"] li { width: 49%; }
-ol.progtrckr[data-progtrckr-steps="3"] li { width: 33%; }
-ol.progtrckr[data-progtrckr-steps="4"] li { width: 24%; }
-ol.progtrckr[data-progtrckr-steps="5"] li { width: 19%; }
-ol.progtrckr[data-progtrckr-steps="6"] li { width: 16%; }
-ol.progtrckr[data-progtrckr-steps="7"] li { width: 14%; }
-ol.progtrckr[data-progtrckr-steps="8"] li { width: 12%; }
-ol.progtrckr[data-progtrckr-steps="9"] li { width: 11%; }
+    ul li a
+    {
+        display: block;
+        text-decoration: none;color: #fff;
+        font-weight: 600;
+        border-radius: 50%;
+    }
 
-ol.progtrckr li.progtrckr-done {
-    color: black;
-    border-bottom: 4px solid yellowgreen;
-}
-ol.progtrckr li.progtrckr-todo {
-    color: silver;
-    border-bottom: 4px solid silver;
-}
-
-ol.progtrckr li:after {
-    content: "\00a0\00a0";
-}
-ol.progtrckr li:before {
-    position: relative;
-    bottom: -2.5em;
-    float: left;
-    left: 50%;
-    line-height: 1em;
-}
-ol.progtrckr li.progtrckr-done:before {
-    content: "\2713";
-    color: white;
-    background-color: yellowgreen;
-    height: 2.2em;
-    width: 2.2em;
-    line-height: 2.2em;
-    border: none;
-    border-radius: 2.2em;
-}
-ol.progtrckr li.progtrckr-todo:before {
-    content: "\039F";
-    color: silver;
-    background-color: white;
-    font-size: 2.2em;
-    bottom: -1.2em;
-}
-
-
+    ul li .pageNumber:hover a,
+    ul li .pageNumber:active a,
+    {
+        background: #fff;
+        color: #fff;
+    }
 </style>
 <br><br><br><br><br>
-@foreach($product as $pro)
-<h1>{{ $pro->Status->name }}</h1>
-@endforeach
+
 
 {{-- @if ($product->pluck('status_id')->implode(',')  == 3 || $product->pluck('status_id')->implode(',')  == 4) --}}
-    @if ($product->pluck('status_id')->implode(',')  == 1)
 
-    <ol class="progtrckr" style="margin-left:28%;" data-progtrckr-steps="7">
-        <li class="progtrckr-done" value="1"> تم التوريد</li><!--
-        --><li class="progtrckr-todo" value="2">خارج للشحن</li><!--
-        {{-- --><li class="progtrckr-todo" value="3">تم رفضه</li><!--
-        --><li class="progtrckr-todo" value="4">تم التاجيل</li><!-- --}}
-        --><li class="progtrckr-todo" value="5">تم التوصيل</li><!--
-            {{-- --><li class="progtrckr-todo" value="6">تم تسليم المرتجع للعميل</li><!-- --}}
-        --><li class="progtrckr-todo" value="7"> تم التحصيل في الشركة</li>
-    </ol>
-    @elseif ($product->pluck('status_id')->implode(',')  == 2)
-    <ol class="progtrckr" data-progtrckr-steps="7">
-        <li class="progtrckr-done" value="1"> تم التوريد</li><!--
-        --><li class="progtrckr-done" value="2">خارج للشحن</li><!--
-        {{-- --><li class="progtrckr-todo" value="3">تم رفضه</li><!--
-        --><li class="progtrckr-todo" value="4">تم التاجيل</li><!-- --}}
-        --><li class="progtrckr-todo" value="5">تم التوصيل</li><!--
-            {{-- --><li class="progtrckr-todo" value="6">تم تسليم المرتجع للعميل</li><!-- --}}
-        --><li class="progtrckr-todo" value="7">تم التحصيل في الشركة</li>
-    </ol>
-    @elseif ($product->pluck('status_id')->implode(',')  == 3)
-    <ol class="progtrckr" data-progtrckr-steps="7">
-        <li class="progtrckr-done" value="1"> تم التوريد</li><!--
-        --><li class="progtrckr-done" value="2">خارج للشحن</li><!--
-        --><li class="progtrckr-done" value="3">تم رفضه</li><!--
-        --><li class="progtrckr-todo" value="4">تم التاجيل</li><!--
-        --><li class="progtrckr-todo" value="5">تم التوصيل</li><!--
-            --><li class="progtrckr-todo" value="6">تم تسليم المرتجع للعميل</li><!--
-        --><li class="progtrckr-todo" value="7">تم التحصيل في الشركة</li>
-    </ol>
-    @elseif ($product->pluck('status_id')->implode(',')  == 4)
-    <ol class="progtrckr" data-progtrckr-steps="7">
-        <li class="progtrckr-done" value="1"> تم التوريد</li><!--
-        --><li class="progtrckr-done" value="2">خارج للشحن</li><!--
-        --><li class="progtrckr-done" value="3">تم رفضه</li><!--
-        --><li class="progtrckr-done" value="4">تم التاجيل</li><!--
-        --><li class="progtrckr-todo" value="5">تم التوصيل</li><!--
-            --><li class="progtrckr-todo" value="6">تم تسليم المرتجع للعميل</li><!--
-        --><li class="progtrckr-todo" value="7">تم التحصيل في الشركة</li>
-    </ol>
-    @elseif ($product->pluck('status_id')->implode(',')  == 5)
-    <ol class="progtrckr" data-progtrckr-steps="7">
-        <li class="progtrckr-done" value="1"> تم التوريد</li><!--
-        --><li class="progtrckr-done" value="2">خارج للشحن</li><!--
-        {{-- --><li class="progtrckr-done" value="3">تم رفضه</li><!--
-        --><li class="progtrckr-done" value="4">تم التاجيل</li><!-- --}}
-        --><li class="progtrckr-done" value="5">تم التوصيل</li><!--
-            {{-- --><li class="progtrckr-todo" value="6">تم تسليم المرتجع للعميل</li><!-- --}}
-        --><li class="progtrckr-todo" value="7">تم التحصيل في الشركة</li>
-    </ol>
-    @elseif ($product->pluck('status_id')->implode(',')  == 6)
-    <ol class="progtrckr" data-progtrckr-steps="7">
-        <li class="progtrckr-done" value="1"> تم التوريد</li><!--
-        --><li class="progtrckr-done" value="2">خارج للشحن</li><!--
-        --><li class="progtrckr-done" value="3">تم رفضه</li><!--
-        --><li class="progtrckr-done" value="4">تم التاجيل</li><!--
-        --><li class="progtrckr-done" value="5">تم التوصيل</li><!--
-            --><li class="progtrckr-done" value="6">تم تسليم المرتجع للعميل</li><!--
-        --><li class="progtrckr-todo" value="7">تم التحصيل في الشركة</li>
-    </ol>
 
-    @elseif ($product->pluck('status_id')->implode(',')  == 7)
-    <ol class="progtrckr" data-progtrckr-steps="7">
-        <li class="progtrckr-done" value="1"> تم التوريد</li><!--
-        --><li class="progtrckr-done" value="2">خارج للشحن</li><!--
-        --><li class="progtrckr-done" value="3">تم رفضه</li><!--
-        --><li class="progtrckr-done" value="4">تم التاجيل</li><!--
-        --><li class="progtrckr-done" value="5">تم التوصيل</li><!--
-            --><li class="progtrckr-done" value="6">تم تسليم المرتجع للعميل</li><!--
-        --><li class="progtrckr-done" value="7">تم التحصيل في الشركة</li>
-    </ol>
+<div class="container">
+
+    <ul>
+        <li class="pageNumber active">
+            <a href="#">
+                1
+            </a>
+        </li>
+        <li class="pageNumber">
+            <a href="">
+                2
+            </a>
+        </li>
+        <li class="pageNumber">
+            <a href="">
+                3
+            </a>
+        </li>
+        <li class="pageNumber">
+            <a href="">
+                4
+            </a>
+        </li>
+        <li class="pageNumber">
+            <a href="">
+                5
+            </a>
+        </li>
+        <li class="pageNumber">
+            <a href="">
+                6
+            </a>
+        </li>
+        <li class="pageNumber">
+            <a href="">
+                7
+            </a>
+        </li>
+    </ul>
+
+    @if ($product && $product->count() > 0)
+        <table class="table table table-borderless">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">حالة الطلب</th>
+                <th scope="col">تاريخ التسليم</th>
+                <th scope="col">اسم المستلم</th>
+                <th scope="col">عنوان المستلم</th>
+                <th scope="col">سعر الشحنة</th>
+                <th scope="col">سعر الشحن</th>
+                <th scope="col">الاجمالي </th>
+                <th scope="col"> تاريخ التحديث</th>
+                <th scope="col">الاجرائات</th>
+            </tr>
+            </thead>
+            <tbody>
+                @if ($product->pluck('status_id')->implode(',')  == 1)
+                    <tr>
+                        @foreach ($product as $pro)
+                            <th>1</th>
+                            <td>{{ $pro->status->name }}</td>
+                            <td>{{ $pro->rescive_date }}</td>
+                            <td>{{ $pro->resever_name }}</td>
+                            <td>{{ $pro->adress }}</td>
+                            <td>{{ $pro->product_price }}</td>
+                            <td>{{ $pro->shipping_price }}</td>
+                            <td>{{ $pro->total_price }}</td>
+                            <td>{{ $pro->updated_at }}</td>
+                            <td>
+                                <a href="">
+                                    تفاصيل الشحنة
+                                </a>
+                            </td>
+                        @endforeach
+                    </tr>
+                @endif
+
+
+                 @if ($product->pluck('status_id')->implode(',')  == 2)
+                    <tr>
+                        @foreach ($product as $pro)
+                            <th>1</th>
+                            <td>{{ $pro->status->name }}</td>
+                            <td>{{ $pro->rescive_date }}</td>
+                            <td>{{ $pro->resever_name }}</td>
+                            <td>{{ $pro->adress }}</td>
+                            <td>{{ $pro->product_price }}</td>
+                            <td>{{ $pro->shipping_price }}</td>
+                            <td>{{ $pro->total_price }}</td>
+                            <td>{{ $pro->updated_at }}</td>
+                            <td>
+                                <a href="">
+                                    تفاصيل الشحنة
+                                </a>
+                            </td>
+                        @endforeach
+                    </tr>
+                @endif
+            </tbody>
+        </table>
+    @else
+
+    <h3 class="text-center">
+        لا يوجد شحنات
+    </h3>
     @endif
-{{-- @else --}}
-    {{-- @if ($product->pluck('status_id')->implode(',')  == 1)
-
-    <ol class="progtrckr" data-progtrckr-steps="7">
-        <li class="progtrckr-done" value="1"> تم التوريد</li><!--
-        --><li class="progtrckr-todo" value="2">خارج للشحن</li><!--
-        --><li class="progtrckr-todo" value="3">تم رفضه</li><!--
-        --><li class="progtrckr-todo" value="4">تم التاجيل</li><!--
-        --><li class="progtrckr-todo" value="5">تم التوصيل</li><!--
-            --><li class="progtrckr-todo" value="6">تم تسليم المرتجع للعميل</li><!--
-        --><li class="progtrckr-todo" value="7">تم التحصيل</li>
-    </ol>
-    @elseif ($product->pluck('status_id')->implode(',')  == 2)
-    <ol class="progtrckr" data-progtrckr-steps="7">
-        <li class="progtrckr-done" value="1"> تم التوريد</li><!--
-        --><li class="progtrckr-done" value="2">خارج للشحن</li><!--
-        --><li class="progtrckr-todo" value="3">تم رفضه</li><!--
-        --><li class="progtrckr-todo" value="4">تم التاجيل</li><!--
-        --><li class="progtrckr-todo" value="5">تم التوصيل</li><!--
-            --><li class="progtrckr-todo" value="6">تم تسليم المرتجع للعميل</li><!--
-        --><li class="progtrckr-todo" value="7">تم التحصيل</li>
-    </ol>
-    @elseif ($product->pluck('status_id')->implode(',')  == 5)
-    <ol class="progtrckr" data-progtrckr-steps="7">
-        <li class="progtrckr-done" value="1"> تم التوريد</li><!--
-        --><li class="progtrckr-done" value="2">خارج للشحن</li><!--
-        --><li class="progtrckr-done" value="3">تم رفضه</li><!--
-        --><li class="progtrckr-done" value="4">تم التاجيل</li><!--
-        --><li class="progtrckr-done" value="5">تم التوصيل</li><!--
-            --><li class="progtrckr-todo" value="6">تم تسليم المرتجع للعميل</li><!--
-        --><li class="progtrckr-todo" value="7">تم التحصيل</li>
-    </ol>
-    @elseif ($product->pluck('status_id')->implode(',')  == 7)
-    <ol class="progtrckr" data-progtrckr-steps="7">
-        <li class="progtrckr-done" value="1"> تم التوريد</li><!--
-        --><li class="progtrckr-done" value="2">خارج للشحن</li><!--
-        --><li class="progtrckr-done" value="3">تم رفضه</li><!--
-        --><li class="progtrckr-done" value="4">تم التاجيل</li><!--
-        --><li class="progtrckr-done" value="5">تم التوصيل</li><!--
-            --><li class="progtrckr-done" value="6">تم تسليم المرتجع للعميل</li><!--
-        --><li class="progtrckr-done" value="7">تم التحصيل</li>
-    </ol>
-    @endif
-@endif --}}
-
-
+</div>
 
 
 
@@ -197,7 +226,18 @@ ol.progtrckr li.progtrckr-todo:before {
 <br><br><br>
 
 
-
 @endsection
+<script>
+    $(document).ready(function()
+    {
+       $(document).on('click','.active',function(e)
+       {
+           e.preventDefault();
+           alert('hello');
+       });
+    });
+</script>
+
+
 
 
