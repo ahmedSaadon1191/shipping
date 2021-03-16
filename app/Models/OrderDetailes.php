@@ -7,7 +7,7 @@ use App\Models\Returns;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class OrderDetailes extends Model 
+class OrderDetailes extends Model
 {
     use SoftDeletes;
 
@@ -29,6 +29,11 @@ class OrderDetailes extends Model
     public function returns()
     {
         return $this->belongsTo(Returns::class,'order_id')->withTrashed();
+    }
+
+    public function orderStatusReturns()
+    {
+        return $this->hasMany('App\Models\order_return_statuses')->withTrashed();
     }
 
 }

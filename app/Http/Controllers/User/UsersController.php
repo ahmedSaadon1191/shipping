@@ -14,7 +14,7 @@ class UsersController extends Controller
 {
     public function search(SearchRequest $request)
     {
-
+        // return $request;
 
 
         // CHECK IF REQUEST IS CASTOMER AND SEARCH BY PHONE
@@ -22,6 +22,7 @@ class UsersController extends Controller
         {
 
             $search =  $request->search;
+            $type = $request->type;
 
             $product = Product::withTrashed()->with('supplier')->whereHas('supplier',function($q) use($search)
             {
@@ -36,8 +37,10 @@ class UsersController extends Controller
 
             })->orWhere('package_number',$request->search)->get();
 
+            // return $returns;
 
-            return view('user.showData',compact('product','returns'));
+
+            return view('user.showData',compact('product','returns','type'));
 
         }elseif($request->type == 'castomer')
         {

@@ -172,6 +172,7 @@
         });
     </script>
     <!-- //disable body scroll which navbar is in active -->
+    @yield('js')
 
     <!--bootstrap-->
     <script src="{{ asset('assets/user/assets/js/bootstrap.min.js') }}"></script>

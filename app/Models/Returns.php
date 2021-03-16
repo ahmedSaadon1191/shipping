@@ -12,7 +12,7 @@ class Returns extends Model
     protected $table = 'returns';
     public $timestamps = true;
     protected $guarded = [];
-    
+
 
     public function cities()
     {
@@ -35,7 +35,7 @@ class Returns extends Model
         return $this->belongsTo('App\Models\Order', 'order_id')->withTrashed();
     }
 
-   
+
 
     public function returnsDetailes()
     {
@@ -45,5 +45,10 @@ class Returns extends Model
     public function servant()
     {
         return $this->belongsTo('App\Models\Servant', 'servant_id')->withTrashed();
+    }
+
+    public function orderStatusReturns()
+    {
+        return $this->hasMany('App\Models\order_return_statuses')->withTrashed();
     }
 }
